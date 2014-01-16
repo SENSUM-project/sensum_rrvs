@@ -1,0 +1,6 @@
+I need a subset of the omniimages of Cologne resampled:
+
+OmniStream10-01-2012-10-36-000000.pgr
+from image id: 4100
+to image id: 5350
+

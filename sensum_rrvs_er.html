@@ -1,0 +1,2121 @@
+<?xml version='1.0' encoding='ISO-8859-1' standalone='yes'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN' 'http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<title>Database Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style type='text/css'>
+	 #dbs {font-family:Tahoma,Dialog,Sans-Serif;font-size:12px;background:#fff;width:80%;border-collapse:collapse;text-align:left;margin:8px;}
+	 #dbs thead{background:#c0d4f3;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to( #c0d4f3));}
+	 #dbs th{font-size:12px;font-weight:bold;color:#333;border-bottom:1px solid #333;padding:5px 6px;}
+	 #dbs td{border-bottom:1px solid #ddd;padding:3px 5px;white-space: pre;}
+	 td.subpart{background:#c0d4f3;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to( #c0d4f3));}
+	 #dbs tbody tr:hover td{color:#000;background:#fffcea;}
+</style>
+</head>
+
+<body>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='1935' height='1250' viewbox='0 0 1935 1250' >
+<style type='text/css'>
+  text                { fill:#000000; font-family: Tahoma, Dialog, Arial; font-size:11px; stroke:#000000; stroke-width:0.1; }
+  text:hover          { fill:#a00000; font-size:12px;}
+  text.colType        { fill:#a9bdc6; }
+  text.tableTitle     { fill:#000000; }
+  path                { stroke:#5a5a5a; stroke-width:1.5; fill:none; }
+  rect.table          { fill:#ffffff; stroke:#676767; stroke-width:0.5; filter:url(#shadow); }
+  line.table          { stroke:#9ea1a4; stroke-width:0.3; }
+  rect.callout        { fill:url(#calloutGradient); stroke:#aea913; stroke-width:0.5; }
+  rect.grp            { opacity:0.5; stroke:#8a8a8a; stroke-width:2; }
+</style>
+<defs>
+  <pattern id='layoutGradient' patternUnits='userSpaceOnUse' x='0' y='0' width='10' height='10' viewBox='0 0 10 10'>
+    <rect x='0' y='0' width='10' height='10' style='fill:#f7f7f0;' />
+    <line x1='5' y1='10' x2='5' y2='0' style='stroke:#949494;stroke-width:0.5;stroke-dasharray:1,9;'  />
+  </pattern>
+  <radialGradient id='layoutGradientOld' cx='20%' cy='20%' r='25%' fx='10%' fy='0%'>
+	   <stop offset='0%' stop-color='#ffffff' />
+    <stop offset='100%' stop-color='#efefef' />
+  </radialGradient>
+  <linearGradient id='tableHeaderGradient1' x1='0%' y1='0%' x2='0%' y2='100%' >
+          <stop offset='0%' stop-color='white'/> 
+          <stop offset='30%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#d7c2f2'/> 
+   </linearGradient>
+  <linearGradient id='tableHeaderGradient0' x1='0%' y1='0%' x2='0%' y2='100%' >
+          <stop offset='0%' stop-color='white'/> 
+          <stop offset='30%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#c0d4f3'/> 
+   </linearGradient>
+  <linearGradient id='groupGradient3' x1='0%' y1='0%' x2='100%' y2='0%' >
+          <stop offset='0%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#c4e0f9'/> 
+   </linearGradient>
+  <linearGradient id='groupGradient4' x1='0%' y1='0%' x2='100%' y2='0%' >
+          <stop offset='0%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#cccccc'/> 
+   </linearGradient>
+  <linearGradient id='groupGradient2' x1='0%' y1='0%' x2='100%' y2='0%' >
+          <stop offset='0%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#e3d7f2'/> 
+   </linearGradient>
+  <linearGradient id='groupGradient5' x1='0%' y1='0%' x2='100%' y2='0%' >
+          <stop offset='0%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#ffffcc'/> 
+   </linearGradient>
+  <linearGradient id='groupUnderTitleLine' x1='0%' y1='0%' x2='100%' y2='0%' >
+          <stop offset='0%' stop-color='#999999' stop-opacity='0.7'/> 
+          <stop offset='100%' stop-color='#999999' stop-opacity='0' /> 
+   </linearGradient>
+  <radialGradient id='calloutGradient' cx='20%' cy='20%' r='100%' fx='10%' fy='10%'>
+	   <stop offset='0%' stop-color='#ffffff' />
+    <stop offset='100%' stop-color='#f4f1a4' />
+  </radialGradient>
+  <filter id='shadow' width='150%' height='150%'> 
+    <feGaussianBlur in='SourceAlpha' stdDeviation='2' result='image1' /> 
+    <feOffset in='image1' result='image2' dx='2' dy='2' />
+    <feColorMatrix type='matrix' in='image2' result='image3' 
+       values='1 1 1 0 0 
+               1 1 1 0 0 
+               1 1 1 0 0 
+               0 0 0 .5 0'/>
+    <feComposite in='SourceGraphic' in2='image3' operator='over' /> 
+  </filter>
+  <filter id='legendShadow' filterUnits='userSpaceOnUse' x='0' y='0' width='400' height='120'> 
+     <feGaussianBlur in='SourceAlpha' stdDeviation='3' result='blur'/> 
+     <feOffset in='blur' dx='2' dy='2' result='offsetBlur'/> 
+     <feSpecularLighting in='blur' surfaceScale='5' specularConstant='.75' specularExponent='20' lighting-color='#bbbbbb' result='specOut'>
+        <fePointLight x='-5000' y='-10000' z='20000'/>  
+     </feSpecularLighting> 
+     <feComposite in='specOut' in2='SourceAlpha' operator='in' result='specOut'/> 
+     <feComposite in='SourceGraphic' in2='specOut' operator='arithmetic' k1='0' k2='1' k3='1' k4='0' result='litPaint'/>  
+     <feMerge> 
+         <feMergeNode in='offsetBlur'/> 
+         <feMergeNode in='litPaint'/> 
+     </feMerge> 
+  </filter> 
+  <radialGradient id='legendGradient' fx='5%' fy='5%' r='75%' spreadMethod='pad'>
+          <stop offset='0%' stop-color='#cfd7f6' stop-opacity='1'/> 
+          <stop offset='100%' stop-color='#919dd0' stop-opacity='1' /> 
+   </radialGradient>
+  <symbol id='calloutArrowDown' overflow='visible' >
+      <path d='M 0,0 L 7,11 L 15,0 z' style='fill:#f4f1a4; stroke:#aea913; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='calloutArrowUp' overflow='visible' >
+      <path d='M 0,15 L 7,3 L 15,15 z' style='fill:#f4f1a4; stroke:#aea913; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='pk' overflow='visible' >
+    <g transform='scale(0.99)'>
+     <path style='fill:#e9ad16;stroke:#9c4f15;stroke-width:0.7;stroke-linecap:round;stroke-linejoin:round;'
+        d='M 9.3678877,3.5695485 C 9.1030218,3.2729386 9.0796382,2.7628519 9.3396185,2.4517097 9.5449651,2.1956495 9.9040386,2.0980533 10.199638,2.2169415 10.533525,2.3415459 10.775153,2.706942 10.750675,3.0842709 10.737029,3.3980003 10.541153,3.699122 10.258248,3.8066067 9.966649,3.9250429 9.6169668,3.8418805 9.4008073,3.6062324 9.3894892,3.5943518 9.3785264,3.582104 9.3678886,3.5695487 z M 11.226617,6.9916004 C 11.888137,6.3548946 12.293488,5.4172188 12.311087,4.442353 12.378144,2.7379364 11.248678,1.0541269 9.7322318,0.44767357 8.3887112,-0.1280313 6.7865012,0.26822889 5.8918395,1.4007929 5.080823,2.3839145 4.9336815,3.8452096 5.3635544,5.101615 L 4.3670905,5.315913 C 4.0664984,5.3682645 4.0967703,5.6316724 4.2574957,5.8208829 L 4.9124,6.5655244 4.1543436,7.2512357 3.2136002,7.2163506 3.1674775,8.5586827 2.0406832,8.5086512 1.5965306,8.9299953 1.5471661,10.179833 0.75616674,10.195223 0.2112857,10.758575 0.15354288,11.735988 0.07199052,12.765553 c 0.36440953,0.238225 0.79006967,0.195492 1.44938278,-0.02675 L 6.3033562,8.1282037 6.8217102,8.6765688 C 6.9985465,8.8799427 7.3003699,8.7497574 7.358381,8.5016252 L 7.4938877,7.5084164 c 0.8537488,0.3985387 1.8303125,0.4711541 2.6851793,0.1427713 0.393927,-0.1407258 0.746858,-0.3701772 1.04755,-0.6595873 z'/>
+     <path d='M 6.8014948,6.3102123 0.15369063,13.024481 0.21560535,12.141962 6.0062342,6.2683782 z'
+        style='fill:#ffe5a5;fill-opacity:1;stroke:#854e31;stroke-width:0.09912433;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:3.00300009'/>
+    </g>
+  </symbol>
+  <symbol id='unq' overflow='visible' >
+    <g transform='scale(0.99)'>
+      <rect style='fill:#e07554;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+         width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:white;stroke:#a4a4a4;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+         d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+         transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+      <text x='5.5' y='6.85' style='font-size:8px;fill:#307fc9;'>1</text>
+    </g>
+  </symbol>
+  <symbol id='idx' overflow='visible' >
+    <g transform='scale(0.99)'>
+      <rect style='fill:#e07554;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+         width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:white;stroke:#a4a4a4;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+         d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+         transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+    </g>
+  </symbol>
+  <symbol id='fk' overflow='visible' >
+    <path style='fill:#9fbfef;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+    d='M 12.48,0.33 7.07,0.89 9.067,2.974 0.329,11.731 1.073,12.597 9.811,3.841 11.77,5.78 z' />
+  </symbol>
+  <symbol id='ref' overflow='visible' >
+  <path style='fill:#9fbfef;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0.10,12.70 5.31,12.15 3.40,10.06 11.82,1.32 11.11,0.45 2.68,9.19 0.80,7.24 z'/>
+  </symbol>
+  <marker id='arrow' viewBox='0 0 7 7' refX='0' refY='3' markerUnits='strokeWidth' markerWidth='7' markerHeight='7' orient='auto'>
+    <path d='M 0,0 L 7, 3 L 0,7 z' style='fill:#5a5a5a; stroke-width:0px;' />
+  </marker>
+  <marker id='foot' viewBox='0 0 7 7' refX='7' refY='3' markerUnits='strokeWidth' markerWidth='7' markerHeight='7' orient='auto'>
+    <path d='M 0,3 L 15, 3 z' style='stroke:#5a5a5a;' />
+  </marker>
+</defs>
+
+<!-- ============= Desktop ============= -->
+<rect x='1' y='1' width='1933' height='1248' rx='7' ry='7' style='fill:white; stroke:#104576; stroke-width:0.5;' />
+
+<!-- ============= Legend ============= -->
+<g transform='translate(10,10)'>
+  <rect x='10' y='10' width='320' height='76' rx='6' ry='6' style='fill:url(#legendGradient);filter:url(#legendShadow);'/> 
+  <text x='20' y='30'><tspan>Project</tspan> PostgreSQL</text> 
+  <text x='20' y='44'><tspan>Layout</tspan> sensum_rrvs</text> 
+  <text x='20' y='58'><tspan>Tip: Move the mouse over columns to read the comments</tspan></text> 
+  <text x='180' y='74'><tspan>Generated using <a xlink:href='http://www.dbschema.com'>DbSchema</a></tspan></text> 
+</g>
+
+<g transform='translate(0,110)'>
+<!-- ============= Group 'object' ============= -->
+<rect class='grp' style='fill:url(#groupGradient2);' x='29' y='25' width='1262' height='1070' />
+<text x='40' y='40'>object</text>
+<rect style='fill:url(#groupUnderTitleLine); stroke-width:2;' x='40' y='43' width='1240' height='2' />
+
+<!-- ============= Group 'taxonomy' ============= -->
+<rect class='grp' style='fill:url(#groupGradient3);' x='1394' y='25' width='512' height='650' />
+<text x='1405' y='40'>taxonomy</text>
+<rect style='fill:url(#groupUnderTitleLine); stroke-width:2;' x='1405' y='43' width='490' height='2' />
+
+<!-- ============= Group 'history' ============= -->
+<rect class='grp' style='fill:url(#groupGradient4);' x='1394' y='700' width='242' height='275' />
+<text x='1405' y='715'>history</text>
+<rect style='fill:url(#groupUnderTitleLine); stroke-width:2;' x='1405' y='718' width='220' height='2' />
+
+<!-- ============= Group 'public' ============= -->
+<rect class='grp' style='fill:url(#groupGradient5);' x='689' y='625' width='602' height='470' />
+<text x='700' y='640'>public</text>
+<rect style='fill:url(#groupUnderTitleLine); stroke-width:2;' x='700' y='643' width='580' height='2' />
+
+<path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 1515 405 L 1507,405 Q 1500,405 1500,397 L 1500,247 Q 1500,240 1507,240 L 1515,240' >
+	<title>Foreign Key fk_attribute_type_code
+	dic_attribute_value references dic_attribute_type ( attribute_type_code -> code )</title>
+</path>
+<text x='1403' y='400' transform='rotate(0 1403,400)' title='Foreign Key fk_attribute_type_code
+	dic_attribute_value references dic_attribute_type ( attribute_type_code -> code )' style='fill:#a1a0a0;'>fk_attribute_type_code</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 1665 585 L 1635,585' >
+	<title>Foreign Key fk_dic_qualifier_value
+	dic_qualifier_value references dic_qualifier_type ( qualifier_type_code -> code )</title>
+</path>
+<text x='1563' y='580' transform='rotate(0 1563,580)' title='Foreign Key fk_dic_qualifier_value
+	dic_qualifier_value references dic_qualifier_type ( qualifier_type_code -> code )' style='fill:#a1a0a0;'>fk_dic_qualifier_value</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 1395 150 L 1387,150 Q 1380,150 1380,157 L 1380,232 Q 1380,240 1387,240 L 1515,240' >
+	<title>Foreign Key fk_attribute_type_code
+	dic_hazard references dic_attribute_type ( attribute_type_code -> code )</title>
+</path>
+<text x='1283' y='145' transform='rotate(0 1283,145)' title='Foreign Key fk_attribute_type_code
+	dic_hazard references dic_attribute_type ( attribute_type_code -> code )' style='fill:#a1a0a0;'>fk_attribute_type_code</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 1740 285 L 1867,285 Q 1875,285 1875,277 L 1875,112 Q 1875,105 1867,105 L 1860,105' >
+	<title>Foreign Key fk_dic_attribute_type
+	dic_attribute_type references dic_taxonomy ( taxonomy_code -> code )</title>
+</path>
+<text x='1747' y='280' transform='rotate(0 1747,280)' title='Foreign Key fk_dic_attribute_type
+	dic_attribute_type references dic_taxonomy ( taxonomy_code -> code )' style='fill:#a1a0a0;'>fk_dic_attribute_type</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 750 105 L 742,105 Q 735,105 735,97 L 735,97 Q 735,90 727,90 L 720,90' >
+	<title>Foreign Key fk_object_gid
+	main_detail references main ( object_id -> gid )</title>
+</path>
+<text x='687' y='100' transform='rotate(0 687,100)' title='Foreign Key fk_object_gid
+	main_detail references main ( object_id -> gid )' style='fill:#a1a0a0;'>fk_object_gid</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 960 165 L 1087,165 Q 1095,165 1095,172 L 1095,577 Q 1095,585 1102,585 L 1387,585 Q 1395,585 1395,577 L 1395,427 Q 1395,420 1402,420 L 1515,420' >
+	<title>Foreign Key fk_mat_type
+	main_detail references dic_attribute_value ( mat_type -> attribute_value )</title>
+</path>
+<text x='967' y='160' transform='rotate(0 967,160)' title='Foreign Key fk_mat_type
+	main_detail references dic_attribute_value ( mat_type -> attribute_value )' style='fill:#a1a0a0;'>fk_mat_type</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 180 L 967,180 Q 975,180 975,172 L 975,172 Q 975,165 982,165 L 990,165' >
+	<title>Foreign Key fk_mat_tech
+	main_detail references dic_attribute_value ( mat_tech -> attribute_value )</title>
+</path>
+<text x='967' y='175' transform='rotate(0 967,175)' title='Foreign Key fk_mat_tech
+	main_detail references dic_attribute_value ( mat_tech -> attribute_value )' style='fill:#a1a0a0;'>fk_mat_tech</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 195 L 967,195 Q 975,195 975,187 L 975,165' >
+	<title>Foreign Key fk_mat_prop
+	main_detail references dic_attribute_value ( mat_prop -> attribute_value )</title>
+</path>
+<text x='967' y='190' transform='rotate(0 967,190)' title='Foreign Key fk_mat_prop
+	main_detail references dic_attribute_value ( mat_prop -> attribute_value )' style='fill:#a1a0a0;'>fk_mat_prop</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 210 L 967,210 Q 975,210 975,202 L 975,180' >
+	<title>Foreign Key fk_llrs
+	main_detail references dic_attribute_value ( llrs -> attribute_value )</title>
+</path>
+<text x='967' y='205' transform='rotate(0 967,205)' title='Foreign Key fk_llrs
+	main_detail references dic_attribute_value ( llrs -> attribute_value )' style='fill:#a1a0a0;'>fk_llrs</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 225 L 967,225 Q 975,225 975,217 L 975,195' >
+	<title>Foreign Key fk_llrs_duct
+	main_detail references dic_attribute_value ( llrs_duct -> attribute_value )</title>
+</path>
+<text x='967' y='220' transform='rotate(0 967,220)' title='Foreign Key fk_llrs_duct
+	main_detail references dic_attribute_value ( llrs_duct -> attribute_value )' style='fill:#a1a0a0;'>fk_llrs_duct</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 240 L 967,240 Q 975,240 975,232 L 975,210' >
+	<title>Foreign Key fk_height
+	main_detail references dic_attribute_value ( height -> attribute_value )</title>
+</path>
+<text x='967' y='235' transform='rotate(0 967,235)' title='Foreign Key fk_height
+	main_detail references dic_attribute_value ( height -> attribute_value )' style='fill:#a1a0a0;'>fk_height</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 270 L 1087,270 Q 1095,270 1095,277 L 1095,285' >
+	<title>Foreign Key fk_yr_built
+	main_detail references dic_attribute_value ( yr_built -> attribute_value )</title>
+</path>
+<text x='967' y='265' transform='rotate(0 967,265)' title='Foreign Key fk_yr_built
+	main_detail references dic_attribute_value ( yr_built -> attribute_value )' style='fill:#a1a0a0;'>fk_yr_built</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 285 L 967,285 Q 975,285 975,277 L 975,277 Q 975,270 982,270 L 990,270' >
+	<title>Foreign Key fk_yr_destr
+	main_detail references dic_attribute_value ( yr_destr -> attribute_value )</title>
+</path>
+<text x='967' y='280' transform='rotate(0 967,280)' title='Foreign Key fk_yr_destr
+	main_detail references dic_attribute_value ( yr_destr -> attribute_value )' style='fill:#a1a0a0;'>fk_yr_destr</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 300 L 967,300 Q 975,300 975,292 L 975,270' >
+	<title>Foreign Key fk_occupy
+	main_detail references dic_attribute_value ( occupy -> attribute_value )</title>
+</path>
+<text x='967' y='295' transform='rotate(0 967,295)' title='Foreign Key fk_occupy
+	main_detail references dic_attribute_value ( occupy -> attribute_value )' style='fill:#a1a0a0;'>fk_occupy</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 315 L 967,315 Q 975,315 975,307 L 975,285' >
+	<title>Foreign Key fk_occupy_dt
+	main_detail references dic_attribute_value ( occupy_dt -> attribute_value )</title>
+</path>
+<text x='967' y='310' transform='rotate(0 967,310)' title='Foreign Key fk_occupy_dt
+	main_detail references dic_attribute_value ( occupy_dt -> attribute_value )' style='fill:#a1a0a0;'>fk_occupy_dt</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 330 L 967,330 Q 975,330 975,322 L 975,300' >
+	<title>Foreign Key fk_position
+	main_detail references dic_attribute_value ( position -> attribute_value )</title>
+</path>
+<text x='967' y='325' transform='rotate(0 967,325)' title='Foreign Key fk_position
+	main_detail references dic_attribute_value ( position -> attribute_value )' style='fill:#a1a0a0;'>fk_position</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 345 L 967,345 Q 975,345 975,337 L 975,315' >
+	<title>Foreign Key fk_plan_shape
+	main_detail references dic_attribute_value ( plan_shape -> attribute_value )</title>
+</path>
+<text x='967' y='340' transform='rotate(0 967,340)' title='Foreign Key fk_plan_shape
+	main_detail references dic_attribute_value ( plan_shape -> attribute_value )' style='fill:#a1a0a0;'>fk_plan_shape</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 360 L 967,360 Q 975,360 975,352 L 975,330' >
+	<title>Foreign Key fk_str_irreg
+	main_detail references dic_attribute_value ( str_irreg -> attribute_value )</title>
+</path>
+<text x='967' y='355' transform='rotate(0 967,355)' title='Foreign Key fk_str_irreg
+	main_detail references dic_attribute_value ( str_irreg -> attribute_value )' style='fill:#a1a0a0;'>fk_str_irreg</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 375 L 967,375 Q 975,375 975,367 L 975,345' >
+	<title>Foreign Key fk_str_irreg_dt
+	main_detail references dic_attribute_value ( str_irreg_dt -> attribute_value )</title>
+</path>
+<text x='967' y='370' transform='rotate(0 967,370)' title='Foreign Key fk_str_irreg_dt
+	main_detail references dic_attribute_value ( str_irreg_dt -> attribute_value )' style='fill:#a1a0a0;'>fk_str_irreg_dt</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 390 L 967,390 Q 975,390 975,382 L 975,360' >
+	<title>Foreign Key fk_str_irreg_type
+	main_detail references dic_attribute_value ( str_irreg_type -> attribute_value )</title>
+</path>
+<text x='967' y='385' transform='rotate(0 967,385)' title='Foreign Key fk_str_irreg_type
+	main_detail references dic_attribute_value ( str_irreg_type -> attribute_value )' style='fill:#a1a0a0;'>fk_str_irreg_type</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 405 L 967,405 Q 975,405 975,397 L 975,375' >
+	<title>Foreign Key fk_nonstrcexw
+	main_detail references dic_attribute_value ( nonstrcexw -> attribute_value )</title>
+</path>
+<text x='967' y='400' transform='rotate(0 967,400)' title='Foreign Key fk_nonstrcexw
+	main_detail references dic_attribute_value ( nonstrcexw -> attribute_value )' style='fill:#a1a0a0;'>fk_nonstrcexw</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 420 L 967,420 Q 975,420 975,412 L 975,390' >
+	<title>Foreign Key fk_roof_shape
+	main_detail references dic_attribute_value ( roof_shape -> attribute_value )</title>
+</path>
+<text x='967' y='415' transform='rotate(0 967,415)' title='Foreign Key fk_roof_shape
+	main_detail references dic_attribute_value ( roof_shape -> attribute_value )' style='fill:#a1a0a0;'>fk_roof_shape</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 435 L 967,435 Q 975,435 975,427 L 975,405' >
+	<title>Foreign Key fk_roofcovmat
+	main_detail references dic_attribute_value ( roofcovmat -> attribute_value )</title>
+</path>
+<text x='967' y='430' transform='rotate(0 967,430)' title='Foreign Key fk_roofcovmat
+	main_detail references dic_attribute_value ( roofcovmat -> attribute_value )' style='fill:#a1a0a0;'>fk_roofcovmat</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 450 L 967,450 Q 975,450 975,442 L 975,420' >
+	<title>Foreign Key fk_roofsysmat
+	main_detail references dic_attribute_value ( roofsysmat -> attribute_value )</title>
+</path>
+<text x='967' y='445' transform='rotate(0 967,445)' title='Foreign Key fk_roofsysmat
+	main_detail references dic_attribute_value ( roofsysmat -> attribute_value )' style='fill:#a1a0a0;'>fk_roofsysmat</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 465 L 967,465 Q 975,465 975,457 L 975,435' >
+	<title>Foreign Key fk_roofsystyp
+	main_detail references dic_attribute_value ( roofsystyp -> attribute_value )</title>
+</path>
+<text x='967' y='460' transform='rotate(0 967,460)' title='Foreign Key fk_roofsystyp
+	main_detail references dic_attribute_value ( roofsystyp -> attribute_value )' style='fill:#a1a0a0;'>fk_roofsystyp</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 480 L 967,480 Q 975,480 975,472 L 975,450' >
+	<title>Foreign Key fk_roof_conn
+	main_detail references dic_attribute_value ( roof_conn -> attribute_value )</title>
+</path>
+<text x='967' y='475' transform='rotate(0 967,475)' title='Foreign Key fk_roof_conn
+	main_detail references dic_attribute_value ( roof_conn -> attribute_value )' style='fill:#a1a0a0;'>fk_roof_conn</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 495 L 967,495 Q 975,495 975,487 L 975,465' >
+	<title>Foreign Key fk_floor_mat
+	main_detail references dic_attribute_value ( floor_mat -> attribute_value )</title>
+</path>
+<text x='967' y='490' transform='rotate(0 967,490)' title='Foreign Key fk_floor_mat
+	main_detail references dic_attribute_value ( floor_mat -> attribute_value )' style='fill:#a1a0a0;'>fk_floor_mat</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 510 L 967,510 Q 975,510 975,502 L 975,480' >
+	<title>Foreign Key fk_floor_type
+	main_detail references dic_attribute_value ( floor_type -> attribute_value )</title>
+</path>
+<text x='967' y='505' transform='rotate(0 967,505)' title='Foreign Key fk_floor_type
+	main_detail references dic_attribute_value ( floor_type -> attribute_value )' style='fill:#a1a0a0;'>fk_floor_type</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 525 L 967,525 Q 975,525 975,517 L 975,495' >
+	<title>Foreign Key fk_floor_conn
+	main_detail references dic_attribute_value ( floor_conn -> attribute_value )</title>
+</path>
+<text x='967' y='520' transform='rotate(0 967,520)' title='Foreign Key fk_floor_conn
+	main_detail references dic_attribute_value ( floor_conn -> attribute_value )' style='fill:#a1a0a0;'>fk_floor_conn</text><path transform='translate(7,0)' marker-start='url(#foot)'   style='stroke-dasharray:4,2;'  d='M 960 540 L 967,540 Q 975,540 975,532 L 975,510' >
+	<title>Foreign Key fk_founn_sys
+	main_detail references dic_attribute_value ( foundn_sys -> attribute_value )</title>
+</path>
+<text x='967' y='535' transform='rotate(0 967,535)' title='Foreign Key fk_founn_sys
+	main_detail references dic_attribute_value ( foundn_sys -> attribute_value )' style='fill:#a1a0a0;'>fk_founn_sys</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 1110 105 L 982,105 Q 975,105 975,97 L 975,97 Q 975,90 967,90 L 960,90' >
+	<title>Foreign Key fk_detail_gid
+	main_detail_qualifier references main_detail ( detail_id -> gid )</title>
+</path>
+<text x='1051' y='100' transform='rotate(0 1051,100)' title='Foreign Key fk_detail_gid
+	main_detail_qualifier references main_detail ( detail_id -> gid )' style='fill:#a1a0a0;'>fk_detail_gid</text><!-- ============= Table 'dic_attribute_value' ============= -->
+<rect class='table' x='1530' y='353' width='210' height='120' rx='7' ry='7' />
+<path d='M 1530.50 379.50 L 1530.50 360.50 Q 1530.50 353.50 1537.50 353.50 L 1732.50 353.50 Q 1739.50 353.50 1739.50 360.50 L 1739.50 379.50 L1530.50 379.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#dic_attribute_value'><text x='1562' y='371' class='tableTitle'>taxonomy.dic_attribute_value</text><title>Table taxonomy.dic_attribute_value
+The attribute value dictionary table&#046; Contains information about the attribute values&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='1532' y='386' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='1548' y='397'>gid</text><text x='1700' y='397' class='colType'>serial</text><title>gid serial not null
+Unique attribute value identifier</title></a>
+  <a xlink:href='#attribute_type_code'><use id='idx' x='1532' y='401' xlink:href='#idx'/><title>Index  ( attribute_type_code ) </title></a>
+<a xlink:href='#attribute_type_code'><text x='1548' y='412'>attribute_type_code</text><text x='1662' y='412' class='colType'>varchar(254)</text><title>attribute_type_code varchar&#040;254&#041;
+Code of the attribute type to which the value refers to</title></a>
+<a xlink:href='#attribute_type_code'><use id='fk' x='1728' y='401' xlink:href='#fk'/><title>References dic_attribute_type ( attribute_type_code -> code ) </title></a>
+  <a xlink:href='#attribute_value'><use id='unq' x='1532' y='416' xlink:href='#unq'/><title>Unique Index  ( attribute_value ) </title></a>
+<a xlink:href='#attribute_value'><text x='1548' y='427'>attribute_value</text><text x='1662' y='427' class='colType'>varchar(254)</text><title>attribute_value varchar&#040;254&#041;
+Value of the attribute</title></a>
+<a xlink:href='#attribute_value'><use id='ref' x='1728' y='416' xlink:href='#ref'/><title>Referred by main_detail ( mat_type -> attribute_value ) 
+Referred by main_detail ( mat_tech -> attribute_value ) 
+Referred by main_detail ( mat_prop -> attribute_value ) 
+Referred by main_detail ( llrs -> attribute_value ) 
+Referred by main_detail ( llrs_duct -> attribute_value ) 
+Referred by main_detail ( height -> attribute_value ) 
+Referred by main_detail ( yr_built -> attribute_value ) 
+Referred by main_detail ( yr_destr -> attribute_value ) 
+Referred by main_detail ( occupy -> attribute_value ) 
+Referred by main_detail ( occupy_dt -> attribute_value ) 
+Referred by main_detail ( position -> attribute_value ) 
+Referred by main_detail ( plan_shape -> attribute_value ) 
+Referred by main_detail ( str_irreg -> attribute_value ) 
+Referred by main_detail ( str_irreg_dt -> attribute_value ) 
+Referred by main_detail ( str_irreg_type -> attribute_value ) 
+Referred by main_detail ( nonstrcexw -> attribute_value ) 
+Referred by main_detail ( roof_shape -> attribute_value ) 
+Referred by main_detail ( roofcovmat -> attribute_value ) 
+Referred by main_detail ( roofsysmat -> attribute_value ) 
+Referred by main_detail ( roofsystyp -> attribute_value ) 
+Referred by main_detail ( roof_conn -> attribute_value ) 
+Referred by main_detail ( floor_mat -> attribute_value ) 
+Referred by main_detail ( floor_type -> attribute_value ) 
+Referred by main_detail ( floor_conn -> attribute_value ) 
+Referred by main_detail ( foundn_sys -> attribute_value ) </title></a>
+  <a xlink:href='#description'><text x='1548' y='442'>description</text><text x='1662' y='442' class='colType'>varchar(254)</text><title>description varchar&#040;254&#041;
+Short textual description of the attribute value</title></a>
+  <a xlink:href='#extended_description'><text x='1548' y='457'>extended_description</text><text x='1656' y='457' class='colType'>varchar(1024)</text><title>extended_description varchar&#040;1024&#041;
+Extended textual description of the attribute value</title></a>
+
+<!-- ============= Table 'dic_qualifier_value' ============= -->
+<rect class='table' x='1680' y='533' width='210' height='120' rx='7' ry='7' />
+<path d='M 1680.50 559.50 L 1680.50 540.50 Q 1680.50 533.50 1687.50 533.50 L 1882.50 533.50 Q 1889.50 533.50 1889.50 540.50 L 1889.50 559.50 L1680.50 559.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#dic_qualifier_value'><text x='1714' y='551' class='tableTitle'>taxonomy.dic_qualifier_value</text><title>Table taxonomy.dic_qualifier_value
+The qualifier value dictionary table&#046; Contains information about the qualifier values&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='1682' y='566' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='1698' y='577'>gid</text><text x='1850' y='577' class='colType'>serial</text><title>gid serial not null
+Unique qualifier value identifier</title></a>
+  <a xlink:href='#qualifier_type_code'><use id='idx' x='1682' y='581' xlink:href='#idx'/><title>Index  ( qualifier_type_code ) </title></a>
+<a xlink:href='#qualifier_type_code'><text x='1698' y='592'>qualifier_type_code</text><text x='1812' y='592' class='colType'>varchar(254)</text><title>qualifier_type_code varchar&#040;254&#041;
+Code of the qualifier type to which the value refers to</title></a>
+<a xlink:href='#qualifier_type_code'><use id='fk' x='1878' y='581' xlink:href='#fk'/><title>References dic_qualifier_type ( qualifier_type_code -> code ) </title></a>
+  <a xlink:href='#qualifier_value'><use id='unq' x='1682' y='596' xlink:href='#unq'/><title>Unique Index  ( qualifier_value ) </title></a>
+<a xlink:href='#qualifier_value'><text x='1698' y='607'>qualifier_value</text><text x='1812' y='607' class='colType'>varchar(254)</text><title>qualifier_value varchar&#040;254&#041;
+Value of the qualifier</title></a>
+  <a xlink:href='#description'><text x='1698' y='622'>description</text><text x='1812' y='622' class='colType'>varchar(254)</text><title>description varchar&#040;254&#041;
+Short textual description of the qualifier value</title></a>
+  <a xlink:href='#extended_description'><text x='1698' y='637'>extended_description</text><text x='1806' y='637' class='colType'>varchar(1024)</text><title>extended_description varchar&#040;1024&#041;
+Extended textual description of the qualifier value</title></a>
+
+<!-- ============= Table 'logged_actions' ============= -->
+<rect class='table' x='1410' y='728' width='210' height='225' rx='7' ry='7' />
+<path d='M 1410.50 754.50 L 1410.50 735.50 Q 1410.50 728.50 1417.50 728.50 L 1612.50 728.50 Q 1619.50 728.50 1619.50 735.50 L 1619.50 754.50 L1410.50 754.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#logged_actions'><text x='1460' y='746' class='tableTitle'>history.logged_actions</text><title>Table history.logged_actions
+History of transactions on activated tables&#044; from history&#046;if&#095;modified&#095;func&#040;&#041;&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='1412' y='761' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='1428' y='772'>gid</text><text x='1566' y='772' class='colType'>bigserial</text><title>gid bigserial not null
+Unique log identifier</title></a>
+  <a xlink:href='#schema_name'><text x='1428' y='787'>schema_name</text><text x='1585' y='787' class='colType'>text</text><title>schema_name text not null
+Textual reference to the database schema which contains the modified table</title></a>
+  <a xlink:href='#table_name'><text x='1428' y='802'>table_name</text><text x='1585' y='802' class='colType'>text</text><title>table_name text not null
+Name of the modified table</title></a>
+  <a xlink:href='#table_id'><use id='idx' x='1412' y='806' xlink:href='#idx'/><title>Index  ( table_id ) </title></a>
+<a xlink:href='#table_id'><text x='1428' y='817'>table_id</text><text x='1571' y='817' class='colType'>oid(10)</text><title>table_id oid&#040;10&#041; not null
+OID of the modified table</title></a>
+  <a xlink:href='#transaction_id'><text x='1428' y='832'>transaction_id</text><text x='1579' y='832' class='colType'>bigint</text><title>transaction_id bigint
+Identifier of the transaction &#040;may differ from gid when more than one row is affected by a transaction query&#041;</title></a>
+  <a xlink:href='#transaction_time'><text x='1428' y='847'>transaction_time</text><text x='1547' y='847' class='colType'>timestamptz</text><title>transaction_time timestamptz not null
+Timestamp when transaction was started &#040;current&#095;timestamp&#041;</title></a>
+  <a xlink:href='#transaction_user'><text x='1428' y='862'>transaction_user</text><text x='1585' y='862' class='colType'>text</text><title>transaction_user text
+Session user name who caused the transaction</title></a>
+  <a xlink:href='#transaction_query'><text x='1428' y='877'>transaction_query</text><text x='1585' y='877' class='colType'>text</text><title>transaction_query text
+Transaction query</title></a>
+  <a xlink:href='#transaction_type'><use id='idx' x='1412' y='881' xlink:href='#idx'/><title>Index  ( transaction_type ) </title></a>
+<a xlink:href='#transaction_type'><text x='1428' y='892'>transaction_type</text><text x='1585' y='892' class='colType'>text</text><title>transaction_type text not null
+Transaction type &#040;I &#061; insert&#044; D &#061; delete&#044; U &#061; update&#044; T &#061; truncate&#041;</title></a>
+  <a xlink:href='#old_record'><text x='1428' y='907'>old_record</text><text x='1506' y='907' class='colType'>hstore(2147483647)</text><title>old_record hstore&#040;2147483647&#041;
+The old record before the modification containing all the values as hstore &#040;for DELETE and UPDATE statements&#041;</title></a>
+  <a xlink:href='#new_record'><text x='1428' y='922'>new_record</text><text x='1506' y='922' class='colType'>hstore(2147483647)</text><title>new_record hstore&#040;2147483647&#041;
+The new record after the modification containing all the values as hstore &#040;for INSERT and UPDATE statements&#041;</title></a>
+  <a xlink:href='#changed_fields'><text x='1428' y='937'>changed_fields</text><text x='1506' y='937' class='colType'>hstore(2147483647)</text><title>changed_fields hstore&#040;2147483647&#041;
+The modified fields only&#044; including the new values&#044; stored as hstore</title></a>
+
+<!-- ============= Table 'dic_qualifier_type' ============= -->
+<rect class='table' x='1425' y='533' width='210' height='105' rx='7' ry='7' />
+<path d='M 1425.50 559.50 L 1425.50 540.50 Q 1425.50 533.50 1432.50 533.50 L 1627.50 533.50 Q 1634.50 533.50 1634.50 540.50 L 1634.50 559.50 L1425.50 559.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#dic_qualifier_type'><text x='1461' y='551' class='tableTitle'>taxonomy.dic_qualifier_type</text><title>Table taxonomy.dic_qualifier_type
+The qualifier type dictionary table&#046; Contains information about the qualifier types&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='1427' y='566' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='1443' y='577'>gid</text><text x='1595' y='577' class='colType'>serial</text><title>gid serial not null
+Unique qualifier type identifier</title></a>
+  <a xlink:href='#code'><use id='unq' x='1427' y='581' xlink:href='#unq'/><title>Unique Index  ( code ) </title></a>
+<a xlink:href='#code'><text x='1443' y='592'>code</text><text x='1557' y='592' class='colType'>varchar(254)</text><title>code varchar&#040;254&#041;
+Code of the qualifier type</title></a>
+<a xlink:href='#code'><use id='ref' x='1623' y='581' xlink:href='#ref'/><title>Referred by dic_qualifier_value ( qualifier_type_code -> code ) </title></a>
+  <a xlink:href='#description'><text x='1443' y='607'>description</text><text x='1557' y='607' class='colType'>varchar(254)</text><title>description varchar&#040;254&#041;
+Short textual description of the qualifier type</title></a>
+  <a xlink:href='#extended_description'><text x='1443' y='622'>extended_description</text><text x='1551' y='622' class='colType'>varchar(1024)</text><title>extended_description varchar&#040;1024&#041;
+Extended textual description of the qualifier type</title></a>
+
+<!-- ============= Table 'dic_hazard' ============= -->
+<rect class='table' x='1410' y='53' width='210' height='120' rx='7' ry='7' />
+<path d='M 1410.50 79.50 L 1410.50 60.50 Q 1410.50 53.50 1417.50 53.50 L 1612.50 53.50 Q 1619.50 53.50 1619.50 60.50 L 1619.50 79.50 L1410.50 79.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#dic_hazard'><text x='1463' y='71' class='tableTitle'>taxonomy.dic_hazard</text><title>Table taxonomy.dic_hazard
+The hazard dictionary table&#046; Contains information about the hazard type to which the taxonomy attribute type is linked to&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='1412' y='86' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='1428' y='97'>gid</text><text x='1580' y='97' class='colType'>serial</text><title>gid serial not null
+Unique hazard identifier</title></a>
+  <a xlink:href='#code'><text x='1428' y='112'>code</text><text x='1542' y='112' class='colType'>varchar(254)</text><title>code varchar&#040;254&#041;
+Identifier for the hazard type</title></a>
+  <a xlink:href='#description'><text x='1428' y='127'>description</text><text x='1542' y='127' class='colType'>varchar(254)</text><title>description varchar&#040;254&#041;
+Short textual description of the hazard type</title></a>
+  <a xlink:href='#extended_description'><text x='1428' y='142'>extended_description</text><text x='1536' y='142' class='colType'>varchar(1024)</text><title>extended_description varchar&#040;1024&#041;
+Extended textual description of the hazard type</title></a>
+  <a xlink:href='#attribute_type_code'><use id='idx' x='1412' y='146' xlink:href='#idx'/><title>Index  ( attribute_type_code ) </title></a>
+<a xlink:href='#attribute_type_code'><text x='1428' y='157'>attribute_type_code</text><text x='1542' y='157' class='colType'>varchar(254)</text><title>attribute_type_code varchar&#040;254&#041;
+Code of the taxonomy attribute type to which the hazard type is linked to</title></a>
+<a xlink:href='#attribute_type_code'><use id='fk' x='1608' y='146' xlink:href='#fk'/><title>References dic_attribute_type ( attribute_type_code -> code ) </title></a>
+
+<!-- ============= Table 'dic_taxonomy' ============= -->
+<rect class='table' x='1650' y='53' width='210' height='120' rx='7' ry='7' />
+<path d='M 1650.50 79.50 L 1650.50 60.50 Q 1650.50 53.50 1657.50 53.50 L 1852.50 53.50 Q 1859.50 53.50 1859.50 60.50 L 1859.50 79.50 L1650.50 79.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#dic_taxonomy'><text x='1695' y='71' class='tableTitle'>taxonomy.dic_taxonomy</text><title>Table taxonomy.dic_taxonomy
+The taxonomy dictionary table&#046; Contains information about the taxonomy to which the attribute type is linked to&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='1652' y='86' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='1668' y='97'>gid</text><text x='1820' y='97' class='colType'>serial</text><title>gid serial not null
+Unique taxonomy identifier</title></a>
+  <a xlink:href='#code'><use id='unq' x='1652' y='101' xlink:href='#unq'/><title>Unique Index  ( code ) </title></a>
+<a xlink:href='#code'><text x='1668' y='112'>code</text><text x='1782' y='112' class='colType'>varchar(254)</text><title>code varchar&#040;254&#041;
+Code of the taxonomy</title></a>
+<a xlink:href='#code'><use id='ref' x='1848' y='101' xlink:href='#ref'/><title>Referred by dic_attribute_type ( taxonomy_code -> code ) </title></a>
+  <a xlink:href='#description'><text x='1668' y='127'>description</text><text x='1782' y='127' class='colType'>varchar(254)</text><title>description varchar&#040;254&#041;
+Short textual description of the taxonomy</title></a>
+  <a xlink:href='#extended_description'><text x='1668' y='142'>extended_description</text><text x='1776' y='142' class='colType'>varchar(1024)</text><title>extended_description varchar&#040;1024&#041;
+Extended textual description of the taxonomy</title></a>
+  <a xlink:href='#version_date'><text x='1668' y='157'>version_date</text><text x='1823' y='157' class='colType'>date</text><title>version_date date
+Version of the taxonomy &#040;date of the version&#041;</title></a>
+
+<!-- ============= Table 'dic_attribute_type' ============= -->
+<rect class='table' x='1530' y='188' width='210' height='150' rx='7' ry='7' />
+<path d='M 1530.50 214.50 L 1530.50 195.50 Q 1530.50 188.50 1537.50 188.50 L 1732.50 188.50 Q 1739.50 188.50 1739.50 195.50 L 1739.50 214.50 L1530.50 214.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#dic_attribute_type'><text x='1564' y='206' class='tableTitle'>taxonomy.dic_attribute_type</text><title>Table taxonomy.dic_attribute_type
+The attribute type dictionary table&#046; Contains information about the attribute types&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='1532' y='221' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='1548' y='232'>gid</text><text x='1700' y='232' class='colType'>serial</text><title>gid serial not null
+Unique attribute type identifier</title></a>
+  <a xlink:href='#code'><use id='unq' x='1532' y='236' xlink:href='#unq'/><title>Unique Index  ( code ) </title></a>
+<a xlink:href='#code'><text x='1548' y='247'>code</text><text x='1662' y='247' class='colType'>varchar(254)</text><title>code varchar&#040;254&#041;
+Code of the attribute type</title></a>
+<a xlink:href='#code'><use id='ref' x='1728' y='236' xlink:href='#ref'/><title>Referred by dic_attribute_value ( attribute_type_code -> code ) 
+Referred by dic_hazard ( attribute_type_code -> code ) </title></a>
+  <a xlink:href='#description'><text x='1548' y='262'>description</text><text x='1662' y='262' class='colType'>varchar(254)</text><title>description varchar&#040;254&#041;
+Short textual description of the attribute type</title></a>
+  <a xlink:href='#extended_description'><text x='1548' y='277'>extended_description</text><text x='1656' y='277' class='colType'>varchar(1024)</text><title>extended_description varchar&#040;1024&#041;
+Extended textual description of the attribute type</title></a>
+  <a xlink:href='#taxonomy_code'><use id='idx' x='1532' y='281' xlink:href='#idx'/><title>Index  ( taxonomy_code ) </title></a>
+<a xlink:href='#taxonomy_code'><text x='1548' y='292'>taxonomy_code</text><text x='1662' y='292' class='colType'>varchar(254)</text><title>taxonomy_code varchar&#040;254&#041;
+Code of the taxonomy</title></a>
+<a xlink:href='#taxonomy_code'><use id='fk' x='1728' y='281' xlink:href='#fk'/><title>References dic_taxonomy ( taxonomy_code -> code ) </title></a>
+  <a xlink:href='#attribute_level'><text x='1548' y='307'>attribute_level</text><text x='1690' y='307' class='colType'>smallint</text><title>attribute_level smallint
+Identifier of the attribute level &#040;e&#046;g&#046; GEM taxonomy&#058; 1 &#061; main attribute&#044; 2 &#061; secondary attribute&#044; 3 &#061; tertiary attribute&#041;</title></a>
+  <a xlink:href='#attribute_order'><text x='1548' y='322'>attribute_order</text><text x='1690' y='322' class='colType'>smallint</text><title>attribute_order smallint
+Order of the attribute type&#046; To be used for compiling a textual representation of the taxonomy attributes and their values which follows a predefined order &#040;e&#046;g&#046; GEM Taxonomy TaxT strings&#041;</title></a>
+
+<!-- ============= Table 'main' ============= -->
+<rect class='table' x='570' y='53' width='150' height='120' rx='7' ry='7' />
+<path d='M 570.50 79.50 L 570.50 60.50 Q 570.50 53.50 577.50 53.50 L 712.50 53.50 Q 719.50 53.50 719.50 60.50 L 719.50 79.50 L570.50 79.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#main'><text x='617' y='71' class='tableTitle'>object.main</text><title>Table object.main
+The main object table&#046; Contains basic information about the object&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='572' y='86' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='588' y='97'>gid</text><text x='680' y='97' class='colType'>serial</text><title>gid serial not null
+Unique object identifier</title></a>
+<a xlink:href='#gid'><use id='ref' x='708' y='86' xlink:href='#ref'/><title>Referred by main_detail ( object_id -> gid ) </title></a>
+  <a xlink:href='#survey_gid'><text x='588' y='112'>survey_gid</text><text x='671' y='112' class='colType'>integer</text><title>survey_gid integer
+Identifier for the survey</title></a>
+  <a xlink:href='#description'><text x='588' y='127'>description</text><text x='642' y='127' class='colType'>varchar(254)</text><title>description varchar&#040;254&#041;
+Textual description of the object</title></a>
+  <a xlink:href='#source'><text x='588' y='142'>source</text><text x='685' y='142' class='colType'>text</text><title>source text
+Source of the object content &#040;e&#046;g&#046; remote sensing&#044; in&#045;situ&#041;</title></a>
+  <a xlink:href='#resolution'><text x='588' y='157'>resolution</text><text x='671' y='157' class='colType'>integer</text><title>resolution integer
+Identifier for the spatial resolution &#040;e&#046;g&#046; 1 &#061; local&#044; 2 &#061; regional&#044; 3 &#061; national&#041;</title></a>
+
+<!-- ============= Table 'main_detail' ============= -->
+<rect class='table' x='765' y='53' width='195' height='525' rx='7' ry='7' />
+<path d='M 765.50 79.50 L 765.50 60.50 Q 765.50 53.50 772.50 53.50 L 952.50 53.50 Q 959.50 53.50 959.50 60.50 L 959.50 79.50 L765.50 79.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#main_detail'><text x='818' y='71' class='tableTitle'>object.main_detail</text><title>Table object.main_detail
+The main object detail table&#046; Contains information about the object details&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='767' y='86' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='783' y='97'>gid</text><text x='920' y='97' class='colType'>serial</text><title>gid serial not null
+Unique object detail identifier</title></a>
+<a xlink:href='#gid'><use id='ref' x='948' y='86' xlink:href='#ref'/><title>Referred by main_detail_qualifier ( detail_id -> gid ) </title></a>
+  <a xlink:href='#object_id'><use id='idx' x='767' y='101' xlink:href='#idx'/><title>Index  ( object_id ) </title></a>
+<a xlink:href='#object_id'><text x='783' y='112'>object_id</text><text x='911' y='112' class='colType'>integer</text><title>object_id integer
+Object identifier</title></a>
+<a xlink:href='#object_id'><use id='fk' x='948' y='101' xlink:href='#fk'/><title>References main ( object_id -> gid ) </title></a>
+  <a xlink:href='#resolution2_id'><text x='783' y='127'>resolution2_id</text><text x='911' y='127' class='colType'>integer</text><title>resolution2_id integer
+gid of the object detail at resolution level 2 &#040;e&#046;g&#046; regional scale&#041;</title></a>
+  <a xlink:href='#resolution3_id'><text x='783' y='142'>resolution3_id</text><text x='911' y='142' class='colType'>integer</text><title>resolution3_id integer
+gid of the object detail at resolution level 3 &#040;e&#046;g&#046; national scale&#041;</title></a>
+  <a xlink:href='#the_geom'><text x='783' y='157'>the_geom</text><text x='831' y='157' class='colType'>geometry(2147483647)</text><title>the_geom geometry&#040;2147483647&#041;
+Spatial reference and geometry information</title></a>
+  <a xlink:href='#mat_type'><text x='783' y='172'>mat_type</text><text x='882' y='172' class='colType'>varchar(254)</text><title>mat_type varchar&#040;254&#041; default &#039;MAT99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#mat_type'><use id='fk' x='948' y='161' xlink:href='#fk'/><title>References dic_attribute_value ( mat_type -> attribute_value ) </title></a>
+  <a xlink:href='#mat_tech'><text x='783' y='187'>mat_tech</text><text x='882' y='187' class='colType'>varchar(254)</text><title>mat_tech varchar&#040;254&#041; default &#039;MATT99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#mat_tech'><use id='fk' x='948' y='176' xlink:href='#fk'/><title>References dic_attribute_value ( mat_tech -> attribute_value ) </title></a>
+  <a xlink:href='#mat_prop'><text x='783' y='202'>mat_prop</text><text x='882' y='202' class='colType'>varchar(254)</text><title>mat_prop varchar&#040;254&#041; default &#039;MATP99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#mat_prop'><use id='fk' x='948' y='191' xlink:href='#fk'/><title>References dic_attribute_value ( mat_prop -> attribute_value ) </title></a>
+  <a xlink:href='#llrs'><text x='783' y='217'>llrs</text><text x='882' y='217' class='colType'>varchar(254)</text><title>llrs varchar&#040;254&#041; default &#039;L99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#llrs'><use id='fk' x='948' y='206' xlink:href='#fk'/><title>References dic_attribute_value ( llrs -> attribute_value ) </title></a>
+  <a xlink:href='#llrs_duct'><text x='783' y='232'>llrs_duct</text><text x='882' y='232' class='colType'>varchar(254)</text><title>llrs_duct varchar&#040;254&#041; default &#039;DU99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#llrs_duct'><use id='fk' x='948' y='221' xlink:href='#fk'/><title>References dic_attribute_value ( llrs_duct -> attribute_value ) </title></a>
+  <a xlink:href='#height'><text x='783' y='247'>height</text><text x='882' y='247' class='colType'>varchar(254)</text><title>height varchar&#040;254&#041; default &#039;H99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#height'><use id='fk' x='948' y='236' xlink:href='#fk'/><title>References dic_attribute_value ( height -> attribute_value ) </title></a>
+  <a xlink:href='#height_numeric_1'><text x='783' y='262'>height_numeric_1</text><text x='911' y='262' class='colType'>integer</text><title>height_numeric_1 integer
+Attribute numeric</title></a>
+  <a xlink:href='#yr_built'><text x='783' y='277'>yr_built</text><text x='882' y='277' class='colType'>varchar(254)</text><title>yr_built varchar&#040;254&#041; default &#039;Y99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#yr_built'><use id='fk' x='948' y='266' xlink:href='#fk'/><title>References dic_attribute_value ( yr_built -> attribute_value ) </title></a>
+  <a xlink:href='#yr_destr'><text x='783' y='292'>yr_destr</text><text x='882' y='292' class='colType'>varchar(254)</text><title>yr_destr varchar&#040;254&#041; default &#039;YD99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#yr_destr'><use id='fk' x='948' y='281' xlink:href='#fk'/><title>References dic_attribute_value ( yr_destr -> attribute_value ) </title></a>
+  <a xlink:href='#occupy'><text x='783' y='307'>occupy</text><text x='882' y='307' class='colType'>varchar(254)</text><title>occupy varchar&#040;254&#041; default &#039;OC99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#occupy'><use id='fk' x='948' y='296' xlink:href='#fk'/><title>References dic_attribute_value ( occupy -> attribute_value ) </title></a>
+  <a xlink:href='#occupy_dt'><text x='783' y='322'>occupy_dt</text><text x='882' y='322' class='colType'>varchar(254)</text><title>occupy_dt varchar&#040;254&#041; default &#039;OCCDT99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#occupy_dt'><use id='fk' x='948' y='311' xlink:href='#fk'/><title>References dic_attribute_value ( occupy_dt -> attribute_value ) </title></a>
+  <a xlink:href='#position'><text x='783' y='337'>position</text><text x='882' y='337' class='colType'>varchar(254)</text><title>position varchar&#040;254&#041; default &#039;BP99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#position'><use id='fk' x='948' y='326' xlink:href='#fk'/><title>References dic_attribute_value ( position -> attribute_value ) </title></a>
+  <a xlink:href='#plan_shape'><text x='783' y='352'>plan_shape</text><text x='882' y='352' class='colType'>varchar(254)</text><title>plan_shape varchar&#040;254&#041; default &#039;PLF99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#plan_shape'><use id='fk' x='948' y='341' xlink:href='#fk'/><title>References dic_attribute_value ( plan_shape -> attribute_value ) </title></a>
+  <a xlink:href='#str_irreg'><text x='783' y='367'>str_irreg</text><text x='882' y='367' class='colType'>varchar(254)</text><title>str_irreg varchar&#040;254&#041; default &#039;IR99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#str_irreg'><use id='fk' x='948' y='356' xlink:href='#fk'/><title>References dic_attribute_value ( str_irreg -> attribute_value ) </title></a>
+  <a xlink:href='#str_irreg_dt'><text x='783' y='382'>str_irreg_dt</text><text x='882' y='382' class='colType'>varchar(254)</text><title>str_irreg_dt varchar&#040;254&#041; default &#039;IRP99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#str_irreg_dt'><use id='fk' x='948' y='371' xlink:href='#fk'/><title>References dic_attribute_value ( str_irreg_dt -> attribute_value ) </title></a>
+  <a xlink:href='#str_irreg_type'><text x='783' y='397'>str_irreg_type</text><text x='882' y='397' class='colType'>varchar(254)</text><title>str_irreg_type varchar&#040;254&#041; default &#039;IRT99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#str_irreg_type'><use id='fk' x='948' y='386' xlink:href='#fk'/><title>References dic_attribute_value ( str_irreg_type -> attribute_value ) </title></a>
+  <a xlink:href='#nonstrcexw'><text x='783' y='412'>nonstrcexw</text><text x='882' y='412' class='colType'>varchar(254)</text><title>nonstrcexw varchar&#040;254&#041; default &#039;EW99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#nonstrcexw'><use id='fk' x='948' y='401' xlink:href='#fk'/><title>References dic_attribute_value ( nonstrcexw -> attribute_value ) </title></a>
+  <a xlink:href='#roof_shape'><text x='783' y='427'>roof_shape</text><text x='882' y='427' class='colType'>varchar(254)</text><title>roof_shape varchar&#040;254&#041; default &#039;R99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#roof_shape'><use id='fk' x='948' y='416' xlink:href='#fk'/><title>References dic_attribute_value ( roof_shape -> attribute_value ) </title></a>
+  <a xlink:href='#roofcovmat'><text x='783' y='442'>roofcovmat</text><text x='882' y='442' class='colType'>varchar(254)</text><title>roofcovmat varchar&#040;254&#041; default &#039;RMT99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#roofcovmat'><use id='fk' x='948' y='431' xlink:href='#fk'/><title>References dic_attribute_value ( roofcovmat -> attribute_value ) </title></a>
+  <a xlink:href='#roofsysmat'><text x='783' y='457'>roofsysmat</text><text x='882' y='457' class='colType'>varchar(254)</text><title>roofsysmat varchar&#040;254&#041; default &#039;RSM99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#roofsysmat'><use id='fk' x='948' y='446' xlink:href='#fk'/><title>References dic_attribute_value ( roofsysmat -> attribute_value ) </title></a>
+  <a xlink:href='#roofsystyp'><text x='783' y='472'>roofsystyp</text><text x='882' y='472' class='colType'>varchar(254)</text><title>roofsystyp varchar&#040;254&#041; default &#039;RST99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#roofsystyp'><use id='fk' x='948' y='461' xlink:href='#fk'/><title>References dic_attribute_value ( roofsystyp -> attribute_value ) </title></a>
+  <a xlink:href='#roof_conn'><text x='783' y='487'>roof_conn</text><text x='882' y='487' class='colType'>varchar(254)</text><title>roof_conn varchar&#040;254&#041; default &#039;RCN99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#roof_conn'><use id='fk' x='948' y='476' xlink:href='#fk'/><title>References dic_attribute_value ( roof_conn -> attribute_value ) </title></a>
+  <a xlink:href='#floor_mat'><text x='783' y='502'>floor_mat</text><text x='882' y='502' class='colType'>varchar(254)</text><title>floor_mat varchar&#040;254&#041; default &#039;F99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#floor_mat'><use id='fk' x='948' y='491' xlink:href='#fk'/><title>References dic_attribute_value ( floor_mat -> attribute_value ) </title></a>
+  <a xlink:href='#floor_type'><text x='783' y='517'>floor_type</text><text x='882' y='517' class='colType'>varchar(254)</text><title>floor_type varchar&#040;254&#041; default &#039;FT99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#floor_type'><use id='fk' x='948' y='506' xlink:href='#fk'/><title>References dic_attribute_value ( floor_type -> attribute_value ) </title></a>
+  <a xlink:href='#floor_conn'><text x='783' y='532'>floor_conn</text><text x='882' y='532' class='colType'>varchar(254)</text><title>floor_conn varchar&#040;254&#041; default &#039;FWC99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#floor_conn'><use id='fk' x='948' y='521' xlink:href='#fk'/><title>References dic_attribute_value ( floor_conn -> attribute_value ) </title></a>
+  <a xlink:href='#foundn_sys'><text x='783' y='547'>foundn_sys</text><text x='882' y='547' class='colType'>varchar(254)</text><title>foundn_sys varchar&#040;254&#041; default &#039;FOS99&#039;&#058;&#058;character varying
+Attribute value</title></a>
+<a xlink:href='#foundn_sys'><use id='fk' x='948' y='536' xlink:href='#fk'/><title>References dic_attribute_value ( foundn_sys -> attribute_value ) </title></a>
+  <a xlink:href='#comment'><text x='783' y='562'>comment</text><text x='882' y='562' class='colType'>varchar(254)</text><title>comment varchar&#040;254&#041;
+Additional comments</title></a>
+
+<!-- ============= Table 'main_detail_qualifier' ============= -->
+<rect class='table' x='1125' y='53' width='150' height='510' rx='7' ry='7' />
+<path d='M 1125.50 79.50 L 1125.50 60.50 Q 1125.50 53.50 1132.50 53.50 L 1267.50 53.50 Q 1274.50 53.50 1274.50 60.50 L 1274.50 79.50 L1125.50 79.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#main_detail_qualifier'><text x='1134' y='71' class='tableTitle'>object.main_detail_qualifier</text><title>Table object.main_detail_qualifier
+The main object detail qualifier table&#046; Contains information about the object qualifiers&#046;</title></a>
+  <a xlink:href='#gid'><use id='pk' x='1127' y='86' xlink:href='#pk'/><title>Primary Key  ( gid ) </title></a>
+<a xlink:href='#gid'><text x='1143' y='97'>gid</text><text x='1235' y='97' class='colType'>serial</text><title>gid serial not null
+Unique object detail qualifier identifier</title></a>
+  <a xlink:href='#detail_id'><use id='idx' x='1127' y='101' xlink:href='#idx'/><title>Index  ( detail_id ) </title></a>
+<a xlink:href='#detail_id'><text x='1143' y='112'>detail_id</text><text x='1226' y='112' class='colType'>integer</text><title>detail_id integer
+Object detail identifier</title></a>
+<a xlink:href='#detail_id'><use id='fk' x='1263' y='101' xlink:href='#fk'/><title>References main_detail ( detail_id -> gid ) </title></a>
+  <a xlink:href='#bp_mat_type'><text x='1143' y='127'>bp_mat_type</text><text x='1226' y='127' class='colType'>integer</text><title>bp_mat_type integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_mat_tech'><text x='1143' y='142'>bp_mat_tech</text><text x='1226' y='142' class='colType'>integer</text><title>bp_mat_tech integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_mat_prop'><text x='1143' y='157'>bp_mat_prop</text><text x='1226' y='157' class='colType'>integer</text><title>bp_mat_prop integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_llrs'><text x='1143' y='172'>bp_llrs</text><text x='1226' y='172' class='colType'>integer</text><title>bp_llrs integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_llrs_duct'><text x='1143' y='187'>bp_llrs_duct</text><text x='1226' y='187' class='colType'>integer</text><title>bp_llrs_duct integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_height'><text x='1143' y='202'>bp_height</text><text x='1226' y='202' class='colType'>integer</text><title>bp_height integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_yr_built'><text x='1143' y='217'>bp_yr_built</text><text x='1226' y='217' class='colType'>integer</text><title>bp_yr_built integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_yr_destr'><text x='1143' y='232'>bp_yr_destr</text><text x='1226' y='232' class='colType'>integer</text><title>bp_yr_destr integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_occupy'><text x='1143' y='247'>bp_occupy</text><text x='1226' y='247' class='colType'>integer</text><title>bp_occupy integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_occupy_dt'><text x='1143' y='262'>bp_occupy_dt</text><text x='1226' y='262' class='colType'>integer</text><title>bp_occupy_dt integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_position'><text x='1143' y='277'>bp_position</text><text x='1226' y='277' class='colType'>integer</text><title>bp_position integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_plan_shape'><text x='1143' y='292'>bp_plan_shape</text><text x='1226' y='292' class='colType'>integer</text><title>bp_plan_shape integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_str_irreg'><text x='1143' y='307'>bp_str_irreg</text><text x='1226' y='307' class='colType'>integer</text><title>bp_str_irreg integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_str_irreg_dt'><text x='1143' y='322'>bp_str_irreg_dt</text><text x='1226' y='322' class='colType'>integer</text><title>bp_str_irreg_dt integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_str_irreg_type'><text x='1143' y='337'>bp_str_irreg_type</text><text x='1226' y='337' class='colType'>integer</text><title>bp_str_irreg_type integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_nonstrcexw'><text x='1143' y='352'>bp_nonstrcexw</text><text x='1226' y='352' class='colType'>integer</text><title>bp_nonstrcexw integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_roof_shape'><text x='1143' y='367'>bp_roof_shape</text><text x='1226' y='367' class='colType'>integer</text><title>bp_roof_shape integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_roofcovmat'><text x='1143' y='382'>bp_roofcovmat</text><text x='1226' y='382' class='colType'>integer</text><title>bp_roofcovmat integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_roofsysmat'><text x='1143' y='397'>bp_roofsysmat</text><text x='1226' y='397' class='colType'>integer</text><title>bp_roofsysmat integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_roofsystyp'><text x='1143' y='412'>bp_roofsystyp</text><text x='1226' y='412' class='colType'>integer</text><title>bp_roofsystyp integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_roof_conn'><text x='1143' y='427'>bp_roof_conn</text><text x='1226' y='427' class='colType'>integer</text><title>bp_roof_conn integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_floor_mat'><text x='1143' y='442'>bp_floor_mat</text><text x='1226' y='442' class='colType'>integer</text><title>bp_floor_mat integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_floor_type'><text x='1143' y='457'>bp_floor_type</text><text x='1226' y='457' class='colType'>integer</text><title>bp_floor_type integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_floor_conn'><text x='1143' y='472'>bp_floor_conn</text><text x='1226' y='472' class='colType'>integer</text><title>bp_floor_conn integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#bp_foundn_sys'><text x='1143' y='487'>bp_foundn_sys</text><text x='1226' y='487' class='colType'>integer</text><title>bp_foundn_sys integer
+Qualifier value &#040;belief percentage&#041;</title></a>
+  <a xlink:href='#vt_yr_built1'><text x='1143' y='502'>vt_yr_built1</text><text x='1202' y='502' class='colType'>timestamptz</text><title>vt_yr_built1 timestamptz
+Qualifier value &#040;valid time&#041;</title></a>
+  <a xlink:href='#vt_yr_built2'><text x='1143' y='517'>vt_yr_built2</text><text x='1202' y='517' class='colType'>timestamptz</text><title>vt_yr_built2 timestamptz
+Qualifier value &#040;valid time&#041;</title></a>
+  <a xlink:href='#vt_yr_destr1'><text x='1143' y='532'>vt_yr_destr1</text><text x='1202' y='532' class='colType'>timestamptz</text><title>vt_yr_destr1 timestamptz
+Qualifier value &#040;valid time&#041;</title></a>
+  <a xlink:href='#vt_yr_destr2'><text x='1143' y='547'>vt_yr_destr2</text><text x='1202' y='547' class='colType'>timestamptz</text><title>vt_yr_destr2 timestamptz
+Qualifier value &#040;valid time&#041;</title></a>
+
+<!-- ============= Table 've_resolution1' ============= -->
+<rect class='table' x='45' y='53' width='150' height='1020' rx='7' ry='7' />
+<path d='M 45.50 79.50 L 45.50 60.50 Q 45.50 53.50 52.50 53.50 L 187.50 53.50 Q 194.50 53.50 194.50 60.50 L 194.50 79.50 L45.50 79.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#ve_resolution1'><text x='67' y='71' class='tableTitle'>object.ve_resolution1</text><title>View object.ve_resolution1</title></a>
+  <a xlink:href='#survey_gid'><text x='63' y='97'>survey_gid</text><text x='146' y='97' class='colType'>integer</text><title>survey_gid integer</title></a>
+  <a xlink:href='#description'><text x='63' y='112'>description</text><text x='143' y='112' class='colType'>varchar</text><title>description varchar</title></a>
+  <a xlink:href='#source'><text x='63' y='127'>source</text><text x='160' y='127' class='colType'>text</text><title>source text</title></a>
+  <a xlink:href='#resolution'><text x='63' y='142'>resolution</text><text x='146' y='142' class='colType'>integer</text><title>resolution integer</title></a>
+  <a xlink:href='#gid'><text x='63' y='157'>gid</text><text x='146' y='157' class='colType'>integer</text><title>gid integer</title></a>
+  <a xlink:href='#object_id'><text x='63' y='172'>object_id</text><text x='146' y='172' class='colType'>integer</text><title>object_id integer</title></a>
+  <a xlink:href='#resolution2_id'><text x='63' y='187'>resolution2_id</text><text x='146' y='187' class='colType'>integer</text><title>resolution2_id integer</title></a>
+  <a xlink:href='#resolution3_id'><text x='63' y='202'>resolution3_id</text><text x='146' y='202' class='colType'>integer</text><title>resolution3_id integer</title></a>
+  <a xlink:href='#the_geom'><text x='63' y='217'>the_geom</text><text x='134' y='217' class='colType'>geometry</text><title>the_geom geometry</title></a>
+  <a xlink:href='#mat_type'><text x='63' y='232'>mat_type</text><text x='143' y='232' class='colType'>varchar</text><title>mat_type varchar</title></a>
+  <a xlink:href='#mat_tech'><text x='63' y='247'>mat_tech</text><text x='143' y='247' class='colType'>varchar</text><title>mat_tech varchar</title></a>
+  <a xlink:href='#mat_prop'><text x='63' y='262'>mat_prop</text><text x='143' y='262' class='colType'>varchar</text><title>mat_prop varchar</title></a>
+  <a xlink:href='#llrs'><text x='63' y='277'>llrs</text><text x='143' y='277' class='colType'>varchar</text><title>llrs varchar</title></a>
+  <a xlink:href='#llrs_duct'><text x='63' y='292'>llrs_duct</text><text x='143' y='292' class='colType'>varchar</text><title>llrs_duct varchar</title></a>
+  <a xlink:href='#height'><text x='63' y='307'>height</text><text x='143' y='307' class='colType'>varchar</text><title>height varchar</title></a>
+  <a xlink:href='#height_numeric_1'><text x='63' y='322'>height_numeric_1</text><text x='146' y='322' class='colType'>integer</text><title>height_numeric_1 integer</title></a>
+  <a xlink:href='#yr_built'><text x='63' y='337'>yr_built</text><text x='143' y='337' class='colType'>varchar</text><title>yr_built varchar</title></a>
+  <a xlink:href='#yr_destr'><text x='63' y='352'>yr_destr</text><text x='143' y='352' class='colType'>varchar</text><title>yr_destr varchar</title></a>
+  <a xlink:href='#occupy'><text x='63' y='367'>occupy</text><text x='143' y='367' class='colType'>varchar</text><title>occupy varchar</title></a>
+  <a xlink:href='#occupy_dt'><text x='63' y='382'>occupy_dt</text><text x='143' y='382' class='colType'>varchar</text><title>occupy_dt varchar</title></a>
+  <a xlink:href='#position'><text x='63' y='397'>position</text><text x='143' y='397' class='colType'>varchar</text><title>position varchar</title></a>
+  <a xlink:href='#plan_shape'><text x='63' y='412'>plan_shape</text><text x='143' y='412' class='colType'>varchar</text><title>plan_shape varchar</title></a>
+  <a xlink:href='#str_irreg'><text x='63' y='427'>str_irreg</text><text x='143' y='427' class='colType'>varchar</text><title>str_irreg varchar</title></a>
+  <a xlink:href='#str_irreg_dt'><text x='63' y='442'>str_irreg_dt</text><text x='143' y='442' class='colType'>varchar</text><title>str_irreg_dt varchar</title></a>
+  <a xlink:href='#str_irreg_type'><text x='63' y='457'>str_irreg_type</text><text x='143' y='457' class='colType'>varchar</text><title>str_irreg_type varchar</title></a>
+  <a xlink:href='#nonstrcexw'><text x='63' y='472'>nonstrcexw</text><text x='143' y='472' class='colType'>varchar</text><title>nonstrcexw varchar</title></a>
+  <a xlink:href='#roof_shape'><text x='63' y='487'>roof_shape</text><text x='143' y='487' class='colType'>varchar</text><title>roof_shape varchar</title></a>
+  <a xlink:href='#roofcovmat'><text x='63' y='502'>roofcovmat</text><text x='143' y='502' class='colType'>varchar</text><title>roofcovmat varchar</title></a>
+  <a xlink:href='#roofsysmat'><text x='63' y='517'>roofsysmat</text><text x='143' y='517' class='colType'>varchar</text><title>roofsysmat varchar</title></a>
+  <a xlink:href='#roofsystyp'><text x='63' y='532'>roofsystyp</text><text x='143' y='532' class='colType'>varchar</text><title>roofsystyp varchar</title></a>
+  <a xlink:href='#roof_conn'><text x='63' y='547'>roof_conn</text><text x='143' y='547' class='colType'>varchar</text><title>roof_conn varchar</title></a>
+  <a xlink:href='#floor_mat'><text x='63' y='562'>floor_mat</text><text x='143' y='562' class='colType'>varchar</text><title>floor_mat varchar</title></a>
+  <a xlink:href='#floor_type'><text x='63' y='577'>floor_type</text><text x='143' y='577' class='colType'>varchar</text><title>floor_type varchar</title></a>
+  <a xlink:href='#floor_conn'><text x='63' y='592'>floor_conn</text><text x='143' y='592' class='colType'>varchar</text><title>floor_conn varchar</title></a>
+  <a xlink:href='#foundn_sys'><text x='63' y='607'>foundn_sys</text><text x='143' y='607' class='colType'>varchar</text><title>foundn_sys varchar</title></a>
+  <a xlink:href='#comment'><text x='63' y='622'>comment</text><text x='143' y='622' class='colType'>varchar</text><title>comment varchar</title></a>
+  <a xlink:href='#bp_mat_type'><text x='63' y='637'>bp_mat_type</text><text x='146' y='637' class='colType'>integer</text><title>bp_mat_type integer</title></a>
+  <a xlink:href='#bp_mat_tech'><text x='63' y='652'>bp_mat_tech</text><text x='146' y='652' class='colType'>integer</text><title>bp_mat_tech integer</title></a>
+  <a xlink:href='#bp_mat_prop'><text x='63' y='667'>bp_mat_prop</text><text x='146' y='667' class='colType'>integer</text><title>bp_mat_prop integer</title></a>
+  <a xlink:href='#bp_llrs'><text x='63' y='682'>bp_llrs</text><text x='146' y='682' class='colType'>integer</text><title>bp_llrs integer</title></a>
+  <a xlink:href='#bp_llrs_duct'><text x='63' y='697'>bp_llrs_duct</text><text x='146' y='697' class='colType'>integer</text><title>bp_llrs_duct integer</title></a>
+  <a xlink:href='#bp_height'><text x='63' y='712'>bp_height</text><text x='146' y='712' class='colType'>integer</text><title>bp_height integer</title></a>
+  <a xlink:href='#bp_yr_built'><text x='63' y='727'>bp_yr_built</text><text x='146' y='727' class='colType'>integer</text><title>bp_yr_built integer</title></a>
+  <a xlink:href='#bp_yr_destr'><text x='63' y='742'>bp_yr_destr</text><text x='146' y='742' class='colType'>integer</text><title>bp_yr_destr integer</title></a>
+  <a xlink:href='#bp_occupy'><text x='63' y='757'>bp_occupy</text><text x='146' y='757' class='colType'>integer</text><title>bp_occupy integer</title></a>
+  <a xlink:href='#bp_occupy_dt'><text x='63' y='772'>bp_occupy_dt</text><text x='146' y='772' class='colType'>integer</text><title>bp_occupy_dt integer</title></a>
+  <a xlink:href='#bp_position'><text x='63' y='787'>bp_position</text><text x='146' y='787' class='colType'>integer</text><title>bp_position integer</title></a>
+  <a xlink:href='#bp_plan_shape'><text x='63' y='802'>bp_plan_shape</text><text x='146' y='802' class='colType'>integer</text><title>bp_plan_shape integer</title></a>
+  <a xlink:href='#bp_str_irreg'><text x='63' y='817'>bp_str_irreg</text><text x='146' y='817' class='colType'>integer</text><title>bp_str_irreg integer</title></a>
+  <a xlink:href='#bp_str_irreg_dt'><text x='63' y='832'>bp_str_irreg_dt</text><text x='146' y='832' class='colType'>integer</text><title>bp_str_irreg_dt integer</title></a>
+  <a xlink:href='#bp_str_irreg_type'><text x='63' y='847'>bp_str_irreg_type</text><text x='146' y='847' class='colType'>integer</text><title>bp_str_irreg_type integer</title></a>
+  <a xlink:href='#bp_nonstrcexw'><text x='63' y='862'>bp_nonstrcexw</text><text x='146' y='862' class='colType'>integer</text><title>bp_nonstrcexw integer</title></a>
+  <a xlink:href='#bp_roof_shape'><text x='63' y='877'>bp_roof_shape</text><text x='146' y='877' class='colType'>integer</text><title>bp_roof_shape integer</title></a>
+  <a xlink:href='#bp_roofcovmat'><text x='63' y='892'>bp_roofcovmat</text><text x='146' y='892' class='colType'>integer</text><title>bp_roofcovmat integer</title></a>
+  <a xlink:href='#bp_roofsysmat'><text x='63' y='907'>bp_roofsysmat</text><text x='146' y='907' class='colType'>integer</text><title>bp_roofsysmat integer</title></a>
+  <a xlink:href='#bp_roofsystyp'><text x='63' y='922'>bp_roofsystyp</text><text x='146' y='922' class='colType'>integer</text><title>bp_roofsystyp integer</title></a>
+  <a xlink:href='#bp_roof_conn'><text x='63' y='937'>bp_roof_conn</text><text x='146' y='937' class='colType'>integer</text><title>bp_roof_conn integer</title></a>
+  <a xlink:href='#bp_floor_mat'><text x='63' y='952'>bp_floor_mat</text><text x='146' y='952' class='colType'>integer</text><title>bp_floor_mat integer</title></a>
+  <a xlink:href='#bp_floor_type'><text x='63' y='967'>bp_floor_type</text><text x='146' y='967' class='colType'>integer</text><title>bp_floor_type integer</title></a>
+  <a xlink:href='#bp_floor_conn'><text x='63' y='982'>bp_floor_conn</text><text x='146' y='982' class='colType'>integer</text><title>bp_floor_conn integer</title></a>
+  <a xlink:href='#bp_foundn_sys'><text x='63' y='997'>bp_foundn_sys</text><text x='146' y='997' class='colType'>integer</text><title>bp_foundn_sys integer</title></a>
+  <a xlink:href='#vt_yr_built1'><text x='63' y='1012'>vt_yr_built1</text><text x='122' y='1012' class='colType'>timestamptz</text><title>vt_yr_built1 timestamptz</title></a>
+  <a xlink:href='#vt_yr_built2'><text x='63' y='1027'>vt_yr_built2</text><text x='122' y='1027' class='colType'>timestamptz</text><title>vt_yr_built2 timestamptz</title></a>
+  <a xlink:href='#vt_yr_destr1'><text x='63' y='1042'>vt_yr_destr1</text><text x='122' y='1042' class='colType'>timestamptz</text><title>vt_yr_destr1 timestamptz</title></a>
+  <a xlink:href='#vt_yr_destr2'><text x='63' y='1057'>vt_yr_destr2</text><text x='122' y='1057' class='colType'>timestamptz</text><title>vt_yr_destr2 timestamptz</title></a>
+
+<!-- ============= Table 've_resolution2' ============= -->
+<rect class='table' x='210' y='53' width='150' height='1020' rx='7' ry='7' />
+<path d='M 210.50 79.50 L 210.50 60.50 Q 210.50 53.50 217.50 53.50 L 352.50 53.50 Q 359.50 53.50 359.50 60.50 L 359.50 79.50 L210.50 79.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#ve_resolution2'><text x='232' y='71' class='tableTitle'>object.ve_resolution2</text><title>View object.ve_resolution2</title></a>
+  <a xlink:href='#survey_gid'><text x='228' y='97'>survey_gid</text><text x='311' y='97' class='colType'>integer</text><title>survey_gid integer</title></a>
+  <a xlink:href='#description'><text x='228' y='112'>description</text><text x='308' y='112' class='colType'>varchar</text><title>description varchar</title></a>
+  <a xlink:href='#source'><text x='228' y='127'>source</text><text x='325' y='127' class='colType'>text</text><title>source text</title></a>
+  <a xlink:href='#resolution'><text x='228' y='142'>resolution</text><text x='311' y='142' class='colType'>integer</text><title>resolution integer</title></a>
+  <a xlink:href='#gid'><text x='228' y='157'>gid</text><text x='311' y='157' class='colType'>integer</text><title>gid integer</title></a>
+  <a xlink:href='#object_id'><text x='228' y='172'>object_id</text><text x='311' y='172' class='colType'>integer</text><title>object_id integer</title></a>
+  <a xlink:href='#resolution2_id'><text x='228' y='187'>resolution2_id</text><text x='311' y='187' class='colType'>integer</text><title>resolution2_id integer</title></a>
+  <a xlink:href='#resolution3_id'><text x='228' y='202'>resolution3_id</text><text x='311' y='202' class='colType'>integer</text><title>resolution3_id integer</title></a>
+  <a xlink:href='#the_geom'><text x='228' y='217'>the_geom</text><text x='299' y='217' class='colType'>geometry</text><title>the_geom geometry</title></a>
+  <a xlink:href='#mat_type'><text x='228' y='232'>mat_type</text><text x='308' y='232' class='colType'>varchar</text><title>mat_type varchar</title></a>
+  <a xlink:href='#mat_tech'><text x='228' y='247'>mat_tech</text><text x='308' y='247' class='colType'>varchar</text><title>mat_tech varchar</title></a>
+  <a xlink:href='#mat_prop'><text x='228' y='262'>mat_prop</text><text x='308' y='262' class='colType'>varchar</text><title>mat_prop varchar</title></a>
+  <a xlink:href='#llrs'><text x='228' y='277'>llrs</text><text x='308' y='277' class='colType'>varchar</text><title>llrs varchar</title></a>
+  <a xlink:href='#llrs_duct'><text x='228' y='292'>llrs_duct</text><text x='308' y='292' class='colType'>varchar</text><title>llrs_duct varchar</title></a>
+  <a xlink:href='#height'><text x='228' y='307'>height</text><text x='308' y='307' class='colType'>varchar</text><title>height varchar</title></a>
+  <a xlink:href='#height_numeric_1'><text x='228' y='322'>height_numeric_1</text><text x='311' y='322' class='colType'>integer</text><title>height_numeric_1 integer</title></a>
+  <a xlink:href='#yr_built'><text x='228' y='337'>yr_built</text><text x='308' y='337' class='colType'>varchar</text><title>yr_built varchar</title></a>
+  <a xlink:href='#yr_destr'><text x='228' y='352'>yr_destr</text><text x='308' y='352' class='colType'>varchar</text><title>yr_destr varchar</title></a>
+  <a xlink:href='#occupy'><text x='228' y='367'>occupy</text><text x='308' y='367' class='colType'>varchar</text><title>occupy varchar</title></a>
+  <a xlink:href='#occupy_dt'><text x='228' y='382'>occupy_dt</text><text x='308' y='382' class='colType'>varchar</text><title>occupy_dt varchar</title></a>
+  <a xlink:href='#position'><text x='228' y='397'>position</text><text x='308' y='397' class='colType'>varchar</text><title>position varchar</title></a>
+  <a xlink:href='#plan_shape'><text x='228' y='412'>plan_shape</text><text x='308' y='412' class='colType'>varchar</text><title>plan_shape varchar</title></a>
+  <a xlink:href='#str_irreg'><text x='228' y='427'>str_irreg</text><text x='308' y='427' class='colType'>varchar</text><title>str_irreg varchar</title></a>
+  <a xlink:href='#str_irreg_dt'><text x='228' y='442'>str_irreg_dt</text><text x='308' y='442' class='colType'>varchar</text><title>str_irreg_dt varchar</title></a>
+  <a xlink:href='#str_irreg_type'><text x='228' y='457'>str_irreg_type</text><text x='308' y='457' class='colType'>varchar</text><title>str_irreg_type varchar</title></a>
+  <a xlink:href='#nonstrcexw'><text x='228' y='472'>nonstrcexw</text><text x='308' y='472' class='colType'>varchar</text><title>nonstrcexw varchar</title></a>
+  <a xlink:href='#roof_shape'><text x='228' y='487'>roof_shape</text><text x='308' y='487' class='colType'>varchar</text><title>roof_shape varchar</title></a>
+  <a xlink:href='#roofcovmat'><text x='228' y='502'>roofcovmat</text><text x='308' y='502' class='colType'>varchar</text><title>roofcovmat varchar</title></a>
+  <a xlink:href='#roofsysmat'><text x='228' y='517'>roofsysmat</text><text x='308' y='517' class='colType'>varchar</text><title>roofsysmat varchar</title></a>
+  <a xlink:href='#roofsystyp'><text x='228' y='532'>roofsystyp</text><text x='308' y='532' class='colType'>varchar</text><title>roofsystyp varchar</title></a>
+  <a xlink:href='#roof_conn'><text x='228' y='547'>roof_conn</text><text x='308' y='547' class='colType'>varchar</text><title>roof_conn varchar</title></a>
+  <a xlink:href='#floor_mat'><text x='228' y='562'>floor_mat</text><text x='308' y='562' class='colType'>varchar</text><title>floor_mat varchar</title></a>
+  <a xlink:href='#floor_type'><text x='228' y='577'>floor_type</text><text x='308' y='577' class='colType'>varchar</text><title>floor_type varchar</title></a>
+  <a xlink:href='#floor_conn'><text x='228' y='592'>floor_conn</text><text x='308' y='592' class='colType'>varchar</text><title>floor_conn varchar</title></a>
+  <a xlink:href='#foundn_sys'><text x='228' y='607'>foundn_sys</text><text x='308' y='607' class='colType'>varchar</text><title>foundn_sys varchar</title></a>
+  <a xlink:href='#comment'><text x='228' y='622'>comment</text><text x='308' y='622' class='colType'>varchar</text><title>comment varchar</title></a>
+  <a xlink:href='#bp_mat_type'><text x='228' y='637'>bp_mat_type</text><text x='311' y='637' class='colType'>integer</text><title>bp_mat_type integer</title></a>
+  <a xlink:href='#bp_mat_tech'><text x='228' y='652'>bp_mat_tech</text><text x='311' y='652' class='colType'>integer</text><title>bp_mat_tech integer</title></a>
+  <a xlink:href='#bp_mat_prop'><text x='228' y='667'>bp_mat_prop</text><text x='311' y='667' class='colType'>integer</text><title>bp_mat_prop integer</title></a>
+  <a xlink:href='#bp_llrs'><text x='228' y='682'>bp_llrs</text><text x='311' y='682' class='colType'>integer</text><title>bp_llrs integer</title></a>
+  <a xlink:href='#bp_llrs_duct'><text x='228' y='697'>bp_llrs_duct</text><text x='311' y='697' class='colType'>integer</text><title>bp_llrs_duct integer</title></a>
+  <a xlink:href='#bp_height'><text x='228' y='712'>bp_height</text><text x='311' y='712' class='colType'>integer</text><title>bp_height integer</title></a>
+  <a xlink:href='#bp_yr_built'><text x='228' y='727'>bp_yr_built</text><text x='311' y='727' class='colType'>integer</text><title>bp_yr_built integer</title></a>
+  <a xlink:href='#bp_yr_destr'><text x='228' y='742'>bp_yr_destr</text><text x='311' y='742' class='colType'>integer</text><title>bp_yr_destr integer</title></a>
+  <a xlink:href='#bp_occupy'><text x='228' y='757'>bp_occupy</text><text x='311' y='757' class='colType'>integer</text><title>bp_occupy integer</title></a>
+  <a xlink:href='#bp_occupy_dt'><text x='228' y='772'>bp_occupy_dt</text><text x='311' y='772' class='colType'>integer</text><title>bp_occupy_dt integer</title></a>
+  <a xlink:href='#bp_position'><text x='228' y='787'>bp_position</text><text x='311' y='787' class='colType'>integer</text><title>bp_position integer</title></a>
+  <a xlink:href='#bp_plan_shape'><text x='228' y='802'>bp_plan_shape</text><text x='311' y='802' class='colType'>integer</text><title>bp_plan_shape integer</title></a>
+  <a xlink:href='#bp_str_irreg'><text x='228' y='817'>bp_str_irreg</text><text x='311' y='817' class='colType'>integer</text><title>bp_str_irreg integer</title></a>
+  <a xlink:href='#bp_str_irreg_dt'><text x='228' y='832'>bp_str_irreg_dt</text><text x='311' y='832' class='colType'>integer</text><title>bp_str_irreg_dt integer</title></a>
+  <a xlink:href='#bp_str_irreg_type'><text x='228' y='847'>bp_str_irreg_type</text><text x='311' y='847' class='colType'>integer</text><title>bp_str_irreg_type integer</title></a>
+  <a xlink:href='#bp_nonstrcexw'><text x='228' y='862'>bp_nonstrcexw</text><text x='311' y='862' class='colType'>integer</text><title>bp_nonstrcexw integer</title></a>
+  <a xlink:href='#bp_roof_shape'><text x='228' y='877'>bp_roof_shape</text><text x='311' y='877' class='colType'>integer</text><title>bp_roof_shape integer</title></a>
+  <a xlink:href='#bp_roofcovmat'><text x='228' y='892'>bp_roofcovmat</text><text x='311' y='892' class='colType'>integer</text><title>bp_roofcovmat integer</title></a>
+  <a xlink:href='#bp_roofsysmat'><text x='228' y='907'>bp_roofsysmat</text><text x='311' y='907' class='colType'>integer</text><title>bp_roofsysmat integer</title></a>
+  <a xlink:href='#bp_roofsystyp'><text x='228' y='922'>bp_roofsystyp</text><text x='311' y='922' class='colType'>integer</text><title>bp_roofsystyp integer</title></a>
+  <a xlink:href='#bp_roof_conn'><text x='228' y='937'>bp_roof_conn</text><text x='311' y='937' class='colType'>integer</text><title>bp_roof_conn integer</title></a>
+  <a xlink:href='#bp_floor_mat'><text x='228' y='952'>bp_floor_mat</text><text x='311' y='952' class='colType'>integer</text><title>bp_floor_mat integer</title></a>
+  <a xlink:href='#bp_floor_type'><text x='228' y='967'>bp_floor_type</text><text x='311' y='967' class='colType'>integer</text><title>bp_floor_type integer</title></a>
+  <a xlink:href='#bp_floor_conn'><text x='228' y='982'>bp_floor_conn</text><text x='311' y='982' class='colType'>integer</text><title>bp_floor_conn integer</title></a>
+  <a xlink:href='#bp_foundn_sys'><text x='228' y='997'>bp_foundn_sys</text><text x='311' y='997' class='colType'>integer</text><title>bp_foundn_sys integer</title></a>
+  <a xlink:href='#vt_yr_built1'><text x='228' y='1012'>vt_yr_built1</text><text x='287' y='1012' class='colType'>timestamptz</text><title>vt_yr_built1 timestamptz</title></a>
+  <a xlink:href='#vt_yr_built2'><text x='228' y='1027'>vt_yr_built2</text><text x='287' y='1027' class='colType'>timestamptz</text><title>vt_yr_built2 timestamptz</title></a>
+  <a xlink:href='#vt_yr_destr1'><text x='228' y='1042'>vt_yr_destr1</text><text x='287' y='1042' class='colType'>timestamptz</text><title>vt_yr_destr1 timestamptz</title></a>
+  <a xlink:href='#vt_yr_destr2'><text x='228' y='1057'>vt_yr_destr2</text><text x='287' y='1057' class='colType'>timestamptz</text><title>vt_yr_destr2 timestamptz</title></a>
+
+<!-- ============= Table 'raster_overviews' ============= -->
+<rect class='table' x='1125' y='653' width='150' height='180' rx='7' ry='7' />
+<path d='M 1125.50 679.50 L 1125.50 660.50 Q 1125.50 653.50 1132.50 653.50 L 1267.50 653.50 Q 1274.50 653.50 1274.50 660.50 L 1274.50 679.50 L1125.50 679.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#raster_overviews'><text x='1142' y='671' class='tableTitle'>public.raster_overviews</text><title>View public.raster_overviews</title></a>
+  <a xlink:href='#o_table_catalog'><text x='1143' y='697'>o_table_catalog</text><text x='1234' y='697' class='colType'>name</text><title>o_table_catalog name</title></a>
+  <a xlink:href='#o_table_schema'><text x='1143' y='712'>o_table_schema</text><text x='1234' y='712' class='colType'>name</text><title>o_table_schema name</title></a>
+  <a xlink:href='#o_table_name'><text x='1143' y='727'>o_table_name</text><text x='1234' y='727' class='colType'>name</text><title>o_table_name name</title></a>
+  <a xlink:href='#o_raster_column'><text x='1143' y='742'>o_raster_column</text><text x='1234' y='742' class='colType'>name</text><title>o_raster_column name</title></a>
+  <a xlink:href='#r_table_catalog'><text x='1143' y='757'>r_table_catalog</text><text x='1234' y='757' class='colType'>name</text><title>r_table_catalog name</title></a>
+  <a xlink:href='#r_table_schema'><text x='1143' y='772'>r_table_schema</text><text x='1234' y='772' class='colType'>name</text><title>r_table_schema name</title></a>
+  <a xlink:href='#r_table_name'><text x='1143' y='787'>r_table_name</text><text x='1234' y='787' class='colType'>name</text><title>r_table_name name</title></a>
+  <a xlink:href='#r_raster_column'><text x='1143' y='802'>r_raster_column</text><text x='1234' y='802' class='colType'>name</text><title>r_raster_column name</title></a>
+  <a xlink:href='#overview_factor'><text x='1143' y='817'>overview_factor</text><text x='1226' y='817' class='colType'>integer</text><title>overview_factor integer</title></a>
+
+<!-- ============= Table 'geography_columns' ============= -->
+<rect class='table' x='1110' y='863' width='165' height='150' rx='7' ry='7' />
+<path d='M 1110.50 889.50 L 1110.50 870.50 Q 1110.50 863.50 1117.50 863.50 L 1267.50 863.50 Q 1274.50 863.50 1274.50 870.50 L 1274.50 889.50 L1110.50 889.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#geography_columns'><text x='1129' y='881' class='tableTitle'>public.geography_columns</text><title>View public.geography_columns</title></a>
+  <a xlink:href='#f_table_catalog'><text x='1128' y='907'>f_table_catalog</text><text x='1234' y='907' class='colType'>name</text><title>f_table_catalog name</title></a>
+  <a xlink:href='#f_table_schema'><text x='1128' y='922'>f_table_schema</text><text x='1234' y='922' class='colType'>name</text><title>f_table_schema name</title></a>
+  <a xlink:href='#f_table_name'><text x='1128' y='937'>f_table_name</text><text x='1234' y='937' class='colType'>name</text><title>f_table_name name</title></a>
+  <a xlink:href='#f_geography_column'><text x='1128' y='952'>f_geography_column</text><text x='1234' y='952' class='colType'>name</text><title>f_geography_column name</title></a>
+  <a xlink:href='#coord_dimension'><text x='1128' y='967'>coord_dimension</text><text x='1226' y='967' class='colType'>integer</text><title>coord_dimension integer</title></a>
+  <a xlink:href='#srid'><text x='1128' y='982'>srid</text><text x='1226' y='982' class='colType'>integer</text><title>srid integer</title></a>
+  <a xlink:href='#type'><text x='1128' y='997'>type</text><text x='1240' y='997' class='colType'>text</text><title>type text</title></a>
+
+<!-- ============= Table 'raster_columns' ============= -->
+<rect class='table' x='930' y='653' width='135' height='285' rx='7' ry='7' />
+<path d='M 930.50 679.50 L 930.50 660.50 Q 930.50 653.50 937.50 653.50 L 1057.50 653.50 Q 1064.50 653.50 1064.50 660.50 L 1064.50 679.50 L930.50 679.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#raster_columns'><text x='945' y='671' class='tableTitle'>public.raster_columns</text><title>View public.raster_columns</title></a>
+  <a xlink:href='#r_table_catalog'><text x='948' y='697'>r_table_catalog</text><text x='1024' y='697' class='colType'>name</text><title>r_table_catalog name</title></a>
+  <a xlink:href='#r_table_schema'><text x='948' y='712'>r_table_schema</text><text x='1024' y='712' class='colType'>name</text><title>r_table_schema name</title></a>
+  <a xlink:href='#r_table_name'><text x='948' y='727'>r_table_name</text><text x='1024' y='727' class='colType'>name</text><title>r_table_name name</title></a>
+  <a xlink:href='#r_raster_column'><text x='948' y='742'>r_raster_column</text><text x='1024' y='742' class='colType'>name</text><title>r_raster_column name</title></a>
+  <a xlink:href='#srid'><text x='948' y='757'>srid</text><text x='1016' y='757' class='colType'>integer</text><title>srid integer</title></a>
+  <a xlink:href='#scale_x'><text x='948' y='772'>scale_x</text><text x='1022' y='772' class='colType'>float8</text><title>scale_x float8</title></a>
+  <a xlink:href='#scale_y'><text x='948' y='787'>scale_y</text><text x='1022' y='787' class='colType'>float8</text><title>scale_y float8</title></a>
+  <a xlink:href='#blocksize_x'><text x='948' y='802'>blocksize_x</text><text x='1016' y='802' class='colType'>integer</text><title>blocksize_x integer</title></a>
+  <a xlink:href='#blocksize_y'><text x='948' y='817'>blocksize_y</text><text x='1016' y='817' class='colType'>integer</text><title>blocksize_y integer</title></a>
+  <a xlink:href='#same_alignment'><text x='948' y='832'>same_alignment</text><text x='1030' y='832' class='colType'>bool</text><title>same_alignment bool</title></a>
+  <a xlink:href='#regular_blocking'><text x='948' y='847'>regular_blocking</text><text x='1030' y='847' class='colType'>bool</text><title>regular_blocking bool</title></a>
+  <a xlink:href='#num_bands'><text x='948' y='862'>num_bands</text><text x='1016' y='862' class='colType'>integer</text><title>num_bands integer</title></a>
+  <a xlink:href='#pixel_types'><text x='948' y='877'>pixel_types</text><text x='1024' y='877' class='colType'>_text</text><title>pixel_types &#095;text</title></a>
+  <a xlink:href='#nodata_values'><text x='948' y='892'>nodata_values</text><text x='1016' y='892' class='colType'>_float8</text><title>nodata_values &#095;float8</title></a>
+  <a xlink:href='#out_db'><text x='948' y='907'>out_db</text><text x='1024' y='907' class='colType'>_bool</text><title>out_db &#095;bool</title></a>
+  <a xlink:href='#extent'><text x='948' y='922'>extent</text><text x='1004' y='922' class='colType'>geometry</text><title>extent geometry</title></a>
+
+<!-- ============= Table 'spatial_ref_sys' ============= -->
+<rect class='table' x='930' y='953' width='150' height='120' rx='7' ry='7' />
+<path d='M 930.50 979.50 L 930.50 960.50 Q 930.50 953.50 937.50 953.50 L 1072.50 953.50 Q 1079.50 953.50 1079.50 960.50 L 1079.50 979.50 L930.50 979.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#spatial_ref_sys'><text x='953' y='971' class='tableTitle'>public.spatial_ref_sys</text><title>Table public.spatial_ref_sys</title></a>
+  <a xlink:href='#srid'><use id='pk' x='932' y='986' xlink:href='#pk'/><title>Primary Key  ( srid ) </title></a>
+<a xlink:href='#srid'><text x='948' y='997'>srid</text><text x='1031' y='997' class='colType'>integer</text><title>srid integer not null</title></a>
+  <a xlink:href='#auth_name'><text x='948' y='1012'>auth_name</text><text x='1002' y='1012' class='colType'>varchar(256)</text><title>auth_name varchar&#040;256&#041;</title></a>
+  <a xlink:href='#auth_srid'><text x='948' y='1027'>auth_srid</text><text x='1031' y='1027' class='colType'>integer</text><title>auth_srid integer</title></a>
+  <a xlink:href='#srtext'><text x='948' y='1042'>srtext</text><text x='996' y='1042' class='colType'>varchar(2048)</text><title>srtext varchar&#040;2048&#041;</title></a>
+  <a xlink:href='#proj4text'><text x='948' y='1057'>proj4text</text><text x='996' y='1057' class='colType'>varchar(2048)</text><title>proj4text varchar&#040;2048&#041;</title></a>
+
+<!-- ============= Table 'geometry_columns' ============= -->
+<rect class='table' x='720' y='923' width='165' height='150' rx='7' ry='7' />
+<path d='M 720.50 949.50 L 720.50 930.50 Q 720.50 923.50 727.50 923.50 L 877.50 923.50 Q 884.50 923.50 884.50 930.50 L 884.50 949.50 L720.50 949.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#geometry_columns'><text x='742' y='941' class='tableTitle'>public.geometry_columns</text><title>View public.geometry_columns</title></a>
+  <a xlink:href='#f_table_catalog'><text x='738' y='967'>f_table_catalog</text><text x='833' y='967' class='colType'>varchar</text><title>f_table_catalog varchar</title></a>
+  <a xlink:href='#f_table_schema'><text x='738' y='982'>f_table_schema</text><text x='833' y='982' class='colType'>varchar</text><title>f_table_schema varchar</title></a>
+  <a xlink:href='#f_table_name'><text x='738' y='997'>f_table_name</text><text x='833' y='997' class='colType'>varchar</text><title>f_table_name varchar</title></a>
+  <a xlink:href='#f_geometry_column'><text x='738' y='1012'>f_geometry_column</text><text x='833' y='1012' class='colType'>varchar</text><title>f_geometry_column varchar</title></a>
+  <a xlink:href='#coord_dimension'><text x='738' y='1027'>coord_dimension</text><text x='836' y='1027' class='colType'>integer</text><title>coord_dimension integer</title></a>
+  <a xlink:href='#srid'><text x='738' y='1042'>srid</text><text x='836' y='1042' class='colType'>integer</text><title>srid integer</title></a>
+  <a xlink:href='#type'><text x='738' y='1057'>type</text><text x='833' y='1057' class='colType'>varchar</text><title>type varchar</title></a>
+
+<!-- ============= Table 'layer_styles' ============= -->
+<rect class='table' x='705' y='653' width='195' height='240' rx='7' ry='7' />
+<path d='M 705.50 679.50 L 705.50 660.50 Q 705.50 653.50 712.50 653.50 L 892.50 653.50 Q 899.50 653.50 899.50 660.50 L 899.50 679.50 L705.50 679.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#layer_styles'><text x='758' y='671' class='tableTitle'>public.layer_styles</text><title>Table public.layer_styles
+Holds the layer styles for the QGIS RRVS data entry form&#046;</title></a>
+  <a xlink:href='#id'><use id='pk' x='707' y='686' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#id'><text x='723' y='697'>id</text><text x='860' y='697' class='colType'>serial</text><title>id serial not null</title></a>
+  <a xlink:href='#f_table_catalog'><text x='723' y='712'>f_table_catalog</text><text x='822' y='712' class='colType'>varchar(256)</text><title>f_table_catalog varchar&#040;256&#041;</title></a>
+  <a xlink:href='#f_table_schema'><text x='723' y='727'>f_table_schema</text><text x='822' y='727' class='colType'>varchar(256)</text><title>f_table_schema varchar&#040;256&#041;</title></a>
+  <a xlink:href='#f_table_name'><text x='723' y='742'>f_table_name</text><text x='822' y='742' class='colType'>varchar(256)</text><title>f_table_name varchar&#040;256&#041;</title></a>
+  <a xlink:href='#f_geometry_column'><text x='723' y='757'>f_geometry_column</text><text x='822' y='757' class='colType'>varchar(256)</text><title>f_geometry_column varchar&#040;256&#041;</title></a>
+  <a xlink:href='#stylename'><text x='723' y='772'>stylename</text><text x='828' y='772' class='colType'>varchar(30)</text><title>stylename varchar&#040;30&#041;</title></a>
+  <a xlink:href='#styleqml'><text x='723' y='787'>styleqml</text><text x='801' y='787' class='colType'>xml(2147483647)</text><title>styleqml xml&#040;2147483647&#041;</title></a>
+  <a xlink:href='#stylesld'><text x='723' y='802'>stylesld</text><text x='801' y='802' class='colType'>xml(2147483647)</text><title>stylesld xml&#040;2147483647&#041;</title></a>
+  <a xlink:href='#useasdefault'><text x='723' y='817'>useasdefault</text><text x='865' y='817' class='colType'>bool</text><title>useasdefault bool</title></a>
+  <a xlink:href='#description'><text x='723' y='832'>description</text><text x='865' y='832' class='colType'>text</text><title>description text</title></a>
+  <a xlink:href='#owner'><text x='723' y='847'>owner</text><text x='828' y='847' class='colType'>varchar(30)</text><title>owner varchar&#040;30&#041;</title></a>
+  <a xlink:href='#ui'><text x='723' y='862'>ui</text><text x='801' y='862' class='colType'>xml(2147483647)</text><title>ui xml&#040;2147483647&#041;</title></a>
+  <a xlink:href='#update_time'><text x='723' y='877'>update_time</text><text x='836' y='877' class='colType'>timestamp</text><title>update_time timestamp default now&#040;&#041;</title></a>
+
+<!-- ============= Table 've_resolution3' ============= -->
+<rect class='table' x='375' y='53' width='150' height='1020' rx='7' ry='7' />
+<path d='M 375.50 79.50 L 375.50 60.50 Q 375.50 53.50 382.50 53.50 L 517.50 53.50 Q 524.50 53.50 524.50 60.50 L 524.50 79.50 L375.50 79.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#ve_resolution3'><text x='397' y='71' class='tableTitle'>object.ve_resolution3</text><title>View object.ve_resolution3</title></a>
+  <a xlink:href='#survey_gid'><text x='393' y='97'>survey_gid</text><text x='476' y='97' class='colType'>integer</text><title>survey_gid integer</title></a>
+  <a xlink:href='#description'><text x='393' y='112'>description</text><text x='473' y='112' class='colType'>varchar</text><title>description varchar</title></a>
+  <a xlink:href='#source'><text x='393' y='127'>source</text><text x='490' y='127' class='colType'>text</text><title>source text</title></a>
+  <a xlink:href='#resolution'><text x='393' y='142'>resolution</text><text x='476' y='142' class='colType'>integer</text><title>resolution integer</title></a>
+  <a xlink:href='#gid'><text x='393' y='157'>gid</text><text x='476' y='157' class='colType'>integer</text><title>gid integer</title></a>
+  <a xlink:href='#object_id'><text x='393' y='172'>object_id</text><text x='476' y='172' class='colType'>integer</text><title>object_id integer</title></a>
+  <a xlink:href='#resolution2_id'><text x='393' y='187'>resolution2_id</text><text x='476' y='187' class='colType'>integer</text><title>resolution2_id integer</title></a>
+  <a xlink:href='#resolution3_id'><text x='393' y='202'>resolution3_id</text><text x='476' y='202' class='colType'>integer</text><title>resolution3_id integer</title></a>
+  <a xlink:href='#the_geom'><text x='393' y='217'>the_geom</text><text x='464' y='217' class='colType'>geometry</text><title>the_geom geometry</title></a>
+  <a xlink:href='#mat_type'><text x='393' y='232'>mat_type</text><text x='473' y='232' class='colType'>varchar</text><title>mat_type varchar</title></a>
+  <a xlink:href='#mat_tech'><text x='393' y='247'>mat_tech</text><text x='473' y='247' class='colType'>varchar</text><title>mat_tech varchar</title></a>
+  <a xlink:href='#mat_prop'><text x='393' y='262'>mat_prop</text><text x='473' y='262' class='colType'>varchar</text><title>mat_prop varchar</title></a>
+  <a xlink:href='#llrs'><text x='393' y='277'>llrs</text><text x='473' y='277' class='colType'>varchar</text><title>llrs varchar</title></a>
+  <a xlink:href='#llrs_duct'><text x='393' y='292'>llrs_duct</text><text x='473' y='292' class='colType'>varchar</text><title>llrs_duct varchar</title></a>
+  <a xlink:href='#height'><text x='393' y='307'>height</text><text x='473' y='307' class='colType'>varchar</text><title>height varchar</title></a>
+  <a xlink:href='#height_numeric_1'><text x='393' y='322'>height_numeric_1</text><text x='476' y='322' class='colType'>integer</text><title>height_numeric_1 integer</title></a>
+  <a xlink:href='#yr_built'><text x='393' y='337'>yr_built</text><text x='473' y='337' class='colType'>varchar</text><title>yr_built varchar</title></a>
+  <a xlink:href='#yr_destr'><text x='393' y='352'>yr_destr</text><text x='473' y='352' class='colType'>varchar</text><title>yr_destr varchar</title></a>
+  <a xlink:href='#occupy'><text x='393' y='367'>occupy</text><text x='473' y='367' class='colType'>varchar</text><title>occupy varchar</title></a>
+  <a xlink:href='#occupy_dt'><text x='393' y='382'>occupy_dt</text><text x='473' y='382' class='colType'>varchar</text><title>occupy_dt varchar</title></a>
+  <a xlink:href='#position'><text x='393' y='397'>position</text><text x='473' y='397' class='colType'>varchar</text><title>position varchar</title></a>
+  <a xlink:href='#plan_shape'><text x='393' y='412'>plan_shape</text><text x='473' y='412' class='colType'>varchar</text><title>plan_shape varchar</title></a>
+  <a xlink:href='#str_irreg'><text x='393' y='427'>str_irreg</text><text x='473' y='427' class='colType'>varchar</text><title>str_irreg varchar</title></a>
+  <a xlink:href='#str_irreg_dt'><text x='393' y='442'>str_irreg_dt</text><text x='473' y='442' class='colType'>varchar</text><title>str_irreg_dt varchar</title></a>
+  <a xlink:href='#str_irreg_type'><text x='393' y='457'>str_irreg_type</text><text x='473' y='457' class='colType'>varchar</text><title>str_irreg_type varchar</title></a>
+  <a xlink:href='#nonstrcexw'><text x='393' y='472'>nonstrcexw</text><text x='473' y='472' class='colType'>varchar</text><title>nonstrcexw varchar</title></a>
+  <a xlink:href='#roof_shape'><text x='393' y='487'>roof_shape</text><text x='473' y='487' class='colType'>varchar</text><title>roof_shape varchar</title></a>
+  <a xlink:href='#roofcovmat'><text x='393' y='502'>roofcovmat</text><text x='473' y='502' class='colType'>varchar</text><title>roofcovmat varchar</title></a>
+  <a xlink:href='#roofsysmat'><text x='393' y='517'>roofsysmat</text><text x='473' y='517' class='colType'>varchar</text><title>roofsysmat varchar</title></a>
+  <a xlink:href='#roofsystyp'><text x='393' y='532'>roofsystyp</text><text x='473' y='532' class='colType'>varchar</text><title>roofsystyp varchar</title></a>
+  <a xlink:href='#roof_conn'><text x='393' y='547'>roof_conn</text><text x='473' y='547' class='colType'>varchar</text><title>roof_conn varchar</title></a>
+  <a xlink:href='#floor_mat'><text x='393' y='562'>floor_mat</text><text x='473' y='562' class='colType'>varchar</text><title>floor_mat varchar</title></a>
+  <a xlink:href='#floor_type'><text x='393' y='577'>floor_type</text><text x='473' y='577' class='colType'>varchar</text><title>floor_type varchar</title></a>
+  <a xlink:href='#floor_conn'><text x='393' y='592'>floor_conn</text><text x='473' y='592' class='colType'>varchar</text><title>floor_conn varchar</title></a>
+  <a xlink:href='#foundn_sys'><text x='393' y='607'>foundn_sys</text><text x='473' y='607' class='colType'>varchar</text><title>foundn_sys varchar</title></a>
+  <a xlink:href='#comment'><text x='393' y='622'>comment</text><text x='473' y='622' class='colType'>varchar</text><title>comment varchar</title></a>
+  <a xlink:href='#bp_mat_type'><text x='393' y='637'>bp_mat_type</text><text x='476' y='637' class='colType'>integer</text><title>bp_mat_type integer</title></a>
+  <a xlink:href='#bp_mat_tech'><text x='393' y='652'>bp_mat_tech</text><text x='476' y='652' class='colType'>integer</text><title>bp_mat_tech integer</title></a>
+  <a xlink:href='#bp_mat_prop'><text x='393' y='667'>bp_mat_prop</text><text x='476' y='667' class='colType'>integer</text><title>bp_mat_prop integer</title></a>
+  <a xlink:href='#bp_llrs'><text x='393' y='682'>bp_llrs</text><text x='476' y='682' class='colType'>integer</text><title>bp_llrs integer</title></a>
+  <a xlink:href='#bp_llrs_duct'><text x='393' y='697'>bp_llrs_duct</text><text x='476' y='697' class='colType'>integer</text><title>bp_llrs_duct integer</title></a>
+  <a xlink:href='#bp_height'><text x='393' y='712'>bp_height</text><text x='476' y='712' class='colType'>integer</text><title>bp_height integer</title></a>
+  <a xlink:href='#bp_yr_built'><text x='393' y='727'>bp_yr_built</text><text x='476' y='727' class='colType'>integer</text><title>bp_yr_built integer</title></a>
+  <a xlink:href='#bp_yr_destr'><text x='393' y='742'>bp_yr_destr</text><text x='476' y='742' class='colType'>integer</text><title>bp_yr_destr integer</title></a>
+  <a xlink:href='#bp_occupy'><text x='393' y='757'>bp_occupy</text><text x='476' y='757' class='colType'>integer</text><title>bp_occupy integer</title></a>
+  <a xlink:href='#bp_occupy_dt'><text x='393' y='772'>bp_occupy_dt</text><text x='476' y='772' class='colType'>integer</text><title>bp_occupy_dt integer</title></a>
+  <a xlink:href='#bp_position'><text x='393' y='787'>bp_position</text><text x='476' y='787' class='colType'>integer</text><title>bp_position integer</title></a>
+  <a xlink:href='#bp_plan_shape'><text x='393' y='802'>bp_plan_shape</text><text x='476' y='802' class='colType'>integer</text><title>bp_plan_shape integer</title></a>
+  <a xlink:href='#bp_str_irreg'><text x='393' y='817'>bp_str_irreg</text><text x='476' y='817' class='colType'>integer</text><title>bp_str_irreg integer</title></a>
+  <a xlink:href='#bp_str_irreg_dt'><text x='393' y='832'>bp_str_irreg_dt</text><text x='476' y='832' class='colType'>integer</text><title>bp_str_irreg_dt integer</title></a>
+  <a xlink:href='#bp_str_irreg_type'><text x='393' y='847'>bp_str_irreg_type</text><text x='476' y='847' class='colType'>integer</text><title>bp_str_irreg_type integer</title></a>
+  <a xlink:href='#bp_nonstrcexw'><text x='393' y='862'>bp_nonstrcexw</text><text x='476' y='862' class='colType'>integer</text><title>bp_nonstrcexw integer</title></a>
+  <a xlink:href='#bp_roof_shape'><text x='393' y='877'>bp_roof_shape</text><text x='476' y='877' class='colType'>integer</text><title>bp_roof_shape integer</title></a>
+  <a xlink:href='#bp_roofcovmat'><text x='393' y='892'>bp_roofcovmat</text><text x='476' y='892' class='colType'>integer</text><title>bp_roofcovmat integer</title></a>
+  <a xlink:href='#bp_roofsysmat'><text x='393' y='907'>bp_roofsysmat</text><text x='476' y='907' class='colType'>integer</text><title>bp_roofsysmat integer</title></a>
+  <a xlink:href='#bp_roofsystyp'><text x='393' y='922'>bp_roofsystyp</text><text x='476' y='922' class='colType'>integer</text><title>bp_roofsystyp integer</title></a>
+  <a xlink:href='#bp_roof_conn'><text x='393' y='937'>bp_roof_conn</text><text x='476' y='937' class='colType'>integer</text><title>bp_roof_conn integer</title></a>
+  <a xlink:href='#bp_floor_mat'><text x='393' y='952'>bp_floor_mat</text><text x='476' y='952' class='colType'>integer</text><title>bp_floor_mat integer</title></a>
+  <a xlink:href='#bp_floor_type'><text x='393' y='967'>bp_floor_type</text><text x='476' y='967' class='colType'>integer</text><title>bp_floor_type integer</title></a>
+  <a xlink:href='#bp_floor_conn'><text x='393' y='982'>bp_floor_conn</text><text x='476' y='982' class='colType'>integer</text><title>bp_floor_conn integer</title></a>
+  <a xlink:href='#bp_foundn_sys'><text x='393' y='997'>bp_foundn_sys</text><text x='476' y='997' class='colType'>integer</text><title>bp_foundn_sys integer</title></a>
+  <a xlink:href='#vt_yr_built1'><text x='393' y='1012'>vt_yr_built1</text><text x='452' y='1012' class='colType'>timestamptz</text><title>vt_yr_built1 timestamptz</title></a>
+  <a xlink:href='#vt_yr_built2'><text x='393' y='1027'>vt_yr_built2</text><text x='452' y='1027' class='colType'>timestamptz</text><title>vt_yr_built2 timestamptz</title></a>
+  <a xlink:href='#vt_yr_destr1'><text x='393' y='1042'>vt_yr_destr1</text><text x='452' y='1042' class='colType'>timestamptz</text><title>vt_yr_destr1 timestamptz</title></a>
+  <a xlink:href='#vt_yr_destr2'><text x='393' y='1057'>vt_yr_destr2</text><text x='452' y='1057' class='colType'>timestamptz</text><title>vt_yr_destr2 timestamptz</title></a>
+
+</g></svg>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='dic_attribute_type'>dic_attribute_type</a></th></tr>
+<tr><td colspan='3'>The attribute type dictionary table&#046; Contains information about the attribute types&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique attribute type identifier </td>
+	</tr>
+	<tr>
+		<td><a name='code'>code</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Code of the attribute type </td>
+	</tr>
+	<tr>
+		<td><a name='description'>description</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Short textual description of the attribute type </td>
+	</tr>
+	<tr>
+		<td><a name='extended_description'>extended&#095;description</a></td>
+		<td width='40%'> varchar&#040; 1024 &#041;   </td>
+		<td width='99%'> Extended textual description of the attribute type </td>
+	</tr>
+	<tr>
+		<td><a name='taxonomy_code'>taxonomy&#095;code</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Code of the taxonomy </td>
+	</tr>
+	<tr>
+		<td><a name='attribute_level'>attribute&#095;level</a></td>
+		<td width='40%'> smallint   </td>
+		<td width='99%'> Identifier of the attribute level &#040;e&#046;g&#046; GEM taxonomy&#058; 1 &#061; main attribute&#044; 2 &#061; secondary attribute&#044; 3 &#061; tertiary attribute&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='attribute_order'>attribute&#095;order</a></td>
+		<td width='40%'> smallint   </td>
+		<td width='99%'> Order of the attribute type&#046; To be used for compiling a textual representation of the taxonomy attributes and their values which follows a predefined order &#040;e&#046;g&#046; GEM Taxonomy TaxT strings&#041; </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;dic&#095;attribute&#095;type primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>idx&#095;dic&#095;attribute&#095;type unique</td>
+		<td> ON code</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>idx&#095;dic&#095;attribute&#095;type&#095;0 </td>
+		<td> ON taxonomy&#095;code</td>
+		<td>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+	<tr>
+		<td>fk_dic_attribute_type</td>
+		<td > ( taxonomy&#095;code ) ref <a href='#dic&#095;taxonomy'>dic&#095;taxonomy</a> (code) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='dic_attribute_value'>dic_attribute_value</a></th></tr>
+<tr><td colspan='3'>The attribute value dictionary table&#046; Contains information about the attribute values&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique attribute value identifier </td>
+	</tr>
+	<tr>
+		<td><a name='attribute_type_code'>attribute&#095;type&#095;code</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Code of the attribute type to which the value refers to </td>
+	</tr>
+	<tr>
+		<td><a name='attribute_value'>attribute&#095;value</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Value of the attribute </td>
+	</tr>
+	<tr>
+		<td><a name='description'>description</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Short textual description of the attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='extended_description'>extended&#095;description</a></td>
+		<td width='40%'> varchar&#040; 1024 &#041;   </td>
+		<td width='99%'> Extended textual description of the attribute value </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;dic&#095;attribute&#095;value primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>pk&#095;dic&#095;attribute&#095;value&#095;0 unique</td>
+		<td> ON attribute&#095;value</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>idx&#095;dic&#095;attribute&#095;value </td>
+		<td> ON attribute&#095;type&#095;code</td>
+		<td>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+	<tr>
+		<td>fk_attribute_type_code</td>
+		<td > ( attribute&#095;type&#095;code ) ref <a href='#dic&#095;attribute&#095;type'>dic&#095;attribute&#095;type</a> (code) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='dic_hazard'>dic_hazard</a></th></tr>
+<tr><td colspan='3'>The hazard dictionary table&#046; Contains information about the hazard type to which the taxonomy attribute type is linked to&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique hazard identifier </td>
+	</tr>
+	<tr>
+		<td><a name='code'>code</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Identifier for the hazard type </td>
+	</tr>
+	<tr>
+		<td><a name='description'>description</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Short textual description of the hazard type </td>
+	</tr>
+	<tr>
+		<td><a name='extended_description'>extended&#095;description</a></td>
+		<td width='40%'> varchar&#040; 1024 &#041;   </td>
+		<td width='99%'> Extended textual description of the hazard type </td>
+	</tr>
+	<tr>
+		<td><a name='attribute_type_code'>attribute&#095;type&#095;code</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Code of the taxonomy attribute type to which the hazard type is linked to </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;hazard primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>idx&#095;hazard </td>
+		<td> ON attribute&#095;type&#095;code</td>
+		<td>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+	<tr>
+		<td>fk_attribute_type_code</td>
+		<td > ( attribute&#095;type&#095;code ) ref <a href='#dic&#095;attribute&#095;type'>dic&#095;attribute&#095;type</a> (code) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='dic_qualifier_type'>dic_qualifier_type</a></th></tr>
+<tr><td colspan='3'>The qualifier type dictionary table&#046; Contains information about the qualifier types&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique qualifier type identifier </td>
+	</tr>
+	<tr>
+		<td><a name='code'>code</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Code of the qualifier type </td>
+	</tr>
+	<tr>
+		<td><a name='description'>description</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Short textual description of the qualifier type </td>
+	</tr>
+	<tr>
+		<td><a name='extended_description'>extended&#095;description</a></td>
+		<td width='40%'> varchar&#040; 1024 &#041;   </td>
+		<td width='99%'> Extended textual description of the qualifier type </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;qualifier&#095;type primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>pk&#095;dic&#095;qualifier&#095;type unique</td>
+		<td> ON code</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='dic_qualifier_value'>dic_qualifier_value</a></th></tr>
+<tr><td colspan='3'>The qualifier value dictionary table&#046; Contains information about the qualifier values&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique qualifier value identifier </td>
+	</tr>
+	<tr>
+		<td><a name='qualifier_type_code'>qualifier&#095;type&#095;code</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Code of the qualifier type to which the value refers to </td>
+	</tr>
+	<tr>
+		<td><a name='qualifier_value'>qualifier&#095;value</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Value of the qualifier </td>
+	</tr>
+	<tr>
+		<td><a name='description'>description</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Short textual description of the qualifier value </td>
+	</tr>
+	<tr>
+		<td><a name='extended_description'>extended&#095;description</a></td>
+		<td width='40%'> varchar&#040; 1024 &#041;   </td>
+		<td width='99%'> Extended textual description of the qualifier value </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;dic&#095;qualifier&#095;value primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>pk&#095;dic&#095;qualifier&#095;value&#095;0 unique</td>
+		<td> ON qualifier&#095;value</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>idx&#095;dic&#095;qualifier&#095;value </td>
+		<td> ON qualifier&#095;type&#095;code</td>
+		<td>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+	<tr>
+		<td>fk_dic_qualifier_value</td>
+		<td > ( qualifier&#095;type&#095;code ) ref <a href='#dic&#095;qualifier&#095;type'>dic&#095;qualifier&#095;type</a> (code) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='dic_taxonomy'>dic_taxonomy</a></th></tr>
+<tr><td colspan='3'>The taxonomy dictionary table&#046; Contains information about the taxonomy to which the attribute type is linked to&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique taxonomy identifier </td>
+	</tr>
+	<tr>
+		<td><a name='code'>code</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Code of the taxonomy </td>
+	</tr>
+	<tr>
+		<td><a name='description'>description</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Short textual description of the taxonomy </td>
+	</tr>
+	<tr>
+		<td><a name='extended_description'>extended&#095;description</a></td>
+		<td width='40%'> varchar&#040; 1024 &#041;   </td>
+		<td width='99%'> Extended textual description of the taxonomy </td>
+	</tr>
+	<tr>
+		<td><a name='version_date'>version&#095;date</a></td>
+		<td width='40%'> date   </td>
+		<td width='99%'> Version of the taxonomy &#040;date of the version&#041; </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;dic&#095;taxonomy primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>pk&#095;dic&#095;taxonomy&#095;0 unique</td>
+		<td> ON code</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='layer_styles'>layer_styles</a></th></tr>
+<tr><td colspan='3'>Holds the layer styles for the QGIS RRVS data entry form&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='id'>id</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='f_table_catalog'>f&#095;table&#095;catalog</a></td>
+		<td width='40%'> varchar&#040; 256 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='f_table_schema'>f&#095;table&#095;schema</a></td>
+		<td width='40%'> varchar&#040; 256 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='f_table_name'>f&#095;table&#095;name</a></td>
+		<td width='40%'> varchar&#040; 256 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='f_geometry_column'>f&#095;geometry&#095;column</a></td>
+		<td width='40%'> varchar&#040; 256 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='stylename'>stylename</a></td>
+		<td width='40%'> varchar&#040; 30 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='styleqml'>styleqml</a></td>
+		<td width='40%'> xml&#040; 2147483647 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='stylesld'>stylesld</a></td>
+		<td width='40%'> xml&#040; 2147483647 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='useasdefault'>useasdefault</a></td>
+		<td width='40%'> bool   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='description'>description</a></td>
+		<td width='40%'> text   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='owner'>owner</a></td>
+		<td width='40%'> varchar&#040; 30 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='ui'>ui</a></td>
+		<td width='40%'> xml&#040; 2147483647 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='update_time'>update&#095;time</a></td>
+		<td width='40%'> timestamp   DEFO now() </td>
+		<td width='99%'>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>layer&#095;styles&#095;pkey primary key</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='logged_actions'>logged_actions</a></th></tr>
+<tr><td colspan='3'>History of transactions on activated tables&#044; from history&#046;if&#095;modified&#095;func&#040;&#041;&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> bigserial  NOT NULL  </td>
+		<td width='99%'> Unique log identifier </td>
+	</tr>
+	<tr>
+		<td><a name='schema_name'>schema&#095;name</a></td>
+		<td width='40%'> text  NOT NULL  </td>
+		<td width='99%'> Textual reference to the database schema which contains the modified table </td>
+	</tr>
+	<tr>
+		<td><a name='table_name'>table&#095;name</a></td>
+		<td width='40%'> text  NOT NULL  </td>
+		<td width='99%'> Name of the modified table </td>
+	</tr>
+	<tr>
+		<td><a name='table_id'>table&#095;id</a></td>
+		<td width='40%'> oid&#040; 10 &#041;  NOT NULL  </td>
+		<td width='99%'> OID of the modified table </td>
+	</tr>
+	<tr>
+		<td><a name='transaction_id'>transaction&#095;id</a></td>
+		<td width='40%'> bigint   </td>
+		<td width='99%'> Identifier of the transaction &#040;may differ from gid when more than one row is affected by a transaction query&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='transaction_time'>transaction&#095;time</a></td>
+		<td width='40%'> timestamptz  NOT NULL  </td>
+		<td width='99%'> Timestamp when transaction was started &#040;current&#095;timestamp&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='transaction_user'>transaction&#095;user</a></td>
+		<td width='40%'> text   </td>
+		<td width='99%'> Session user name who caused the transaction </td>
+	</tr>
+	<tr>
+		<td><a name='transaction_query'>transaction&#095;query</a></td>
+		<td width='40%'> text   </td>
+		<td width='99%'> Transaction query </td>
+	</tr>
+	<tr>
+		<td><a name='transaction_type'>transaction&#095;type</a></td>
+		<td width='40%'> text  NOT NULL  </td>
+		<td width='99%'> Transaction type &#040;I &#061; insert&#044; D &#061; delete&#044; U &#061; update&#044; T &#061; truncate&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='old_record'>old&#095;record</a></td>
+		<td width='40%'> hstore&#040; 2147483647 &#041;   </td>
+		<td width='99%'> The old record before the modification containing all the values as hstore &#040;for DELETE and UPDATE statements&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='new_record'>new&#095;record</a></td>
+		<td width='40%'> hstore&#040; 2147483647 &#041;   </td>
+		<td width='99%'> The new record after the modification containing all the values as hstore &#040;for INSERT and UPDATE statements&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='changed_fields'>changed&#095;fields</a></td>
+		<td width='40%'> hstore&#040; 2147483647 &#041;   </td>
+		<td width='99%'> The modified fields only&#044; including the new values&#044; stored as hstore </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>logged&#095;actions&#095;pkey primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>logged&#095;changes&#095;action&#095;idx </td>
+		<td> ON transaction&#095;type</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>logged&#095;changes&#095;table&#095;id&#095;idx </td>
+		<td> ON table&#095;id</td>
+		<td>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Constraints</b></td></tr>
+	<tr>
+		<td> logged_actions_transaction_type_check </td><td> transaction&#095;type &#061; ANY &#040;ARRAY&#091;&#039;I&#039;&#058;&#058;text&#044; &#039;D&#039;&#058;&#058;text&#044; &#039;U&#039;&#058;&#058;text&#044; &#039;T&#039;&#058;&#058;text&#093;&#041; </td><td> </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='main'>main</a></th></tr>
+<tr><td colspan='3'>The main object table&#046; Contains basic information about the object&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique object identifier </td>
+	</tr>
+	<tr>
+		<td><a name='survey_gid'>survey&#095;gid</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Identifier for the survey </td>
+	</tr>
+	<tr>
+		<td><a name='description'>description</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Textual description of the object </td>
+	</tr>
+	<tr>
+		<td><a name='source'>source</a></td>
+		<td width='40%'> text   </td>
+		<td width='99%'> Source of the object content &#040;e&#046;g&#046; remote sensing&#044; in&#045;situ&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='resolution'>resolution</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Identifier for the spatial resolution &#040;e&#046;g&#046; 1 &#061; local&#044; 2 &#061; regional&#044; 3 &#061; national&#041; </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;main&#095;0 primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='main_detail'>main_detail</a></th></tr>
+<tr><td colspan='3'>The main object detail table&#046; Contains information about the object details&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique object detail identifier </td>
+	</tr>
+	<tr>
+		<td><a name='object_id'>object&#095;id</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Object identifier </td>
+	</tr>
+	<tr>
+		<td><a name='resolution2_id'>resolution2&#095;id</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> gid of the object detail at resolution level 2 &#040;e&#046;g&#046; regional scale&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='resolution3_id'>resolution3&#095;id</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> gid of the object detail at resolution level 3 &#040;e&#046;g&#046; national scale&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='the_geom'>the&#095;geom</a></td>
+		<td width='40%'> geometry&#040; 2147483647 &#041;   </td>
+		<td width='99%'> Spatial reference and geometry information </td>
+	</tr>
+	<tr>
+		<td><a name='mat_type'>mat&#095;type</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'MAT99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='mat_tech'>mat&#095;tech</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'MATT99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='mat_prop'>mat&#095;prop</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'MATP99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='llrs'>llrs</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'L99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='llrs_duct'>llrs&#095;duct</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'DU99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='height'>height</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'H99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='height_numeric_1'>height&#095;numeric&#095;1</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Attribute numeric </td>
+	</tr>
+	<tr>
+		<td><a name='yr_built'>yr&#095;built</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'Y99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='yr_destr'>yr&#095;destr</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'YD99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='occupy'>occupy</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'OC99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='occupy_dt'>occupy&#095;dt</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'OCCDT99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='position'>position</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'BP99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='plan_shape'>plan&#095;shape</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'PLF99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='str_irreg'>str&#095;irreg</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'IR99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='str_irreg_dt'>str&#095;irreg&#095;dt</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'IRP99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='str_irreg_type'>str&#095;irreg&#095;type</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'IRT99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='nonstrcexw'>nonstrcexw</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'EW99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='roof_shape'>roof&#095;shape</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'R99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='roofcovmat'>roofcovmat</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'RMT99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='roofsysmat'>roofsysmat</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'RSM99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='roofsystyp'>roofsystyp</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'RST99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='roof_conn'>roof&#095;conn</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'RCN99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='floor_mat'>floor&#095;mat</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'F99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='floor_type'>floor&#095;type</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'FT99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='floor_conn'>floor&#095;conn</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'FWC99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='foundn_sys'>foundn&#095;sys</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   DEFO 'FOS99'::character varying </td>
+		<td width='99%'> Attribute value </td>
+	</tr>
+	<tr>
+		<td><a name='comment'>comment</a></td>
+		<td width='40%'> varchar&#040; 254 &#041;   </td>
+		<td width='99%'> Additional comments </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;object primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>idx&#095;main&#095;detail </td>
+		<td> ON object&#095;id</td>
+		<td>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+	<tr>
+		<td>fk_object_gid</td>
+		<td > ( object&#095;id ) ref <a href='#main'>main</a> (gid) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_mat_type</td>
+		<td > ( mat&#095;type ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_mat_tech</td>
+		<td > ( mat&#095;tech ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_mat_prop</td>
+		<td > ( mat&#095;prop ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_llrs</td>
+		<td > ( llrs ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_llrs_duct</td>
+		<td > ( llrs&#095;duct ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_height</td>
+		<td > ( height ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_yr_built</td>
+		<td > ( yr&#095;built ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_yr_destr</td>
+		<td > ( yr&#095;destr ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_occupy</td>
+		<td > ( occupy ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_occupy_dt</td>
+		<td > ( occupy&#095;dt ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_position</td>
+		<td > ( position ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_plan_shape</td>
+		<td > ( plan&#095;shape ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_str_irreg</td>
+		<td > ( str&#095;irreg ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_str_irreg_dt</td>
+		<td > ( str&#095;irreg&#095;dt ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_str_irreg_type</td>
+		<td > ( str&#095;irreg&#095;type ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_nonstrcexw</td>
+		<td > ( nonstrcexw ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_roof_shape</td>
+		<td > ( roof&#095;shape ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_roofcovmat</td>
+		<td > ( roofcovmat ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_roofsysmat</td>
+		<td > ( roofsysmat ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_roofsystyp</td>
+		<td > ( roofsystyp ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_roof_conn</td>
+		<td > ( roof&#095;conn ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_floor_mat</td>
+		<td > ( floor&#095;mat ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_floor_type</td>
+		<td > ( floor&#095;type ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_floor_conn</td>
+		<td > ( floor&#095;conn ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>fk_founn_sys</td>
+		<td > ( foundn&#095;sys ) ref <a href='#dic&#095;attribute&#095;value'>dic&#095;attribute&#095;value</a> (attribute&#095;value) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='main_detail_qualifier'>main_detail_qualifier</a></th></tr>
+<tr><td colspan='3'>The main object detail qualifier table&#046; Contains information about the object qualifiers&#046; </td></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='gid'>gid</a></td>
+		<td width='40%'> serial  NOT NULL  </td>
+		<td width='99%'> Unique object detail qualifier identifier </td>
+	</tr>
+	<tr>
+		<td><a name='detail_id'>detail&#095;id</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Object detail identifier </td>
+	</tr>
+	<tr>
+		<td><a name='bp_mat_type'>bp&#095;mat&#095;type</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_mat_tech'>bp&#095;mat&#095;tech</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_mat_prop'>bp&#095;mat&#095;prop</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_llrs'>bp&#095;llrs</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_llrs_duct'>bp&#095;llrs&#095;duct</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_height'>bp&#095;height</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_yr_built'>bp&#095;yr&#095;built</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_yr_destr'>bp&#095;yr&#095;destr</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_occupy'>bp&#095;occupy</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_occupy_dt'>bp&#095;occupy&#095;dt</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_position'>bp&#095;position</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_plan_shape'>bp&#095;plan&#095;shape</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_str_irreg'>bp&#095;str&#095;irreg</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_str_irreg_dt'>bp&#095;str&#095;irreg&#095;dt</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_str_irreg_type'>bp&#095;str&#095;irreg&#095;type</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_nonstrcexw'>bp&#095;nonstrcexw</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_roof_shape'>bp&#095;roof&#095;shape</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_roofcovmat'>bp&#095;roofcovmat</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_roofsysmat'>bp&#095;roofsysmat</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_roofsystyp'>bp&#095;roofsystyp</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_roof_conn'>bp&#095;roof&#095;conn</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_floor_mat'>bp&#095;floor&#095;mat</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_floor_type'>bp&#095;floor&#095;type</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_floor_conn'>bp&#095;floor&#095;conn</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='bp_foundn_sys'>bp&#095;foundn&#095;sys</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'> Qualifier value &#040;belief percentage&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='vt_yr_built1'>vt&#095;yr&#095;built1</a></td>
+		<td width='40%'> timestamptz   </td>
+		<td width='99%'> Qualifier value &#040;valid time&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='vt_yr_built2'>vt&#095;yr&#095;built2</a></td>
+		<td width='40%'> timestamptz   </td>
+		<td width='99%'> Qualifier value &#040;valid time&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='vt_yr_destr1'>vt&#095;yr&#095;destr1</a></td>
+		<td width='40%'> timestamptz   </td>
+		<td width='99%'> Qualifier value &#040;valid time&#041; </td>
+	</tr>
+	<tr>
+		<td><a name='vt_yr_destr2'>vt&#095;yr&#095;destr2</a></td>
+		<td width='40%'> timestamptz   </td>
+		<td width='99%'> Qualifier value &#040;valid time&#041; </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>pk&#095;main&#095;detail&#095;qualifier primary key</td>
+		<td> ON gid</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>idx&#095;main&#095;detail&#095;qualifier </td>
+		<td> ON detail&#095;id</td>
+		<td>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+	<tr>
+		<td>fk_detail_gid</td>
+		<td > ( detail&#095;id ) ref <a href='#main&#095;detail'>main&#095;detail</a> (gid) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='spatial_ref_sys'>spatial_ref_sys</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><a name='srid'>srid</a></td>
+		<td width='40%'> integer  NOT NULL  </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='auth_name'>auth&#095;name</a></td>
+		<td width='40%'> varchar&#040; 256 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='auth_srid'>auth&#095;srid</a></td>
+		<td width='40%'> integer   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='srtext'>srtext</a></td>
+		<td width='40%'> varchar&#040; 2048 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+	<tr>
+		<td><a name='proj4text'>proj4text</a></td>
+		<td width='40%'> varchar&#040; 2048 &#041;   </td>
+		<td width='99%'>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+	<tr>		<td>spatial&#095;ref&#095;sys&#095;pkey primary key</td>
+		<td> ON srid</td>
+		<td>  </td>
+	</tr>
+<tr><td colspan='3' class='subpart'><b>Constraints</b></td></tr>
+	<tr>
+		<td> spatial_ref_sys_srid_check </td><td> &#040;srid &gt; 0&#041; AND &#040;srid &lt;&#061; 998999&#041; </td><td> </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs'  >
+<thead>
+	<tr>
+		<th><a name='geography_columns'>View geography_columns</a></th>
+</thead>
+<tbody>
+	<tr><td>SELECT current&#095;database&#040;&#041; AS f&#095;table&#095;catalog&#044; n&#046;nspname AS f&#095;table&#095;schema&#044; c&#046;relname AS f&#095;table&#095;name&#044; a&#046;attname AS f&#095;geography&#095;column&#044; postgis&#095;typmod&#095;dims&#040;a&#046;atttypmod&#041; AS coord&#095;dimension&#044; postgis&#095;typmod&#095;srid&#040;a&#046;atttypmod&#041; AS srid&#044; postgis&#095;typmod&#095;type&#040;a&#046;atttypmod&#041; AS type FROM pg&#095;class c&#044; pg&#095;attribute a&#044; pg&#095;type t&#044; pg&#095;namespace n WHERE &#040;&#040;&#040;&#040;&#040;&#040;&#040;t&#046;typname &#061; &#039;geography&#039;&#058;&#058;name&#041; AND &#040;a&#046;attisdropped &#061; false&#041;&#041; AND &#040;a&#046;atttypid &#061; t&#046;oid&#041;&#041; AND &#040;a&#046;attrelid &#061; c&#046;oid&#041;&#041; AND &#040;c&#046;relnamespace &#061; n&#046;oid&#041;&#041; AND &#040;NOT pg&#095;is&#095;other&#095;temp&#095;schema&#040;c&#046;relnamespace&#041;&#041;&#041; AND has&#095;table&#095;privilege&#040;c&#046;oid&#044; &#039;SELECT&#039;&#058;&#058;text&#041;&#041;&#059;</td></tr>
+</tbody>
+</table>
+<br/><br/>
+<table id='dbs'  >
+<thead>
+	<tr>
+		<th><a name='geometry_columns'>View geometry_columns</a></th>
+</thead>
+<tbody>
+	<tr><td>SELECT &#040;current&#095;database&#040;&#041;&#041;&#058;&#058;character varying&#040;256&#041; AS f&#095;table&#095;catalog&#044; &#040;n&#046;nspname&#041;&#058;&#058;character varying&#040;256&#041; AS f&#095;table&#095;schema&#044; &#040;c&#046;relname&#041;&#058;&#058;character varying&#040;256&#041; AS f&#095;table&#095;name&#044; &#040;a&#046;attname&#041;&#058;&#058;character varying&#040;256&#041; AS f&#095;geometry&#095;column&#044; COALESCE&#040;NULLIF&#040;postgis&#095;typmod&#095;dims&#040;a&#046;atttypmod&#041;&#044; 2&#041;&#044; postgis&#095;constraint&#095;dims&#040;&#040;n&#046;nspname&#041;&#058;&#058;text&#044; &#040;c&#046;relname&#041;&#058;&#058;text&#044; &#040;a&#046;attname&#041;&#058;&#058;text&#041;&#044; 2&#041; AS coord&#095;dimension&#044; COALESCE&#040;NULLIF&#040;postgis&#095;typmod&#095;srid&#040;a&#046;atttypmod&#041;&#044; 0&#041;&#044; postgis&#095;constraint&#095;srid&#040;&#040;n&#046;nspname&#041;&#058;&#058;text&#044; &#040;c&#046;relname&#041;&#058;&#058;text&#044; &#040;a&#046;attname&#041;&#058;&#058;text&#041;&#044; 0&#041; AS srid&#044; &#040;replace&#040;replace&#040;COALESCE&#040;NULLIF&#040;upper&#040;postgis&#095;typmod&#095;type&#040;a&#046;atttypmod&#041;&#041;&#044; &#039;GEOMETRY&#039;&#058;&#058;text&#041;&#044; &#040;postgis&#095;constraint&#095;type&#040;&#040;n&#046;nspname&#041;&#058;&#058;text&#044; &#040;c&#046;relname&#041;&#058;&#058;text&#044; &#040;a&#046;attname&#041;&#058;&#058;text&#041;&#041;&#058;&#058;text&#044; &#039;GEOMETRY&#039;&#058;&#058;text&#041;&#044; &#039;ZM&#039;&#058;&#058;text&#044; &#039;&#039;&#058;&#058;text&#041;&#044; &#039;Z&#039;&#058;&#058;text&#044; &#039;&#039;&#058;&#058;text&#041;&#041;&#058;&#058;character varying&#040;30&#041; AS type FROM pg&#095;class c&#044; pg&#095;attribute a&#044; pg&#095;type t&#044; pg&#095;namespace n WHERE &#040;&#040;&#040;&#040;&#040;&#040;&#040;&#040;&#040;t&#046;typname &#061; &#039;geometry&#039;&#058;&#058;name&#041; AND &#040;a&#046;attisdropped &#061; false&#041;&#041; AND &#040;a&#046;atttypid &#061; t&#046;oid&#041;&#041; AND &#040;a&#046;attrelid &#061; c&#046;oid&#041;&#041; AND &#040;c&#046;relnamespace &#061; n&#046;oid&#041;&#041; AND &#040;&#040;c&#046;relkind &#061; &#039;r&#039;&#058;&#058;&quot;char&quot;&#041; OR &#040;c&#046;relkind &#061; &#039;v&#039;&#058;&#058;&quot;char&quot;&#041;&#041;&#041; AND &#040;NOT pg&#095;is&#095;other&#095;temp&#095;schema&#040;c&#046;relnamespace&#041;&#041;&#041; AND &#040;NOT &#040;&#040;n&#046;nspname &#061; &#039;public&#039;&#058;&#058;name&#041; AND &#040;c&#046;relname &#061; &#039;raster&#095;columns&#039;&#058;&#058;name&#041;&#041;&#041;&#041; AND has&#095;table&#095;privilege&#040;c&#046;oid&#044; &#039;SELECT&#039;&#058;&#058;text&#041;&#041;&#059;</td></tr>
+</tbody>
+</table>
+<br/><br/>
+<table id='dbs'  >
+<thead>
+	<tr>
+		<th><a name='raster_columns'>View raster_columns</a></th>
+</thead>
+<tbody>
+	<tr><td>SELECT current&#095;database&#040;&#041; AS r&#095;table&#095;catalog&#044; n&#046;nspname AS r&#095;table&#095;schema&#044; c&#046;relname AS r&#095;table&#095;name&#044; a&#046;attname AS r&#095;raster&#095;column&#044; COALESCE&#040;&#095;raster&#095;constraint&#095;info&#095;srid&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#041;&#044; &#040;SELECT st&#095;srid&#040;&#039;010100000000000000000000000000000000000000&#039;&#058;&#058;geometry&#041; AS st&#095;srid&#041;&#041; AS srid&#044; &#095;raster&#095;constraint&#095;info&#095;scale&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#044; &#039;x&#039;&#058;&#058;bpchar&#041; AS scale&#095;x&#044; &#095;raster&#095;constraint&#095;info&#095;scale&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#044; &#039;y&#039;&#058;&#058;bpchar&#041; AS scale&#095;y&#044; &#095;raster&#095;constraint&#095;info&#095;blocksize&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#044; &#039;width&#039;&#058;&#058;text&#041; AS blocksize&#095;x&#044; &#095;raster&#095;constraint&#095;info&#095;blocksize&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#044; &#039;height&#039;&#058;&#058;text&#041; AS blocksize&#095;y&#044; COALESCE&#040;&#095;raster&#095;constraint&#095;info&#095;alignment&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#041;&#044; false&#041; AS same&#095;alignment&#044; COALESCE&#040;&#095;raster&#095;constraint&#095;info&#095;regular&#095;blocking&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#041;&#044; false&#041; AS regular&#095;blocking&#044; &#095;raster&#095;constraint&#095;info&#095;num&#095;bands&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#041; AS num&#095;bands&#044; &#095;raster&#095;constraint&#095;info&#095;pixel&#095;types&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#041; AS pixel&#095;types&#044; &#095;raster&#095;constraint&#095;info&#095;nodata&#095;values&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#041; AS nodata&#095;values&#044; &#095;raster&#095;constraint&#095;info&#095;out&#095;db&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#041; AS out&#095;db&#044; &#095;raster&#095;constraint&#095;info&#095;extent&#040;n&#046;nspname&#044; c&#046;relname&#044; a&#046;attname&#041; AS extent FROM pg&#095;class c&#044; pg&#095;attribute a&#044; pg&#095;type t&#044; pg&#095;namespace n WHERE &#040;&#040;&#040;&#040;&#040;&#040;&#040;t&#046;typname &#061; &#039;raster&#039;&#058;&#058;name&#041; AND &#040;a&#046;attisdropped &#061; false&#041;&#041; AND &#040;a&#046;atttypid &#061; t&#046;oid&#041;&#041; AND &#040;a&#046;attrelid &#061; c&#046;oid&#041;&#041; AND &#040;c&#046;relnamespace &#061; n&#046;oid&#041;&#041; AND &#040;&#040;c&#046;relkind &#061; &#039;r&#039;&#058;&#058;&quot;char&quot;&#041; OR &#040;c&#046;relkind &#061; &#039;v&#039;&#058;&#058;&quot;char&quot;&#041;&#041;&#041; AND &#040;NOT pg&#095;is&#095;other&#095;temp&#095;schema&#040;c&#046;relnamespace&#041;&#041;&#041;&#059;</td></tr>
+</tbody>
+</table>
+<br/><br/>
+<table id='dbs'  >
+<thead>
+	<tr>
+		<th><a name='raster_overviews'>View raster_overviews</a></th>
+</thead>
+<tbody>
+	<tr><td>SELECT current&#095;database&#040;&#041; AS o&#095;table&#095;catalog&#044; n&#046;nspname AS o&#095;table&#095;schema&#044; c&#046;relname AS o&#095;table&#095;name&#044; a&#046;attname AS o&#095;raster&#095;column&#044; current&#095;database&#040;&#041; AS r&#095;table&#095;catalog&#044; &#040;split&#095;part&#040;split&#095;part&#040;s&#046;consrc&#044; &#039;&#039;&#039;&#058;&#058;name&#039;&#058;&#058;text&#044; 1&#041;&#044; &#039;&#039;&#039;&#039;&#058;&#058;text&#044; 2&#041;&#041;&#058;&#058;name AS r&#095;table&#095;schema&#044; &#040;split&#095;part&#040;split&#095;part&#040;s&#046;consrc&#044; &#039;&#039;&#039;&#058;&#058;name&#039;&#058;&#058;text&#044; 2&#041;&#044; &#039;&#039;&#039;&#039;&#058;&#058;text&#044; 2&#041;&#041;&#058;&#058;name AS r&#095;table&#095;name&#044; &#040;split&#095;part&#040;split&#095;part&#040;s&#046;consrc&#044; &#039;&#039;&#039;&#058;&#058;name&#039;&#058;&#058;text&#044; 3&#041;&#044; &#039;&#039;&#039;&#039;&#058;&#058;text&#044; 2&#041;&#041;&#058;&#058;name AS r&#095;raster&#095;column&#044; &#040;btrim&#040;split&#095;part&#040;s&#046;consrc&#044; &#039;&#044;&#039;&#058;&#058;text&#044; 2&#041;&#041;&#041;&#058;&#058;integer AS overview&#095;factor FROM pg&#095;class c&#044; pg&#095;attribute a&#044; pg&#095;type t&#044; pg&#095;namespace n&#044; pg&#095;constraint s WHERE &#040;&#040;&#040;&#040;&#040;&#040;&#040;&#040;&#040;&#040;t&#046;typname &#061; &#039;raster&#039;&#058;&#058;name&#041; AND &#040;a&#046;attisdropped &#061; false&#041;&#041; AND &#040;a&#046;atttypid &#061; t&#046;oid&#041;&#041; AND &#040;a&#046;attrelid &#061; c&#046;oid&#041;&#041; AND &#040;c&#046;relnamespace &#061; n&#046;oid&#041;&#041; AND &#040;&#040;c&#046;relkind &#061; &#039;r&#039;&#058;&#058;&quot;char&quot;&#041; OR &#040;c&#046;relkind &#061; &#039;v&#039;&#058;&#058;&quot;char&quot;&#041;&#041;&#041; AND &#040;s&#046;connamespace &#061; n&#046;oid&#041;&#041; AND &#040;s&#046;conrelid &#061; c&#046;oid&#041;&#041; AND &#040;s&#046;consrc &#126;&#126; &#039;&#037;&#095;overview&#095;constraint&#040;&#037;&#039;&#058;&#058;text&#041;&#041; AND &#040;NOT pg&#095;is&#095;other&#095;temp&#095;schema&#040;c&#046;relnamespace&#041;&#041;&#041;&#059;</td></tr>
+</tbody>
+</table>
+<br/><br/>
+<table id='dbs'  >
+<thead>
+	<tr>
+		<th><a name='ve_resolution1'>View ve_resolution1</a></th>
+</thead>
+<tbody>
+	<tr><td>SELECT a&#046;survey&#095;gid&#044; a&#046;description&#044; a&#046;source&#044; a&#046;resolution&#044; b&#046;gid&#044; b&#046;object&#095;id&#044; b&#046;resolution2&#095;id&#044; b&#046;resolution3&#095;id&#044; b&#046;the&#095;geom&#044; b&#046;mat&#095;type&#044; b&#046;mat&#095;tech&#044; b&#046;mat&#095;prop&#044; b&#046;llrs&#044; b&#046;llrs&#095;duct&#044; b&#046;height&#044; b&#046;height&#095;numeric&#095;1&#044; b&#046;yr&#095;built&#044; b&#046;yr&#095;destr&#044; b&#046;occupy&#044; b&#046;occupy&#095;dt&#044; b&#046;&quot;position&quot;&#044; b&#046;plan&#095;shape&#044; b&#046;str&#095;irreg&#044; b&#046;str&#095;irreg&#095;dt&#044; b&#046;str&#095;irreg&#095;type&#044; b&#046;nonstrcexw&#044; b&#046;roof&#095;shape&#044; b&#046;roofcovmat&#044; b&#046;roofsysmat&#044; b&#046;roofsystyp&#044; b&#046;roof&#095;conn&#044; b&#046;floor&#095;mat&#044; b&#046;floor&#095;type&#044; b&#046;floor&#095;conn&#044; b&#046;foundn&#095;sys&#044; b&#046;comment&#044; c&#046;bp&#095;mat&#095;type&#044; c&#046;bp&#095;mat&#095;tech&#044; c&#046;bp&#095;mat&#095;prop&#044; c&#046;bp&#095;llrs&#044; c&#046;bp&#095;llrs&#095;duct&#044; c&#046;bp&#095;height&#044; c&#046;bp&#095;yr&#095;built&#044; c&#046;bp&#095;yr&#095;destr&#044; c&#046;bp&#095;occupy&#044; c&#046;bp&#095;occupy&#095;dt&#044; c&#046;bp&#095;position&#044; c&#046;bp&#095;plan&#095;shape&#044; c&#046;bp&#095;str&#095;irreg&#044; c&#046;bp&#095;str&#095;irreg&#095;dt&#044; c&#046;bp&#095;str&#095;irreg&#095;type&#044; c&#046;bp&#095;nonstrcexw&#044; c&#046;bp&#095;roof&#095;shape&#044; c&#046;bp&#095;roofcovmat&#044; c&#046;bp&#095;roofsysmat&#044; c&#046;bp&#095;roofsystyp&#044; c&#046;bp&#095;roof&#095;conn&#044; c&#046;bp&#095;floor&#095;mat&#044; c&#046;bp&#095;floor&#095;type&#044; c&#046;bp&#095;floor&#095;conn&#044; c&#046;bp&#095;foundn&#095;sys&#044; c&#046;vt&#095;yr&#095;built1&#044; c&#046;vt&#095;yr&#095;built2&#044; c&#046;vt&#095;yr&#095;destr1&#044; c&#046;vt&#095;yr&#095;destr2 FROM &#040;&#040;object&#046;main a JOIN object&#046;main&#095;detail b ON &#040;&#040;a&#046;gid &#061; b&#046;object&#095;id&#041;&#041;&#041; JOIN object&#046;main&#095;detail&#095;qualifier c ON &#040;&#040;b&#046;gid &#061; c&#046;detail&#095;id&#041;&#041;&#041; WHERE &#040;a&#046;resolution &#061; 1&#041; ORDER BY b&#046;gid&#059;</td></tr>
+</tbody>
+</table>
+<br/><br/>
+<table id='dbs'  >
+<thead>
+	<tr>
+		<th><a name='ve_resolution2'>View ve_resolution2</a></th>
+</thead>
+<tbody>
+	<tr><td>SELECT a&#046;survey&#095;gid&#044; a&#046;description&#044; a&#046;source&#044; a&#046;resolution&#044; b&#046;gid&#044; b&#046;object&#095;id&#044; b&#046;resolution2&#095;id&#044; b&#046;resolution3&#095;id&#044; b&#046;the&#095;geom&#044; b&#046;mat&#095;type&#044; b&#046;mat&#095;tech&#044; b&#046;mat&#095;prop&#044; b&#046;llrs&#044; b&#046;llrs&#095;duct&#044; b&#046;height&#044; b&#046;height&#095;numeric&#095;1&#044; b&#046;yr&#095;built&#044; b&#046;yr&#095;destr&#044; b&#046;occupy&#044; b&#046;occupy&#095;dt&#044; b&#046;&quot;position&quot;&#044; b&#046;plan&#095;shape&#044; b&#046;str&#095;irreg&#044; b&#046;str&#095;irreg&#095;dt&#044; b&#046;str&#095;irreg&#095;type&#044; b&#046;nonstrcexw&#044; b&#046;roof&#095;shape&#044; b&#046;roofcovmat&#044; b&#046;roofsysmat&#044; b&#046;roofsystyp&#044; b&#046;roof&#095;conn&#044; b&#046;floor&#095;mat&#044; b&#046;floor&#095;type&#044; b&#046;floor&#095;conn&#044; b&#046;foundn&#095;sys&#044; b&#046;comment&#044; c&#046;bp&#095;mat&#095;type&#044; c&#046;bp&#095;mat&#095;tech&#044; c&#046;bp&#095;mat&#095;prop&#044; c&#046;bp&#095;llrs&#044; c&#046;bp&#095;llrs&#095;duct&#044; c&#046;bp&#095;height&#044; c&#046;bp&#095;yr&#095;built&#044; c&#046;bp&#095;yr&#095;destr&#044; c&#046;bp&#095;occupy&#044; c&#046;bp&#095;occupy&#095;dt&#044; c&#046;bp&#095;position&#044; c&#046;bp&#095;plan&#095;shape&#044; c&#046;bp&#095;str&#095;irreg&#044; c&#046;bp&#095;str&#095;irreg&#095;dt&#044; c&#046;bp&#095;str&#095;irreg&#095;type&#044; c&#046;bp&#095;nonstrcexw&#044; c&#046;bp&#095;roof&#095;shape&#044; c&#046;bp&#095;roofcovmat&#044; c&#046;bp&#095;roofsysmat&#044; c&#046;bp&#095;roofsystyp&#044; c&#046;bp&#095;roof&#095;conn&#044; c&#046;bp&#095;floor&#095;mat&#044; c&#046;bp&#095;floor&#095;type&#044; c&#046;bp&#095;floor&#095;conn&#044; c&#046;bp&#095;foundn&#095;sys&#044; c&#046;vt&#095;yr&#095;built1&#044; c&#046;vt&#095;yr&#095;built2&#044; c&#046;vt&#095;yr&#095;destr1&#044; c&#046;vt&#095;yr&#095;destr2 FROM &#040;&#040;object&#046;main a JOIN object&#046;main&#095;detail b ON &#040;&#040;a&#046;gid &#061; b&#046;object&#095;id&#041;&#041;&#041; JOIN object&#046;main&#095;detail&#095;qualifier c ON &#040;&#040;b&#046;gid &#061; c&#046;detail&#095;id&#041;&#041;&#041; WHERE &#040;a&#046;resolution &#061; 2&#041; ORDER BY b&#046;gid&#059;</td></tr>
+</tbody>
+</table>
+<br/><br/>
+<table id='dbs'  >
+<thead>
+	<tr>
+		<th><a name='ve_resolution3'>View ve_resolution3</a></th>
+</thead>
+<tbody>
+	<tr><td>SELECT a&#046;survey&#095;gid&#044; a&#046;description&#044; a&#046;source&#044; a&#046;resolution&#044; b&#046;gid&#044; b&#046;object&#095;id&#044; b&#046;resolution2&#095;id&#044; b&#046;resolution3&#095;id&#044; b&#046;the&#095;geom&#044; b&#046;mat&#095;type&#044; b&#046;mat&#095;tech&#044; b&#046;mat&#095;prop&#044; b&#046;llrs&#044; b&#046;llrs&#095;duct&#044; b&#046;height&#044; b&#046;height&#095;numeric&#095;1&#044; b&#046;yr&#095;built&#044; b&#046;yr&#095;destr&#044; b&#046;occupy&#044; b&#046;occupy&#095;dt&#044; b&#046;&quot;position&quot;&#044; b&#046;plan&#095;shape&#044; b&#046;str&#095;irreg&#044; b&#046;str&#095;irreg&#095;dt&#044; b&#046;str&#095;irreg&#095;type&#044; b&#046;nonstrcexw&#044; b&#046;roof&#095;shape&#044; b&#046;roofcovmat&#044; b&#046;roofsysmat&#044; b&#046;roofsystyp&#044; b&#046;roof&#095;conn&#044; b&#046;floor&#095;mat&#044; b&#046;floor&#095;type&#044; b&#046;floor&#095;conn&#044; b&#046;foundn&#095;sys&#044; b&#046;comment&#044; c&#046;bp&#095;mat&#095;type&#044; c&#046;bp&#095;mat&#095;tech&#044; c&#046;bp&#095;mat&#095;prop&#044; c&#046;bp&#095;llrs&#044; c&#046;bp&#095;llrs&#095;duct&#044; c&#046;bp&#095;height&#044; c&#046;bp&#095;yr&#095;built&#044; c&#046;bp&#095;yr&#095;destr&#044; c&#046;bp&#095;occupy&#044; c&#046;bp&#095;occupy&#095;dt&#044; c&#046;bp&#095;position&#044; c&#046;bp&#095;plan&#095;shape&#044; c&#046;bp&#095;str&#095;irreg&#044; c&#046;bp&#095;str&#095;irreg&#095;dt&#044; c&#046;bp&#095;str&#095;irreg&#095;type&#044; c&#046;bp&#095;nonstrcexw&#044; c&#046;bp&#095;roof&#095;shape&#044; c&#046;bp&#095;roofcovmat&#044; c&#046;bp&#095;roofsysmat&#044; c&#046;bp&#095;roofsystyp&#044; c&#046;bp&#095;roof&#095;conn&#044; c&#046;bp&#095;floor&#095;mat&#044; c&#046;bp&#095;floor&#095;type&#044; c&#046;bp&#095;floor&#095;conn&#044; c&#046;bp&#095;foundn&#095;sys&#044; c&#046;vt&#095;yr&#095;built1&#044; c&#046;vt&#095;yr&#095;built2&#044; c&#046;vt&#095;yr&#095;destr1&#044; c&#046;vt&#095;yr&#095;destr2 FROM &#040;&#040;object&#046;main a JOIN object&#046;main&#095;detail b ON &#040;&#040;a&#046;gid &#061; b&#046;object&#095;id&#041;&#041;&#041; JOIN object&#046;main&#095;detail&#095;qualifier c ON &#040;&#040;b&#046;gid &#061; c&#046;detail&#095;id&#041;&#041;&#041; WHERE &#040;a&#046;resolution &#061; 3&#041; ORDER BY b&#046;gid&#059;</td></tr>
+</tbody>
+</table>
+</body></html>
