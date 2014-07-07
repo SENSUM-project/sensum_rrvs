@@ -41,10 +41,10 @@
     <property key="labeling/distInMapUnits" value="false"/>
     <property key="labeling/enabled" value="false"/>
     <property key="labeling/fieldName" value=""/>
-    <property key="labeling/fontBold" value="false"/>
+    <property key="labeling/fontBold" value="true"/>
     <property key="labeling/fontCapitals" value="0"/>
     <property key="labeling/fontFamily" value="MS Shell Dlg 2"/>
-    <property key="labeling/fontItalic" value="false"/>
+    <property key="labeling/fontItalic" value="true"/>
     <property key="labeling/fontLetterSpacing" value="0"/>
     <property key="labeling/fontLimitPixelSize" value="false"/>
     <property key="labeling/fontMaxPixelSize" value="10000"/>
@@ -53,7 +53,7 @@
     <property key="labeling/fontSizeInMapUnits" value="false"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
-    <property key="labeling/fontWeight" value="50"/>
+    <property key="labeling/fontWeight" value="75"/>
     <property key="labeling/fontWordSpacing" value="0"/>
     <property key="labeling/formatNumbers" value="false"/>
     <property key="labeling/isExpression" value="false"/>
@@ -68,7 +68,7 @@
     <property key="labeling/minFeatureSize" value="0"/>
     <property key="labeling/multilineAlign" value="0"/>
     <property key="labeling/multilineHeight" value="1"/>
-    <property key="labeling/namedStyle" value="Normal"/>
+    <property key="labeling/namedStyle" value="Bold Italic"/>
     <property key="labeling/obstacle" value="true"/>
     <property key="labeling/placeDirectionSymbol" value="0"/>
     <property key="labeling/placement" value="0"/>
@@ -187,53 +187,88 @@
     <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="bp_str_irreg_type" max="100"/>
     <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="bp_yr_built" max="100"/>
     <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="bp_yr_destr" max="100"/>
+    <edittype labelontop="0" editable="1" type="0" name="build_subtype"/>
+    <edittype labelontop="0" editable="1" type="0" name="build_subtype_bp"/>
+    <edittype labelontop="0" editable="1" type="0" name="build_type"/>
+    <edittype labelontop="0" editable="1" type="0" name="build_type_bp"/>
     <edittype labelontop="0" editable="1" type="0" name="comment"/>
     <edittype labelontop="0" editable="1" type="0" name="description"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'FLOOR_CONN' " type="15" value="description" name="floor_conn"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'FLOOR_MAT' " type="15" value="description" name="floor_mat"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'FLOOR_TYPE' " type="15" value="description" name="floor_type"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'FLOOR_CONN' " type="15" value="description" name="floor_conn"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="floor_conn_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'FLOOR_MAT' " type="15" value="description" name="floor_mat"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="floor_mat_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'FLOOR_TYPE' " type="15" value="description" name="floor_type"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="floor_type_bp" max="100"/>
     <edittype labelontop="0" editable="1" type="0" name="foundn_sys"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="foundn_sys_bp" max="100"/>
     <edittype labelontop="0" editable="0" type="0" name="gid"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'HEIGHT' " type="15" value="description" name="height"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'HEIGHT' " type="15" value="description" name="height"/>
+    <edittype labelontop="0" editable="1" type="0" name="height_1"/>
+    <edittype labelontop="0" editable="1" type="0" name="height_2"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="height_bp" max="100"/>
     <edittype labelontop="0" editable="1" type="0" name="height_numeric_1"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'LLRS' " type="15" value="description" name="llrs"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'LLRS_DUCT' " type="15" value="description" name="llrs_duct"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'MAT_PROP' " type="15" value="description" name="mat_prop"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'MAT_TECH' " type="15" value="description" name="mat_tech"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'MAT_TYPE' " type="15" value="description" name="mat_type"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'NONSTRCEXW' " type="15" value="description" name="nonstrcexw"/>
-    <edittype labelontop="0" editable="1" allowNull="false" orderByValue="false" key="gid" layer="main20131214202104745" allowMulti="false" filterExpression="" type="15" value="description" name="object_id"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'OCCUPY' " type="15" value="description" name="occupy"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'OCCUPY_DT' " type="15" value="description" name="occupy_dt"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'LLRS' " type="15" value="description" name="llrs"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="llrs_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'LLRS_DUCT' " type="15" value="description" name="llrs_duct"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="llrs_duct_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'MAT_PROP' " type="15" value="description" name="mat_prop"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="mat_prop_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'MAT_TECH' " type="15" value="description" name="mat_tech"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="mat_tech_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'MAT_TYPE' " type="15" value="description" name="mat_type"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="mat_type_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'NONSTRCEXW' " type="15" value="description" name="nonstrcexw"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="nonstrcexw_bp" max="100"/>
+    <edittype labelontop="0" editable="0" type="0" name="object_id"/>
+    <edittype labelontop="0" editable="1" type="0" name="object_id1"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'OCCUPY' " type="15" value="description" name="occupy"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="occupy_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'OCCUPY_DT' " type="15" value="description" name="occupy_dt"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="occupy_dt_bp" max="100"/>
     <edittype labelontop="0" editable="1" type="0" name="plan_shape"/>
+    <edittype labelontop="0" editable="1" type="0" name="plan_shape_bp"/>
     <edittype labelontop="0" editable="1" type="0" name="position"/>
+    <edittype labelontop="0" editable="1" type="0" name="position_bp"/>
     <edittype labelontop="0" editable="0" type="0" name="resolution"/>
     <edittype labelontop="0" editable="1" type="0" name="resolution2_id"/>
     <edittype labelontop="0" editable="1" type="0" name="resolution3_id"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'ROOF_CONN' " type="15" value="description" name="roof_conn"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'ROOF_SHAPE' " type="15" value="description" name="roof_shape"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'ROOFCOVMAT' " type="15" value="description" name="roofcovmat"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'ROOFSYSMAT' " type="15" value="description" name="roofsysmat"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'ROOFSYSTYP' " type="15" value="description" name="roofsystyp"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'ROOF_CONN' " type="15" value="description" name="roof_conn"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="roof_conn_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'ROOF_SHAPE' " type="15" value="description" name="roof_shape"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="roof_shape_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'ROOFCOVMAT' " type="15" value="description" name="roofcovmat"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="roofcovmat_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =   'ROOFSYSMAT' " type="15" value="description" name="roofsysmat"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="roofsysmat_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'ROOFSYSTYP' " type="15" value="description" name="roofsystyp"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="roofsystyp_bp" max="100"/>
     <edittype labelontop="0" editable="0" type="0" name="source"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'STR_IRREG' " type="15" value="description" name="str_irreg"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'STR_IRREG_DT' " type="15" value="description" name="str_irreg_dt"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'STR_IRREG_TYPE' " type="15" value="description" name="str_irreg_type"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'STR_IRREG' " type="15" value="description" name="str_irreg"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="str_irreg_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'STR_IRREG_DT' " type="15" value="description" name="str_irreg_dt"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="str_irreg_dt_bp" max="100"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'STR_IRREG_TYPE' " type="15" value="description" name="str_irreg_type"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="str_irreg_type_bp" max="100"/>
     <edittype labelontop="0" editable="1" type="0" name="survey_gid"/>
     <edittype labelontop="0" editable="1" type="0" name="vt_yr_built1"/>
     <edittype labelontop="0" editable="1" type="0" name="vt_yr_built2"/>
     <edittype labelontop="0" editable="1" type="0" name="vt_yr_destr1"/>
     <edittype labelontop="0" editable="1" type="0" name="vt_yr_destr2"/>
-    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'YR_BUILT' " type="15" value="description" name="yr_built"/>
+    <edittype labelontop="0" editable="1" type="0" name="vuln"/>
+    <edittype labelontop="0" editable="1" type="0" name="vuln_1"/>
+    <edittype labelontop="0" editable="1" type="0" name="vuln_2"/>
+    <edittype labelontop="0" editable="1" type="0" name="vuln_bp"/>
+    <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20140627143659257" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'YR_BUILT' " type="15" value="description" name="yr_built"/>
+    <edittype labelontop="0" editable="1" type="14" min="0" step="1" name="yr_built_bp" max="100"/>
+    <edittype labelontop="0" editable="1" type="0" name="yr_built_vt"/>
+    <edittype labelontop="0" editable="1" type="0" name="yr_built_vt1"/>
+    <edittype labelontop="0" editable="1" type="0" name="yr_built_vt2"/>
     <edittype labelontop="0" editable="1" allowNull="true" orderByValue="false" key="attribute_value" layer="dic_attribute_value20131214202104755" allowMulti="false" filterExpression=" &quot;attribute_type_code&quot;  =  'YR_DESTR' " type="15" value="description" name="yr_destr"/>
   </edittypes>
   <editform>./sensum_rrvs.ui</editform>
   <editforminit></editforminit>
   <annotationform>.</annotationform>
   <editorlayout>uifilelayout</editorlayout>
-  <aliases>
-    <alias field="vt_yr_built1" index="60" name=""/>
-  </aliases>
   <excludeAttributesWMS/>
   <excludeAttributesWFS/>
   <attributeactions/>

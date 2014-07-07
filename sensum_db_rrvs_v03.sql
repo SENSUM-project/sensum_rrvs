@@ -1,183 +1,30 @@
-﻿--------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
+﻿------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------
 -- Name: SENSUM multi-resolution database support for Remote Rapid Visual Screening (RRVS)
--- Version: 0.1
--- Date: 13.12.13
+-- Version: 0.3
+-- Date: 19.06.14
 -- Author: M. Wieland
 -- DBMS: PostgreSQL9.2 / PostGIS2.0
--- SENSUM data model: tested on version 0.8 (sensum_db_v08)
+-- SENSUM data model: tested on version 0.9
 -- Description: Adjusts the basic SENSUM data model to fit the SENSUM indicators used for a RRVS of buildings
--- Currently implemented indicators: GEM Taxonomy v2.0
---------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
+--		1. Fills the taxonomy tables with attribute types and values, and according qualifier types and values
+-- 		   Implemented attributes: GEM Taxonomy v2.0, EMCA building types, EMS-98 Vulnerability
+-- 		   Implemented qualifiers: Belief, Quality, Source, Validtime
+-- 		   Implemented resolutions: Resolution 1 (per-building)
+--		2. Adjusts the editable view for resolution 1 from the basic SENSUM data model to the RRVS specifications
+------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------
 
---------------------------------------------------------------------------------
--- Setup table structure of object.main_detail table to fit GEM Taxonomy v2.0 --
---------------------------------------------------------------------------------
-ALTER TABLE object.main_detail ADD COLUMN MAT_TYPE character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_mat_type FOREIGN KEY (MAT_TYPE) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN MAT_TYPE SET DEFAULT 'MAT99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN MAT_TECH character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_mat_tech FOREIGN KEY (MAT_TECH) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN MAT_TECH SET DEFAULT 'MATT99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN MAT_PROP character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_mat_prop FOREIGN KEY (MAT_PROP) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN MAT_PROP SET DEFAULT 'MATP99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN LLRS character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_llrs FOREIGN KEY (LLRS) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN LLRS SET DEFAULT 'L99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN LLRS_DUCT character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_llrs_duct FOREIGN KEY (LLRS_DUCT) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN LLRS_DUCT SET DEFAULT 'DU99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN HEIGHT character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_height FOREIGN KEY (HEIGHT) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN HEIGHT SET DEFAULT 'H99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN HEIGHT_NUMERIC_1 integer;
-
-ALTER TABLE object.main_detail ADD COLUMN YR_BUILT character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_yr_built FOREIGN KEY (YR_BUILT) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN YR_BUILT SET DEFAULT 'Y99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN YR_DESTR character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_yr_destr FOREIGN KEY (YR_DESTR) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN YR_DESTR SET DEFAULT 'YD99'::character varying;
-  
-ALTER TABLE object.main_detail ADD COLUMN OCCUPY character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_occupy FOREIGN KEY (OCCUPY) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN OCCUPY SET DEFAULT 'OC99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN OCCUPY_DT character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_occupy_dt FOREIGN KEY (OCCUPY_DT) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN OCCUPY_DT SET DEFAULT 'OCCDT99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN POSITION character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_position FOREIGN KEY (POSITION) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN POSITION SET DEFAULT 'BP99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN PLAN_SHAPE character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_plan_shape FOREIGN KEY (PLAN_SHAPE) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN PLAN_SHAPE SET DEFAULT 'PLF99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN STR_IRREG character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_str_irreg FOREIGN KEY (STR_IRREG) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN STR_IRREG SET DEFAULT 'IR99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN STR_IRREG_DT character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_str_irreg_dt FOREIGN KEY (STR_IRREG_DT) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN STR_IRREG_DT SET DEFAULT 'IRP99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN STR_IRREG_TYPE character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_str_irreg_type FOREIGN KEY (STR_IRREG_TYPE) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN STR_IRREG_TYPE SET DEFAULT 'IRT99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN NONSTRCEXW character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_nonstrcexw FOREIGN KEY (NONSTRCEXW) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN NONSTRCEXW SET DEFAULT 'EW99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN ROOF_SHAPE character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_roof_shape FOREIGN KEY (ROOF_SHAPE) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN ROOF_SHAPE SET DEFAULT 'R99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN ROOFCOVMAT character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_roofcovmat FOREIGN KEY (ROOFCOVMAT) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN ROOFCOVMAT SET DEFAULT 'RMT99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN ROOFSYSMAT character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_roofsysmat FOREIGN KEY (ROOFSYSMAT) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN ROOFSYSMAT SET DEFAULT 'RSM99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN ROOFSYSTYP character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_roofsystyp FOREIGN KEY (ROOFSYSTYP) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN ROOFSYSTYP SET DEFAULT 'RST99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN ROOF_CONN character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_roof_conn FOREIGN KEY (ROOF_CONN) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN ROOF_CONN SET DEFAULT 'RCN99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN FLOOR_MAT character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_floor_mat FOREIGN KEY (FLOOR_MAT) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN FLOOR_MAT SET DEFAULT 'F99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN FLOOR_TYPE character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_floor_type FOREIGN KEY (FLOOR_TYPE) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN FLOOR_TYPE SET DEFAULT 'FT99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN FLOOR_CONN character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_floor_conn FOREIGN KEY (FLOOR_CONN) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN FLOOR_CONN SET DEFAULT 'FWC99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN FOUNDN_SYS character varying(254);
-ALTER TABLE object.main_detail ADD CONSTRAINT fk_founn_sys FOREIGN KEY (FOUNDN_SYS) REFERENCES taxonomy.dic_attribute_value (attribute_value) MATCH SIMPLE;
-ALTER TABLE object.main_detail ALTER COLUMN FOUNDN_SYS SET DEFAULT 'FOS99'::character varying;
-
-ALTER TABLE object.main_detail ADD COLUMN COMMENT character varying(254);
-
-------------------------------------------------------------------------------------------
--- Setup table structure of object.main_detail_qualifier table to fit GEM Taxonomy v2.0 --
-------------------------------------------------------------------------------------------
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_MAT_TYPE integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_MAT_TECH integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_MAT_PROP integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_LLRS integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_LLRS_DUCT integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_HEIGHT integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_YR_BUILT integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_YR_DESTR integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_OCCUPY integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_OCCUPY_DT integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_POSITION integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_PLAN_SHAPE integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_STR_IRREG integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_STR_IRREG_DT integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_STR_IRREG_TYPE integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_NONSTRCEXW integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_ROOF_SHAPE integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_ROOFCOVMAT integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_ROOFSYSMAT integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_ROOFSYSTYP integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_ROOF_CONN integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_FLOOR_MAT integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_FLOOR_TYPE integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_FLOOR_CONN integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN BP_FOUNDN_SYS integer;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN VT_YR_BUILT1 timestamp with time zone;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN VT_YR_BUILT2 timestamp with time zone;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN VT_YR_DESTR1 timestamp with time zone;
-ALTER TABLE object.main_detail_qualifier ADD COLUMN VT_YR_DESTR2 timestamp with time zone;
-
------------------------------------------------------------
--- Delete not needed default columns from basic db model --
------------------------------------------------------------
-DROP VIEW object.ve_resolution1;
-DROP VIEW object.ve_resolution2;
-DROP VIEW object.ve_resolution3;
-ALTER TABLE object.main_detail DROP COLUMN attribute_type_code;
-ALTER TABLE object.main_detail DROP COLUMN attribute_value;
-ALTER TABLE object.main_detail DROP COLUMN attribute_numeric_1;
-ALTER TABLE object.main_detail DROP COLUMN attribute_numeric_2;
-ALTER TABLE object.main_detail DROP COLUMN attribute_text_1;
-
-ALTER TABLE object.main_detail_qualifier DROP COLUMN qualifier_type_code;
-ALTER TABLE object.main_detail_qualifier DROP COLUMN qualifier_value;
-ALTER TABLE object.main_detail_qualifier DROP COLUMN qualifier_numeric_1;
-ALTER TABLE object.main_detail_qualifier DROP COLUMN qualifier_text_1;
-ALTER TABLE object.main_detail_qualifier DROP COLUMN qualifier_timestamp_1;
-ALTER TABLE object.main_detail_qualifier DROP COLUMN qualifier_timestamp_2;
-
--------------------------------------------------------------------------
--- Load GEM Taxonomy v2.0 attributes and values to the taxonomy tables --
--------------------------------------------------------------------------
-INSERT INTO taxonomy.dic_qualifier_type( gid, code, description, extended_description ) VALUES ( 2, 'QUALITY', 'Assessment of quality of attribute information', null ); 
-INSERT INTO taxonomy.dic_qualifier_type( gid, code, description, extended_description ) VALUES ( 1, 'BELIEF', 'Uncertainty measured as subjective degree of belief', null ); 
+----------------------------------------------
+---------- FILL TAXONOMY TABLES --------------
+----------------------------------------------
+--Load qualifier types to taxonomy tables
+INSERT INTO taxonomy.dic_qualifier_type( gid, code, description, extended_description ) VALUES ( 1, 'BELIEF', 'Uncertainty measured as subjective degree of belief', null );
+﻿INSERT INTO taxonomy.dic_qualifier_type( gid, code, description, extended_description ) VALUES ( 2, 'QUALITY', 'Assessment of quality of attribute information', null ); 
 INSERT INTO taxonomy.dic_qualifier_type( gid, code, description, extended_description ) VALUES ( 3, 'SOURCE', 'Source of information', null ); 
-INSERT INTO taxonomy.dic_qualifier_type( gid, code, description, extended_description ) VALUES ( 4, 'VALIDTIME', 'Valid time of real-world object (e.g., construction period)', 'use VT_YR_BUILT1 and/or VT_YR_BUILT2 to define start of lifetime of object. use VT_YR_DESTR1 and/or VT_YR_DESTR2 to define end of lifetime of object.' ); 
+INSERT INTO taxonomy.dic_qualifier_type( gid, code, description, extended_description ) VALUES ( 4, 'VALIDTIME', 'Valid time of real-world object (e.g., construction period)', null );
 
+--Load qualifier values to taxonomy tables
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 1, 'BELIEF', 'BLOW', null, null ); 
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 2, 'BELIEF', 'BHIGH', null, null ); 
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 3, 'BELIEF', 'BP', 'Percentage 1-100 - use add_numeric_1 to enter belief value', null ); 
@@ -189,14 +36,17 @@ INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_va
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 9, 'SOURCE', 'SMEAS', 'Measured in objective way', null ); 
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 10, 'SOURCE', 'SOBS', 'Visual observation', null ); 
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 11, 'SOURCE', 'SINF', 'Inferred', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 12, 'VALIDTIME', 'VT_YR_BUILT1', 'Start timestamp of lifetime', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 13, 'VALIDTIME', 'VT_YR_BUILT2', 'Optional second start timestamp of lifetime to define a timeinterval', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 14, 'VALIDTIME', 'VT_YR_DESTR1', 'End timestamp of lifetime', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 15, 'VALIDTIME', 'VT_YR_DESTR2', 'Optional second end timestamp of lifetime to define a timeinterval', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 12, 'VALIDTIME', 'BUILT', 'Start timestamp of lifetime', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 13, 'VALIDTIME', 'MODIF', 'Modification timestamp of lifetime', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 14, 'VALIDTIME', 'DESTR', 'End timestamp of lifetime', null ); 
 
+--Load taxonomy values to taxonomy tables
 INSERT INTO taxonomy.dic_taxonomy( gid, code, description, extended_description, version_date ) VALUES ( 1, 'GEM20', 'GEM Building Taxonomy V2.0', null, '2013-03-12' ); 
 INSERT INTO taxonomy.dic_taxonomy( gid, code, description, extended_description, version_date ) VALUES ( 2, 'SENSUM', 'SENSUM Indicators', null, '2013-11-12' ); 
+INSERT INTO taxonomy.dic_taxonomy( gid, code, description, extended_description, version_date ) VALUES ( 3, 'EMCA', 'EMCA Building Typology', null, '2013-04-16' ); 
+INSERT INTO taxonomy.dic_taxonomy( gid, code, description, extended_description, version_date ) VALUES ( 4, 'EMS98', 'European Macroseismic Scale 1998', null, '1998-01-01' ); 
 
+--Load GEM Taxonomy v2.0 attribute types to the taxonomy tables
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 19, 'ROOFSYSTYP', 'Roof System Type', null, 'GEM20', 4, null ); 
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 20, 'ROOF_CONN', 'Roof Connections', null, 'GEM20', 5, null ); 
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 1, 'MAT_TYPE', 'Material Type', null, 'GEM20', 1, null ); 
@@ -212,8 +62,7 @@ INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_descri
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 24, 'FOUNDN_SYS', 'Foundation System', null, 'GEM20', 1, null ); 
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 8, 'OCCUPY', 'Building Occupancy Class - General', null, 'GEM20', 1, null ); 
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 9, 'OCCUPY_DT', 'Building Occupancy Class - Detail', null, 'GEM20', 2, null ); 
-INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 10, 'POSITION', 'Building Position within a Block', null, 'GEM20', 1, null ); 
-INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 25, 'YR_DESTR', 'Date of Destruction', null, 'SENSUM', 1, null ); 
+INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 10, 'POSITION', 'Building Position within a Block', null, 'GEM20', 1, null );
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 11, 'PLAN_SHAPE', 'Shape of the Building Plan', null, 'GEM20', 1, null ); 
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 12, 'STR_IRREG', 'Regular or Irregular', null, 'GEM20', 1, null ); 
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 13, 'STR_IRREG_DT', 'Plan Irregularity or Vertical Irregularity', null, 'GEM20', 2, null ); 
@@ -222,7 +71,11 @@ INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_descri
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 16, 'ROOF_SHAPE', 'Roof Shape', null, 'GEM20', 1, null ); 
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 17, 'ROOFCOVMAT', 'Roof Covering', null, 'GEM20', 2, null ); 
 INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 18, 'ROOFSYSMAT', 'Roof System Material', null, 'GEM20', 3, null ); 
+INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 25, 'BUILD_TYPE', 'Building Type', null, 'EMCA', 1, null ); 
+INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 26, 'BUILD_SUBTYPE', 'Building Subtype', null, 'EMCA', 2, null ); 
+INSERT INTO taxonomy.dic_attribute_type( gid, code, description, extended_description, taxonomy_code, attribute_level, attribute_order ) VALUES ( 27, 'VULN', 'Structural Vulnerability Class', null, 'EMS98', 1, null ); 
 
+--Load GEM Taxonomy v2.0 attribute values to the taxonomy tables
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 92, 'LLRS', 'LH', 'LH - Hybrid lateral load-resisting system', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 93, 'LLRS', 'LO', 'LO - Other lateral load-resisting system', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 94, 'LLRS_DUCT', 'DU99', 'DU99 - Ductility unknown', null ); 
@@ -370,7 +223,7 @@ INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_va
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 208, 'STR_IRREG_TYPE', 'POP', 'POP - Pounding potential', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 209, 'STR_IRREG_TYPE', 'SET', 'SET - Setback', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 210, 'STR_IRREG_TYPE', 'CHV', 'CHV - Change in vertical structure (includes large overhangs)', null ); 
-INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 211, 'STR_IRREG_TYPE', 'IRVHO', 'IRVO - Other vertical irregularity', null ); 
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 211, 'STR_IRREG_TYPE', 'IRVO', 'IRVO - Other vertical irregularity', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 238, 'ROOFCOVMAT', 'RMT2', 'RMT2 - Fibre cement or metal tile roof covering', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 239, 'ROOFCOVMAT', 'RMT3', 'RMT3 - Membrane roof covering', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 240, 'ROOFCOVMAT', 'RMT4', 'RMT4 - Slate roof covering', null ); 
@@ -547,12 +400,37 @@ INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_va
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 358, 'ROOFSYSTYP', 'RST99', 'RST99 - Roof system type, unknown', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 360, 'ROOF_CONN', 'RCN99', 'RCN99 - Roof connection, unknown', null ); 
 INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 361, 'FLOOR_TYPE', 'FT99', 'FT99 - Floor type, unknown', null ); 
-INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 363, 'YR_DESTR', 'YDEX', 'YDEX - Exact  date of destruction', null ); 
-INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 362, 'YR_DESTR', 'YD99', 'YD99 - Date of destruction, unknown', null ); 
-INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 364, 'YR_DESTR', 'YDBET', 'YDBET - Upper and lower bound for the date of destruction', null ); 
-INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 365, 'YR_DESTR', 'YDPRE', 'YDPRE - Latest possible date of destruction', null ); 
-INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 367, 'YR_DESTR', 'YDAPP', 'YDAPP - Approximate date of destruction', null ); 
 
+
+--Load EMCA building type attribute values to the taxonomy tables
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 362, 'BUILD_TYPE', 'EMCA1', 'EMCA1 - Load bearing masonry wall buildings', null ); 
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 363, 'BUILD_TYPE', 'EMCA2', 'EMCA2 - Monolithic reinforced concrete buildings', null );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 364, 'BUILD_TYPE', 'EMCA3', 'EMCA3 - Precast concrete buildings', null );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 365, 'BUILD_TYPE', 'EMCA4', 'EMCA4 - Non-engineered earthen buildings', null );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 366, 'BUILD_TYPE', 'EMCA5', 'EMCA5 - Wooden buildings', null );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 367, 'BUILD_TYPE', 'EMCA6', 'EMCA6 - Steel buildings', null );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 368, 'BUILD_SUBTYPE', 'EMCA1_1', 'EMCA1.1 - Unreinforced masonry buildings with walls of brick masonry, stone, or blocks in cement or mixed mortar (no seismic design) - wooden floors', 'DX /MUR+CLBRS+MOC /LWAL+DNO /DY /MUR+CLBRS+MOC /LWAL+DNO /YAPP:1940-1955 /HBET:2,3 /RES+RES2E /BP3 /PLFR /IRRE /EWMA /RSH3+RMT4+RO+RWCP /FW /FOSS' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 369, 'BUILD_SUBTYPE', 'EMCA1_2', 'EMCA1.2 - Unreinforced masonry - buildings with walls of brick masonry, stone, or blocks in cement or mixed mortar (no seismic design) - precast concrete floors', 'DX /MUR+MOCL /LWAL+DNO /DY /MUR+MOCL /LWAL+DNO /YBET:1975,1990 /HBET:1,2+HBEX:0+HFBET:0.5,1.0+HD:0 /RES+RES2A / /PLFR /IRRE /EWMA /RSH3+RMT4+RWO+RWO3+RTDP /FC+FC3+FWCP /FOSS ' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 370, 'BUILD_SUBTYPE', 'EMCA1_3', 'EMCA1.3 - Confined masonry', 'DX /MCF+MOC /LWAL+DNO /DY /MCF+MOC /LWAL+DNO /YBET:1961,2012 /HBET:1,5+HBEX:0+HFBET:0.5,1.5+HD:0 /RES+RES2E / /PLFR /IRIR+IRVP:SOS /EWMA /RSH3+RMT4+RWO+RWO3+RTDP /FC+FC3+FWCP /FOSSL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 371, 'BUILD_SUBTYPE', 'EMCA1_4', 'EMCA1.4 - Masonry with seismic provisions (e.g. seismic belts)', 'DX /MR+CLBRS+RCB+MOCL /LWAL+DNO /DY /MR+CLBRS+RCB+MOCL /LWAL+DNO /YBET:1948,1959 /HBET:1,3+HBEX:0+HFBET:0.3,0.8+HD:0 /RES+RES2D /BPD /PLFR /IRRE /EWMA /RSH3+RMT4+RWO+RWO3+RTDP /FW+FW3+FWCP /FOSSL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 372, 'BUILD_SUBTYPE', 'EMCA2_1', 'EMCA2.1 - Buildings with monolithic concrete moment frames', 'DX /CR+CIP /LFM+DUC /DY /CR+CIP /LFM+DUC /YBET:1950,2012 /HBET:3,7+HBEX:0+HFBET:0.8,1.2+HD:0 /RES+RES2E /BPD /PLFR /IRRE /EWCB /RSH1+RMN+RC+RC3+RTDP /FC+FC3+FWCN /FOSDL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 373, 'BUILD_SUBTYPE', 'EMCA2_2', 'EMCA2.2 - Buildings with monolithic concrete frame and shear walls (dual system)', 'DX /CR+CIP /LDUAL+DNO /DY /CR+CIP /LDUAL+DNO /YBET:1987,2012 /HBET:7,25+HBBET:1,3+HFBET:1.2,2.0+HD:0 /RES+RES2F /BPD /PLFR /IRIR+IRVP:CHV /EWMA /RSH1+RMN+RC+RC2+RTDP /FC+FC2+FWCP /FOSDL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 374, 'BUILD_SUBTYPE', 'EMCA2_3', 'EMCA2.3 - Buildings with monolithic concrete frames and brick infill walls', 'DX /CR+CIP /LFINF+DNO /DY /CR+CIP /LFINF+DNO /YBET:1975,1995 /HBET:3,7+HBEX:0+HFBET:1,1.5+HD:0 /RES+RES2E /BPD /PLFR /IRRE /EWMA /RSH1+RMN+RC+RC3+RTDP /FC+FC3+FWCN /FOSDL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 375, 'BUILD_SUBTYPE', 'EMCA2_4', 'EMCA2.4 - Buildings with monolithic reinforced concrete walls', 'DX /CR+CIP /LWAL+DNO /DY /CR+CIP /LWAL+DNO /YBET:1980,2012 /HBET:8,16+HBEX:1+HFBET:1,1.5+HD:0 /RES+RES2F /BPD /PLFR /IRIR+IRVP:SOS /EWC /RSH1+RMN+RC+RC3+RTDP /FC+FC3+FWCN /FOSDL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 376, 'BUILD_SUBTYPE', 'EMCA3_1', 'EMCA3.1 - Precast concrete large panel buildings with monolithic panel joints - Seria 105', 'DX /CR+PC /LWAL+DUC /DY /CR+PC /LWAL+DUC /YBET:1964,2012 /HBET:1,16+HBEX:1+HFBET:1,1.8+HD:0 /RES+RES2F /BPD /PLFR /IRRE /EWC /RSH1+RMN+RC+RC3+RTDP /FC+FC3+FWCP /FOSDL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 377, 'BUILD_SUBTYPE', 'EMCA3_2', 'EMCA3.2 - Precast concrete large panel buildings with panel connections achieved by welding of embedment plates - Seria 464', '' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 378, 'BUILD_SUBTYPE', 'EMCA3_3', 'EMCA3.3 - Precast concrete flat slab buildings (consisting of columns and slabs) - Seria KUB', 'DX /CR+PC /LFLS+DUC /DY /CR+PC /LFLS+DUC /YBET:1980,1990 /HBET:5,9+HBEX:1+HFBET:0.8,1.5+HD:0 /RES+RES2F /BPD /PLFR /IRRE /EWC /RSH1+RMN+RC+RC3+RTDP /FC+FC3+FWCP /FOSDL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 379, 'BUILD_SUBTYPE', 'EMCA3_4', 'EMCA3.4 - Prefabricated RC frame with linear elements with welded joints in the zone of maximum loads or with rigid walls in one direction - Seria 111, IIS-04', 'DX /CR+PC /LFLS+DUC /DY /CR+PC /LFLS+DUC /YBET:1966,1970 /HBET:6,7+HBEX:1+HFBET:1,1.5+HD:0 /RES+RES2E /BPD /PLFR /IRRE /EWC /RSH1+RMN+RC+RC3+RTDP /FC+FC3+FWCP /FOSDL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 380, 'BUILD_SUBTYPE', 'EMCA4_1', 'EMCA4.1 - Buildings with adobe or earthen walls', 'DX /MUR+ADO+MOM /LWAL+DNO /DY /MUR+ADO+MOM /LWAL+DNO /YBET:1850,2012 /HEX:1+HBEX:0+HFBET:0.3,0.5+HD:0 /RES+RES1 /BPD /PLFR /IRIR+IRPP:TOR /EWE /RSH2+RMT4+RWO+RWO3+RTDN /FW+FW3+FWCN /FOSSL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 381, 'BUILD_SUBTYPE', 'EMCA5_1', 'EMCA5.1 - Buildings with load-bearing braced wooden frames', 'DX /W /LWAL+DUC /DY /W /LWAL+DUC /YBET:1950,1970 /HBET:1,2+HBEX:0+HFBET:0.3,0.5+HD:0 /RES+RES2C /BPD /PLFR /IRRE /EWW /RSH2+RMT4+RWO+RWO3+RTDP /FW+FW3+FWCP /FOSSL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 382, 'BUILD_SUBTYPE', 'EMCA5_2', 'EMCA5.2 - Building with a wooden frame and mud infill', 'DX /W+WLI /LO+DUC /DY /W+WLI /LO+DUC /YBET:0,2012 /HBET:1,2+HBEX:0+HFBET:0.3,0.5+HD:0 /RES+RES1 /BPD /PLFR /IRRE /EWE /RSH2+RMT4+RWO+RWO3+RTDP /FW+FW3+FWCP /FOSSL' );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 383, 'BUILD_SUBTYPE', 'EMCA6_1', 'EMCA6.1 - Steel buildings', 'DX /S+SL+RIV /LFM+DNO /DY /S+SL+RIV /LFM+DNO /YAPP:2008 /HEX:1+HFEX:3+HD:15 /RES+RES1 /BPD /PLFR /IRRE /EWPL /RSH3+RMT6+RME+RME1+RWCP /FME+FME3 /FOSSL' );
+
+--Load EMS-98 vulnerability values to the taxonomy tables
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 384, 'VULN', 'VULN_EX', 'Exact vulnerability class', null );
+INSERT INTO taxonomy.dic_attribute_value( gid, attribute_type_code, attribute_value, description, extended_description ) VALUES ( 385, 'VULN', 'VULN_BET', 'Lower and upper class of vulnerability', null );
+
+--Load hazard types to the taxonomy tables
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 1, 'EQ', 'EQ - Earthquake', null, 'MAT_TYPE' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 2, 'EQ', 'EQ - Earthquake', null, 'MAT_TECH' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 3, 'EQ', 'EQ - Earthquake', null, 'MAT_PROP' ); 
@@ -577,54 +455,121 @@ INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, a
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 22, 'EQ', 'EQ - Earthquake', null, 'FLOOR_TYPE' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 23, 'EQ', 'EQ - Earthquake', null, 'FLOOR_CONN' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 24, 'EQ', 'EQ - Earthquake', null, 'FOUNDN_SYS' ); 
+INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 25, 'EQ', 'EQ - Earthquake', null, 'BUILD_TYPE' ); 
+INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 26, 'EQ', 'EQ - Earthquake', null, 'BUILD_SUBTYPE' ); 
+INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 27, 'EQ', 'EQ - Earthquake', null, 'VULN' );
 
+-------------------------------------------------------------------------
+---------- ADJUST EDITABLE VIEWS FOR DIFFERENT RESOLUTIONS --------------
+-------------------------------------------------------------------------
+CREATE EXTENSION IF NOT EXISTS tablefunc;
 
-
-------------------------------------------------
--- adjust resolution 1 view (high resolution) --
-------------------------------------------------
+-----------------------------------------
+-- resolution 1 view (high resolution) --
+-----------------------------------------
+DROP VIEW IF EXISTS object.ve_resolution1;
 CREATE OR REPLACE VIEW object.ve_resolution1 AS
-SELECT 
-a.survey_gid,
-a.description,
-a.source,
-a.resolution,
-b.*,
-c.bp_mat_type,
-c.bp_mat_tech,
-c.bp_mat_prop,
-c.bp_llrs,
-c.bp_llrs_duct,
-c.bp_height,
-c.bp_yr_built,
-c.bp_yr_destr,
-c.bp_occupy,
-c.bp_occupy_dt,
-c.bp_position,
-c.bp_plan_shape,
-c.bp_str_irreg,
-c.bp_str_irreg_dt,
-c.bp_str_irreg_type,
-c.bp_nonstrcexw,
-c.bp_roof_shape,
-c.bp_roofcovmat,
-c.bp_roofsysmat,
-c.bp_roofsystyp,
-c.bp_roof_conn,
-c.bp_floor_mat,
-c.bp_floor_type,
-c.bp_floor_conn,
-c.bp_foundn_sys,
-c.vt_yr_built1,
-c.vt_yr_built2,
-c.vt_yr_destr1,
-c.vt_yr_destr2
-FROM object.main AS a
-JOIN object.main_detail AS b ON (a.gid = b.object_id)
-JOIN object.main_detail_qualifier AS c ON (b.gid = c.detail_id)
+  SELECT
+   a.*,
+   b.*,
+   f.vuln_1,
+   f.vuln_2,
+   c.height_1,
+   c.height_2,
+   d.*,
+   e.yr_built_vt,
+   e.yr_built_vt1,
+   e.yr_built_vt2
+  FROM object.main 
+AS a
+JOIN
+  --get attribute values
+  (SELECT * FROM crosstab(
+	'SELECT object_id, attribute_type_code, attribute_value FROM object.main_detail order by object_id', 'select code from taxonomy.dic_attribute_type order by gid') 
+	AS ct(object_id integer, 
+	      mat_type varchar, 
+	      mat_tech varchar,
+	      mat_prop varchar,
+	      llrs varchar,
+	      llrs_duct varchar,
+	      height varchar,
+	      yr_built varchar,
+	      occupy varchar,
+	      occupy_dt varchar,
+	      "position" varchar,
+	      plan_shape varchar,
+	      str_irreg varchar,
+	      str_irreg_dt varchar,
+	      str_irreg_type varchar,
+	      nonstrcexw varchar,
+	      roof_shape varchar,
+	      roofcovmat varchar,
+	      roofsysmat varchar,
+	      roofsystyp varchar,
+	      roof_conn varchar,
+	      floor_mat varchar,
+	      floor_type varchar,
+	      floor_conn varchar,
+	      foundn_sys varchar,
+	      build_type varchar,
+	      build_subtype varchar,
+	      vuln varchar))
+AS b ON (a.gid = b.object_id)
+LEFT OUTER JOIN  --do a left outer join because of the where statement in the select 
+  --get height values
+  (SELECT object_id, attribute_numeric_1 as height_1, attribute_numeric_2 as height_2 FROM object.main_detail WHERE attribute_type_code = 'HEIGHT') 
+AS c ON (a.gid = c.object_id)
+JOIN
+  --get belief values for the attribute values
+  (SELECT * FROM crosstab(
+	'SELECT object_id, attribute_type_code, qualifier_numeric_1 FROM (SELECT * FROM object.main_detail as a
+				JOIN object.main_detail_qualifier as b
+				ON (a.gid = b.detail_id)) sub ORDER BY object_id', 
+	'SELECT code from taxonomy.dic_attribute_type order by gid') 
+	AS a (object_id1 integer, 
+	      mat_type_bp integer, 
+	      mat_tech_bp integer,
+	      mat_prop_bp integer,
+	      llrs_bp integer,
+	      llrs_duct_bp integer,
+	      height_bp integer,
+	      yr_built_bp integer,
+	      occupy_bp integer,
+	      occupy_dt_bp integer,
+	      position_bp integer,
+	      plan_shape_bp integer,
+	      str_irreg_bp integer,
+	      str_irreg_dt_bp integer,
+	      str_irreg_type_bp integer,
+	      nonstrcexw_bp integer,
+	      roof_shape_bp integer,
+	      roofcovmat_bp integer,
+	      roofsysmat_bp integer,
+	      roofsystyp_bp integer,
+	      roof_conn_bp integer,
+	      floor_mat_bp integer,
+	      floor_type_bp integer,
+	      floor_conn_bp integer,
+	      foundn_sys_bp integer,
+	      build_type_bp integer,
+	      build_subtype_bp integer,
+	      vuln_bp integer))
+AS d ON (a.gid = d.object_id1)
+LEFT OUTER JOIN --do a left outer join because of the where statement in the select crosstab()
+  --get valid time values (yr_built_1, yr_built_2)
+  (SELECT object_id, qualifier_value as yr_built_vt, qualifier_timestamp_1 as yr_built_vt1, qualifier_timestamp_2 as yr_built_vt2 FROM (SELECT * FROM object.main_detail as a
+				JOIN object.main_detail_qualifier as b
+				ON (a.gid = b.detail_id)) sub WHERE attribute_type_code = 'YR_BUILT' AND qualifier_type_code = 'VALIDTIME' ORDER BY object_id)  
+AS e ON (a.gid = e.object_id)
+LEFT OUTER JOIN  --do a left outer join because of the where statement in the select 
+  --get vulnerability values
+  (SELECT object_id, attribute_numeric_1 as vuln_1, attribute_numeric_2 as vuln_2 FROM object.main_detail WHERE attribute_type_code = 'VULN') 
+AS f ON (a.gid = f.object_id)
+--limit to resolution level 1   
 WHERE a.resolution = 1
-ORDER BY b.gid ASC;
+ORDER BY gid ASC;
 
+--set default attribute values
 ALTER VIEW object.ve_resolution1 ALTER COLUMN MAT_TYPE SET DEFAULT 'MAT99'::character varying;
 ALTER VIEW object.ve_resolution1 ALTER COLUMN MAT_TECH SET DEFAULT 'MATT99'::character varying;
 ALTER VIEW object.ve_resolution1 ALTER COLUMN MAT_PROP SET DEFAULT 'MATP99'::character varying;
@@ -632,7 +577,6 @@ ALTER VIEW object.ve_resolution1 ALTER COLUMN LLRS SET DEFAULT 'L99'::character 
 ALTER VIEW object.ve_resolution1 ALTER COLUMN LLRS_DUCT SET DEFAULT 'DU99'::character varying;
 ALTER VIEW object.ve_resolution1 ALTER COLUMN HEIGHT SET DEFAULT 'H99'::character varying;
 ALTER VIEW object.ve_resolution1 ALTER COLUMN YR_BUILT SET DEFAULT 'Y99'::character varying;
-ALTER VIEW object.ve_resolution1 ALTER COLUMN YR_DESTR SET DEFAULT 'YD99'::character varying;
 ALTER VIEW object.ve_resolution1 ALTER COLUMN OCCUPY SET DEFAULT 'OC99'::character varying;
 ALTER VIEW object.ve_resolution1 ALTER COLUMN OCCUPY_DT SET DEFAULT 'OCCDT99'::character varying;
 ALTER VIEW object.ve_resolution1 ALTER COLUMN POSITION SET DEFAULT 'BP99'::character varying;
@@ -651,356 +595,148 @@ ALTER VIEW object.ve_resolution1 ALTER COLUMN FLOOR_TYPE SET DEFAULT 'FT99'::cha
 ALTER VIEW object.ve_resolution1 ALTER COLUMN FLOOR_CONN SET DEFAULT 'FWC99'::character varying;
 ALTER VIEW object.ve_resolution1 ALTER COLUMN FOUNDN_SYS SET DEFAULT 'FOS99'::character varying;
 
---------------------------------------------------
--- adjust resolution 2 view (medium resolution) --
---------------------------------------------------
-CREATE OR REPLACE VIEW object.ve_resolution2 AS
-SELECT 
-a.survey_gid,
-a.description,
-a.source,
-a.resolution,
-b.*,
-c.bp_mat_type,
-c.bp_mat_tech,
-c.bp_mat_prop,
-c.bp_llrs,
-c.bp_llrs_duct,
-c.bp_height,
-c.bp_yr_built,
-c.bp_yr_destr,
-c.bp_occupy,
-c.bp_occupy_dt,
-c.bp_position,
-c.bp_plan_shape,
-c.bp_str_irreg,
-c.bp_str_irreg_dt,
-c.bp_str_irreg_type,
-c.bp_nonstrcexw,
-c.bp_roof_shape,
-c.bp_roofcovmat,
-c.bp_roofsysmat,
-c.bp_roofsystyp,
-c.bp_roof_conn,
-c.bp_floor_mat,
-c.bp_floor_type,
-c.bp_floor_conn,
-c.bp_foundn_sys,
-c.vt_yr_built1,
-c.vt_yr_built2,
-c.vt_yr_destr1,
-c.vt_yr_destr2
-FROM object.main AS a
-JOIN object.main_detail AS b ON (a.gid = b.object_id)
-JOIN object.main_detail_qualifier AS c ON (b.gid = c.detail_id)
-WHERE a.resolution = 2
-ORDER BY b.gid ASC;
-
-ALTER VIEW object.ve_resolution2 ALTER COLUMN MAT_TYPE SET DEFAULT 'MAT99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN MAT_TECH SET DEFAULT 'MATT99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN MAT_PROP SET DEFAULT 'MATP99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN LLRS SET DEFAULT 'L99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN LLRS_DUCT SET DEFAULT 'DU99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN HEIGHT SET DEFAULT 'H99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN YR_BUILT SET DEFAULT 'Y99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN YR_DESTR SET DEFAULT 'YD99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN OCCUPY SET DEFAULT 'OC99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN OCCUPY_DT SET DEFAULT 'OCCDT99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN POSITION SET DEFAULT 'BP99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN PLAN_SHAPE SET DEFAULT 'PLF99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN STR_IRREG SET DEFAULT 'IR99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN STR_IRREG_DT SET DEFAULT 'IRP99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN STR_IRREG_TYPE SET DEFAULT 'IRT99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN NONSTRCEXW SET DEFAULT 'EW99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN ROOF_SHAPE SET DEFAULT 'R99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN ROOFCOVMAT SET DEFAULT 'RMT99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN ROOFSYSMAT SET DEFAULT 'RSM99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN ROOFSYSTYP SET DEFAULT 'RST99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN ROOF_CONN SET DEFAULT 'RCN99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN FLOOR_MAT SET DEFAULT 'F99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN FLOOR_TYPE SET DEFAULT 'FT99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN FLOOR_CONN SET DEFAULT 'FWC99'::character varying;
-ALTER VIEW object.ve_resolution2 ALTER COLUMN FOUNDN_SYS SET DEFAULT 'FOS99'::character varying;
-
------------------------------------------------
--- adjust resolution 3 view (low resolution) --
------------------------------------------------
-CREATE OR REPLACE VIEW object.ve_resolution3 AS
-SELECT 
-a.survey_gid,
-a.description,
-a.source,
-a.resolution,
-b.*,
-c.bp_mat_type,
-c.bp_mat_tech,
-c.bp_mat_prop,
-c.bp_llrs,
-c.bp_llrs_duct,
-c.bp_height,
-c.bp_yr_built,
-c.bp_yr_destr,
-c.bp_occupy,
-c.bp_occupy_dt,
-c.bp_position,
-c.bp_plan_shape,
-c.bp_str_irreg,
-c.bp_str_irreg_dt,
-c.bp_str_irreg_type,
-c.bp_nonstrcexw,
-c.bp_roof_shape,
-c.bp_roofcovmat,
-c.bp_roofsysmat,
-c.bp_roofsystyp,
-c.bp_roof_conn,
-c.bp_floor_mat,
-c.bp_floor_type,
-c.bp_floor_conn,
-c.bp_foundn_sys,
-c.vt_yr_built1,
-c.vt_yr_built2,
-c.vt_yr_destr1,
-c.vt_yr_destr2
-FROM object.main AS a
-JOIN object.main_detail AS b ON (a.gid = b.object_id)
-JOIN object.main_detail_qualifier AS c ON (b.gid = c.detail_id)
-WHERE a.resolution = 3
-ORDER BY b.gid ASC;
-
-ALTER VIEW object.ve_resolution3 ALTER COLUMN MAT_TYPE SET DEFAULT 'MAT99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN MAT_TECH SET DEFAULT 'MATT99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN MAT_PROP SET DEFAULT 'MATP99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN LLRS SET DEFAULT 'L99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN LLRS_DUCT SET DEFAULT 'DU99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN HEIGHT SET DEFAULT 'H99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN YR_BUILT SET DEFAULT 'Y99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN YR_DESTR SET DEFAULT 'YD99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN OCCUPY SET DEFAULT 'OC99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN OCCUPY_DT SET DEFAULT 'OCCDT99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN POSITION SET DEFAULT 'BP99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN PLAN_SHAPE SET DEFAULT 'PLF99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN STR_IRREG SET DEFAULT 'IR99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN STR_IRREG_DT SET DEFAULT 'IRP99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN STR_IRREG_TYPE SET DEFAULT 'IRT99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN NONSTRCEXW SET DEFAULT 'EW99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN ROOF_SHAPE SET DEFAULT 'R99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN ROOFCOVMAT SET DEFAULT 'RMT99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN ROOFSYSMAT SET DEFAULT 'RSM99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN ROOFSYSTYP SET DEFAULT 'RST99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN ROOF_CONN SET DEFAULT 'RCN99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN FLOOR_MAT SET DEFAULT 'F99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN FLOOR_TYPE SET DEFAULT 'FT99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN FLOOR_CONN SET DEFAULT 'FWC99'::character varying;
-ALTER VIEW object.ve_resolution3 ALTER COLUMN FOUNDN_SYS SET DEFAULT 'FOS99'::character varying;
-
--------------------------
--- make views editable --
--------------------------
-CREATE OR REPLACE FUNCTION object.edit_resolution_views()
+------------------------------------
+-- make resolution1 view editable --
+------------------------------------
+CREATE OR REPLACE FUNCTION object.edit_resolution1_view()
 RETURNS TRIGGER AS 
 $BODY$
 BEGIN
       IF TG_OP = 'INSERT' THEN
-       INSERT INTO object.main_detail (
-	object_id,
-	resolution2_id,
-	resolution3_id,
-	the_geom,
-	mat_type,
-	mat_tech,
-	mat_prop,
-	llrs,
-	llrs_duct,
-	height,
-	height_numeric_1,
-	yr_built,
-	yr_destr,
-	occupy,
-	occupy_dt,
-	position,
-	plan_shape,
-	str_irreg,
-	str_irreg_dt,
-	str_irreg_type,
-	nonstrcexw,
-	roof_shape,
-	roofcovmat,
-	roofsysmat,
-	roofsystyp,
-	roof_conn,
-	floor_mat,
-	floor_type,
-	floor_conn,
-	foundn_sys,
-	comment) 
-       VALUES (
-	NEW.object_id,
-	NEW.resolution2_id,
-	NEW.resolution3_id,
-	NEW.the_geom,
-	NEW.mat_type,
-	NEW.mat_tech,
-	NEW.mat_prop,
-	NEW.llrs,
-	NEW.llrs_duct,
-	NEW.height,
-	NEW.height_numeric_1,
-	NEW.yr_built,
-	NEW.yr_destr,
-	NEW.occupy,
-	NEW.occupy_dt,
-	NEW.position,
-	NEW.plan_shape,
-	NEW.str_irreg,
-	NEW.str_irreg_dt,
-	NEW.str_irreg_type,
-	NEW.nonstrcexw,
-	NEW.roof_shape,
-	NEW.roofcovmat,
-	NEW.roofsysmat,
-	NEW.roofsystyp,
-	NEW.roof_conn,
-	NEW.floor_mat,
-	NEW.floor_type,
-	NEW.floor_conn,
-	NEW.foundn_sys,
-	NEW.comment);
-       INSERT INTO object.main_detail_qualifier (
-	detail_id,
-        bp_mat_type,
-	bp_mat_tech,
-	bp_mat_prop,
-	bp_llrs,
-	bp_llrs_duct,
-	bp_height,
-	bp_yr_built,
-	bp_yr_destr,
-	bp_occupy,
-	bp_occupy_dt,
-	bp_position,
-	bp_plan_shape,
-	bp_str_irreg,
-	bp_str_irreg_dt,
-	bp_str_irreg_type,
-	bp_nonstrcexw,
-	bp_roof_shape,
-	bp_roofcovmat,
-	bp_roofsysmat,
-	bp_roofsystyp,
-	bp_roof_conn,
-	bp_floor_mat,
-	bp_floor_type,
-	bp_floor_conn,
-	bp_foundn_sys,
-	vt_yr_built1,
-	vt_yr_built2,
-	vt_yr_destr1,
-	vt_yr_destr2)
-       VALUES (
-	(SELECT max(gid) FROM object.main_detail),
-	NEW.bp_mat_type,
-	NEW.bp_mat_tech,
-	NEW.bp_mat_prop,
-	NEW.bp_llrs,
-	NEW.bp_llrs_duct,
-	NEW.bp_height,
-	NEW.bp_yr_built,
-	NEW.bp_yr_destr,
-	NEW.bp_occupy,
-	NEW.bp_occupy_dt,
-	NEW.bp_position,
-	NEW.bp_plan_shape,
-	NEW.bp_str_irreg,
-	NEW.bp_str_irreg_dt,
-	NEW.bp_str_irreg_type,
-	NEW.bp_nonstrcexw,
-	NEW.bp_roof_shape,
-	NEW.bp_roofcovmat,
-	NEW.bp_roofsysmat,
-	NEW.bp_roofsystyp,
-	NEW.bp_roof_conn,
-	NEW.bp_floor_mat,
-	NEW.bp_floor_type,
-	NEW.bp_floor_conn,
-	NEW.bp_foundn_sys,
-	NEW.vt_yr_built1,
-	NEW.vt_yr_built2,
-	NEW.vt_yr_destr1,
-	NEW.vt_yr_destr2);
-       RETURN NEW;
+       INSERT INTO object.main (gid, survey_gid, source, description, resolution, resolution2_id, resolution3_id, the_geom) 
+        VALUES (DEFAULT, NEW.survey_gid, NEW.source, NEW.description, 1, NEW.resolution2_id, NEW.resolution3_id, NEW.the_geom);
+       --TODO: INSERT ONLY WHEN ACCORDING DETAIL HAS BEEN INSERTED ELSE DONT INSERT
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'MAT_TYPE', NEW.mat_type);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'MAT_TECH', NEW.mat_tech);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'MAT_PROP', NEW.mat_prop);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'LLRS', NEW.llrs);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'LLRS_DUCT', NEW.llrs_duct);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value, attribute_numeric_1, attribute_numeric_2) VALUES ((SELECT max(gid) FROM object.main), 'HEIGHT', NEW.height, NEW.height_1, NEW.height_2);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'YR_BUILT', NEW.yr_built);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'OCCUPY', NEW.occupy);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'OCCUPY_DT', NEW.occupy_dt);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'POSITION', NEW."position");
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'PLAN_SHAPE', NEW.plan_shape);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'STR_IRREG', NEW.str_irreg);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'STR_IRREG_DT', NEW.str_irreg_dt);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'STR_IRREG_TYPE', NEW.str_irreg_type);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'NONSTRCEXW', NEW.nonstrcexw);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'ROOF_SHAPE', NEW.roof_shape);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'ROOFCOVMAT', NEW.roofcovmat);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'ROOFSYSMAT', NEW.roofsysmat);	 
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'ROOFSYSTYP', NEW.roofsystyp);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'ROOF_CONN', NEW.roof_conn);    
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'FLOOR_MAT', NEW.floor_mat);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'FLOOR_TYPE', NEW.floor_type);
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'FLOOR_CONN', NEW.floor_conn);       
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'FOUNDN_SYS', NEW.foundn_sys);       
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'BUILD_TYPE', NEW.build_type);       
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object.main), 'BUILD_SUBTYPE', NEW.build_subtype);       
+       INSERT INTO object.main_detail (object_id, attribute_type_code, attribute_value, attribute_numeric_1, attribute_numeric_2) VALUES ((SELECT max(gid) FROM object.main), 'VULN', NEW.vuln, NEW.vuln_1, NEW.vuln_2);       
        
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='MAT_TYPE'), 'BELIEF', 'BP', NEW.mat_type_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='MAT_TECH'), 'BELIEF', 'BP', NEW.mat_tech_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='MAT_PROP'), 'BELIEF', 'BP', NEW.mat_prop_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='LLRS'), 'BELIEF', 'BP', NEW.llrs_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='LLRS_DUCT'), 'BELIEF', 'BP', NEW.llrs_duct_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='HEIGHT'), 'BELIEF', 'BP', NEW.height_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='YR_BUILT'), 'BELIEF', 'BP', NEW.yr_built_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='OCCUPY'), 'BELIEF', 'BP', NEW.occupy_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='OCCUPY_DT'), 'BELIEF', 'BP', NEW.occupy_dt_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='POSITION'), 'BELIEF', 'BP', NEW.position_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='PLAN_SHAPE'), 'BELIEF', 'BP', NEW.plan_shape_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='STR_IRREG'), 'BELIEF', 'BP', NEW.str_irreg_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='STR_IRREG_DT'), 'BELIEF', 'BP', NEW.str_irreg_dt_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='STR_IRREG_TYPE'), 'BELIEF', 'BP', NEW.str_irreg_type_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='NONSTRCEXW'), 'BELIEF', 'BP', NEW.nonstrcexw_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='ROOF_SHAPE'), 'BELIEF', 'BP', NEW.roof_shape_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='ROOFCOVMAT'), 'BELIEF', 'BP', NEW.roofcovmat_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='ROOFSYSMAT'), 'BELIEF', 'BP', NEW.roofsysmat_bp);	 
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='ROOFSYSTYP'), 'BELIEF', 'BP', NEW.roofsystyp_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='ROOF_CONN'), 'BELIEF', 'BP', NEW.roof_conn_bp);    
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='FLOOR_MAT'), 'BELIEF', 'BP', NEW.floor_mat_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='FLOOR_TYPE'), 'BELIEF', 'BP', NEW.floor_type_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='FLOOR_CONN'), 'BELIEF', 'BP', NEW.floor_conn_bp);       
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='FOUNDN_SYS'), 'BELIEF', 'BP', NEW.foundn_sys_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='BUILD_TYPE'), 'BELIEF', 'BP', NEW.build_type_bp);
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='BUILD_SUBTYPE'), 'BELIEF', 'BP', NEW.build_subtype_bp);  
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='VULN'), 'BELIEF', 'BP', NEW.vuln_bp);      
+       INSERT INTO object.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_timestamp_1, qualifier_timestamp_2) VALUES ((SELECT max(gid) FROM object.main_detail WHERE attribute_type_code='YR_BUILT'), 'VALIDTIME', NEW.yr_built_vt, NEW.yr_built_vt1, NEW.yr_built_vt2);
+   
+       RETURN NEW;
+
       ELSIF TG_OP = 'UPDATE' THEN
-       UPDATE object.main_detail 
-       SET 
-	object_id=NEW.object_id,
-	resolution2_id=NEW.resolution2_id,
-	resolution3_id=NEW.resolution3_id,
-	the_geom=NEW.the_geom,
-	mat_type=NEW.mat_type,
-	mat_tech=NEW.mat_tech,
-	mat_prop=NEW.mat_prop,
-	llrs=NEW.llrs,
-	llrs_duct=NEW.llrs_duct,
-	height=NEW.height,
-	height_numeric_1=NEW.height_numeric_1,
-	yr_built=NEW.yr_built,
-	yr_destr=NEW.yr_destr,
-	occupy=NEW.occupy,
-	occupy_dt=NEW.occupy_dt,
-	position=NEW.position,
-	plan_shape=NEW.plan_shape,
-	str_irreg=NEW.str_irreg,
-	str_irreg_dt=NEW.str_irreg_dt,
-	str_irreg_type=NEW.str_irreg_type,
-	nonstrcexw=NEW.nonstrcexw,
-	roof_shape=NEW.roof_shape,
-	roofcovmat=NEW.roofcovmat,
-	roofsysmat=NEW.roofsysmat,
-	roofsystyp=NEW.roofsystyp,
-	roof_conn=NEW.roof_conn,
-	floor_mat=NEW.floor_mat,
-	floor_type=NEW.floor_type,
-	floor_conn=NEW.floor_conn,
-	foundn_sys=NEW.foundn_sys,
-	comment=NEW.comment
-       WHERE gid=OLD.gid;
-       UPDATE object.main_detail_qualifier 
-       SET 
-	bp_mat_type=NEW.bp_mat_type,
-	bp_mat_tech=NEW.bp_mat_tech,
-	bp_mat_prop=NEW.bp_mat_prop,
-	bp_llrs=NEW.bp_llrs,
-	bp_llrs_duct=NEW.bp_llrs_duct,
-	bp_height=NEW.bp_height,
-	bp_yr_built=NEW.bp_yr_built,
-	bp_yr_destr=NEW.bp_yr_destr,
-	bp_occupy=NEW.bp_occupy,
-	bp_occupy_dt=NEW.bp_occupy_dt,
-	bp_position=NEW.bp_position,
-	bp_plan_shape=NEW.bp_plan_shape,
-	bp_str_irreg=NEW.bp_str_irreg,
-	bp_str_irreg_dt=NEW.bp_str_irreg_dt,
-	bp_str_irreg_type=NEW.bp_str_irreg_type,
-	bp_nonstrcexw=NEW.bp_nonstrcexw,
-	bp_roof_shape=NEW.bp_roof_shape,
-	bp_roofcovmat=NEW.bp_roofcovmat,
-	bp_roofsysmat=NEW.bp_roofsysmat,
-	bp_roofsystyp=NEW.bp_roofsystyp,
-	bp_roof_conn=NEW.bp_roof_conn,
-	bp_floor_mat=NEW.bp_floor_mat,
-	bp_floor_type=NEW.bp_floor_type,
-	bp_floor_conn=NEW.bp_floor_conn,
-	bp_foundn_sys=NEW.bp_foundn_sys,
-	vt_yr_built1=NEW.vt_yr_built1,
-	vt_yr_built2=NEW.vt_yr_built2,
-	vt_yr_destr1=NEW.vt_yr_destr1,
-	vt_yr_destr2=NEW.vt_yr_destr2
-       WHERE detail_id=OLD.gid;
-       RETURN NEW;
+       UPDATE object.main SET survey_gid=NEW.survey_gid, source=NEW.source, description=NEW.description, resolution=NEW.resolution, resolution2_id=NEW.resolution2_id, resolution3_id=NEW.resolution3_id, the_geom=NEW.the_geom 
+        WHERE gid=OLD.gid;
+       --TODO: UPDATE ONLY IF DETAIL IS AVAILABLE, ELSE INSERT THE DETAIL
+       UPDATE object.main_detail SET attribute_value=NEW.mat_type WHERE object_id=OLD.gid AND attribute_type_code='MAT_TYPE';
+       UPDATE object.main_detail SET attribute_value=NEW.mat_tech WHERE object_id=OLD.gid AND attribute_type_code='MAT_TECH';
+       UPDATE object.main_detail SET attribute_value=NEW.mat_prop WHERE object_id=OLD.gid AND attribute_type_code='MAT_PROP';
+       UPDATE object.main_detail SET attribute_value=NEW.llrs WHERE object_id=OLD.gid AND attribute_type_code='LLRS';	
+       UPDATE object.main_detail SET attribute_value=NEW.llrs_duct WHERE object_id=OLD.gid AND attribute_type_code='LLRS_DUCT';
+       UPDATE object.main_detail SET attribute_value=NEW.height WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT';
+       UPDATE object.main_detail SET attribute_value=NEW.yr_built WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT';
+       UPDATE object.main_detail SET attribute_value=NEW.occupy WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY';
+       UPDATE object.main_detail SET attribute_value=NEW.occupy_dt WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY_DT';
+       UPDATE object.main_detail SET attribute_value=NEW."position" WHERE object_id=OLD.gid AND attribute_type_code='POSITION';	
+       UPDATE object.main_detail SET attribute_value=NEW.plan_shape WHERE object_id=OLD.gid AND attribute_type_code='PLAN_SHAPE';
+       UPDATE object.main_detail SET attribute_value=NEW.str_irreg WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG';
+       UPDATE object.main_detail SET attribute_value=NEW.str_irreg_dt WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_DT';
+       UPDATE object.main_detail SET attribute_value=NEW.str_irreg_type WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_TYPE';
+       UPDATE object.main_detail SET attribute_value=NEW.nonstrcexw WHERE object_id=OLD.gid AND attribute_type_code='NONSTRCEXW';
+       UPDATE object.main_detail SET attribute_value=NEW.roof_shape WHERE object_id=OLD.gid AND attribute_type_code='ROOF_SHAPE';	
+       UPDATE object.main_detail SET attribute_value=NEW.roofcovmat WHERE object_id=OLD.gid AND attribute_type_code='ROOFCOVMAT';
+       UPDATE object.main_detail SET attribute_value=NEW.roofsystyp WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSTYP';
+       UPDATE object.main_detail SET attribute_value=NEW.roof_conn WHERE object_id=OLD.gid AND attribute_type_code='ROOFCONN';
+       UPDATE object.main_detail SET attribute_value=NEW.floor_mat WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_MAT';
+       UPDATE object.main_detail SET attribute_value=NEW.floor_type WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_TYPE';
+       UPDATE object.main_detail SET attribute_value=NEW.floor_conn WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_CONN';
+       UPDATE object.main_detail SET attribute_value=NEW.foundn_sys WHERE object_id=OLD.gid AND attribute_type_code='FOUNDN_SYS';
+       UPDATE object.main_detail SET attribute_value=NEW.build_type WHERE object_id=OLD.gid AND attribute_type_code='BUILD_TYPE';
+       UPDATE object.main_detail SET attribute_value=NEW.build_subtype WHERE object_id=OLD.gid AND attribute_type_code='BUILD_SUBTYPE';
+       UPDATE object.main_detail SET attribute_value=NEW.vuln WHERE object_id=OLD.gid AND attribute_type_code='VULN';
+       UPDATE object.main_detail SET attribute_numeric_1=NEW.vuln_1 WHERE object_id=OLD.gid AND attribute_type_code='VULN';
+       UPDATE object.main_detail SET attribute_numeric_2=NEW.vuln_2 WHERE object_id=OLD.gid AND attribute_type_code='VULN';
+       UPDATE object.main_detail SET attribute_numeric_1=NEW.height_1 WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT';
+       UPDATE object.main_detail SET attribute_numeric_2=NEW.height_2 WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT';
+
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_type_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_TYPE');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_tech_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_TECH');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_prop_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_PROP');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.llrs_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='LLRS');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.llrs_duct_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='LLRS_DUCT');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.height_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.yr_built_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.occupy_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.occupy_dt_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY_DT');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.position_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='POSITION');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.plan_shape_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='PLAN_SHAPE');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_dt_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_DT');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_type_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_TYPE');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.nonstrcexw_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='NONSTRCEXW');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.roof_shape_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOF_SHAPE');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.roofcovmat_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFCOVMAT');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.roofsysmat_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSMAT');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.roofsystyp_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSTYP');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.roof_conn_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOF_CONN');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_mat_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_MAT');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_type_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_TYPE');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_conn_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_CONN');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.foundn_sys_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FOUNDN_SYS');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.build_type_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='BUILD_TYPE');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.build_subtype_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='BUILD_SUBTYPE');
+       UPDATE object.main_detail_qualifier SET qualifier_numeric_1=NEW.vuln_bp WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='VULN');
+       UPDATE object.main_detail_qualifier SET qualifier_value=NEW.yr_built_vt WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT');
+       UPDATE object.main_detail_qualifier SET qualifier_timestamp_1=NEW.yr_built_vt1 WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT'); 
+       UPDATE object.main_detail_qualifier SET qualifier_timestamp_2=NEW.yr_built_vt2 WHERE detail_id=(SELECT gid FROM object.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT');
        
+       RETURN NEW;
+
       ELSIF TG_OP = 'DELETE' THEN
-       DELETE FROM object.main_detail_qualifier WHERE detail_id=OLD.gid;
-       DELETE FROM object.main_detail WHERE gid=OLD.gid;
+       DELETE FROM object.main_detail_qualifier WHERE detail_id IN (SELECT gid FROM object.main_detail WHERE object_id=OLD.gid);
+       DELETE FROM object.main_detail WHERE object_id=OLD.gid;
+       DELETE FROM object.main WHERE gid=OLD.gid;
        RETURN NULL;
       END IF;
       RETURN NEW;
@@ -1008,178 +744,12 @@ END;
 $BODY$ 
 LANGUAGE 'plpgsql';
 
-
-COMMENT ON FUNCTION object.edit_resolution_views() IS $body$
-This function makes the resolution views editable and forwards the edits to the underlying tables.
+COMMENT ON FUNCTION object.edit_resolution1_view() IS $body$
+This function makes the resolution 1 view (adjusted for the rrvs) editable and forwards the edits to the underlying tables.
 $body$;
 
---DROP TRIGGER resolution1_trigger ON object.ve_resolution1;
+DROP TRIGGER IF EXISTS resolution1_trigger ON object.ve_resolution1;
 CREATE TRIGGER resolution1_trigger
     INSTEAD OF INSERT OR UPDATE OR DELETE ON object.ve_resolution1 
       FOR EACH ROW 
-      EXECUTE PROCEDURE object.edit_resolution_views();
-
---DROP TRIGGER resolution2_trigger ON object.ve_resolution2;
-CREATE TRIGGER resolution2_trigger
-    INSTEAD OF INSERT OR UPDATE OR DELETE ON object.ve_resolution2 
-      FOR EACH ROW 
-      EXECUTE PROCEDURE object.edit_resolution_views();
-
---DROP TRIGGER resolution3_trigger ON object.ve_resolution3;
-CREATE TRIGGER resolution3_trigger
-    INSTEAD OF INSERT OR UPDATE OR DELETE ON object.ve_resolution3 
-      FOR EACH ROW 
-      EXECUTE PROCEDURE object.edit_resolution_views();
-
-
------------------------------------------------------------------------------------------
--- Link resolutions: Update once the resolution_ids in case some records already exist --
------------------------------------------------------------------------------------------
--- Update resolution2_ids for resolution1 records based on spatial join
-UPDATE object.main_detail SET resolution2_id=a.resolution2_id 
-  FROM (SELECT res2.gid AS resolution2_id, res1.gid AS resolution1_id FROM (SELECT gid, the_geom FROM object.main_detail WHERE object_id=1) res1 
-    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=2) res2 
-    ON ST_Contains(res2.the_geom, (SELECT ST_PointOnSurface(res1.the_geom)))) AS a
-WHERE object.main_detail.gid=a.resolution1_id;
-
--- Update resolution3_ids for resolution1 records based on spatial join
-UPDATE object.main_detail SET resolution3_id=a.resolution3_id 
-  FROM (SELECT res3.gid AS resolution3_id, res1.gid AS resolution1_id FROM (SELECT gid, the_geom FROM object.main_detail WHERE object_id=1) res1
-    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=3) res3 
-    ON ST_Contains(res3.the_geom, (SELECT ST_PointOnSurface(res1.the_geom)))) AS a
-WHERE object.main_detail.gid=a.resolution1_id;
-
--- Update resolution3_ids for resolution2 records based on spatial join
-UPDATE object.main_detail SET resolution3_id=a.resolution3_id 
-  FROM (SELECT res3.gid AS resolution3_id, res2.gid AS resolution2_id FROM (SELECT gid, the_geom FROM object.main_detail WHERE object_id=2) res2
-    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=3) res3 
-    ON ST_Contains(res3.the_geom, (SELECT ST_PointOnSurface(res2.the_geom)))) AS a
-WHERE object.main_detail.gid=a.resolution2_id;
-
-
------------------------------------------------------------------------------------------
--- Link resolutions: Update resolution_ids on INSERT and UPDATE (main_detail.the_geom) --
------------------------------------------------------------------------------------------
--- Trigger function and trigger to update resolution_ids for each INSERT and UPDATE OF the_geom ON main_detail
-CREATE OR REPLACE FUNCTION object.update_resolution_ids() 
-RETURNS TRIGGER AS
-$BODY$
-BEGIN 
-     IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN	
-	-- Update resolution2_ids for resolution1 records based on spatial join
-	UPDATE object.main_detail SET resolution2_id=a.resolution2_id 
-	  FROM (SELECT res2.gid AS resolution2_id, res1.gid AS resolution1_id FROM (SELECT gid, resolution2_id, resolution3_id, the_geom FROM object.main_detail WHERE object_id=1) res1 
-	    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=2) res2 
-	    ON ST_Contains(res2.the_geom, (SELECT ST_PointOnSurface(res1.the_geom))) 
-		WHERE res1.gid=NEW.gid	-- if resolution1 record is updated
-		OR res1.resolution2_id=NEW.gid	-- if resolution2 record is updated
-		OR res1.resolution3_id=NEW.gid	-- if resolution3 record is updated
-		OR ST_Intersects(res1.the_geom, NEW.the_geom)	-- update ids also for resolution1 records that intersect with the newly updated resolution2 or resolution3 records
-		) AS a
-	WHERE object.main_detail.gid=a.resolution1_id OR object.main_detail.gid=NEW.gid AND NEW.object_id=1;
-
-	-- Update resolution3_ids for resolution1 records based on spatial join
-	UPDATE object.main_detail SET resolution3_id=a.resolution3_id 
-	  FROM (SELECT res3.gid AS resolution3_id, res1.gid AS resolution1_id FROM (SELECT gid, resolution2_id, resolution3_id, the_geom FROM object.main_detail WHERE object_id=1) res1
-	    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=3) res3 
-	    ON ST_Contains(res3.the_geom, (SELECT ST_PointOnSurface(res1.the_geom))) 
-		WHERE res1.gid=NEW.gid 
-		OR res1.resolution2_id=NEW.gid 
-		OR res1.resolution3_id=NEW.gid 
-		OR ST_Intersects(res1.the_geom, NEW.the_geom)
-		) AS a
-	WHERE object.main_detail.gid=a.resolution1_id OR object.main_detail.gid=NEW.gid AND NEW.object_id=1;
-
-	-- Update resolution3_ids for resolution2 records based on spatial join
-	UPDATE object.main_detail SET resolution3_id=a.resolution3_id 
-	  FROM (SELECT res3.gid AS resolution3_id, res2.gid AS resolution2_id FROM (SELECT gid, resolution3_id, the_geom FROM object.main_detail WHERE object_id=2) res2
-	    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=3) res3 
-	    ON ST_Contains(res3.the_geom, (SELECT ST_PointOnSurface(res2.the_geom))) 
-		WHERE res2.gid=NEW.gid 
-		OR res2.resolution3_id=NEW.gid 
-		OR ST_Intersects(res2.the_geom, NEW.the_geom)
-		) AS a
-	WHERE object.main_detail.gid=a.resolution2_id OR object.main_detail.gid=NEW.gid AND NEW.object_id=2;
-	
-     RETURN NEW;
-
-     ELSIF TG_OP = 'DELETE' THEN
-	-- Update resolution2_ids for resolution1 records based on spatial join
-	UPDATE object.main_detail SET resolution2_id=a.resolution2_id 
-	  FROM (SELECT res2.gid AS resolution2_id, res1.gid AS resolution1_id FROM (SELECT gid, resolution2_id, resolution3_id, the_geom FROM object.main_detail WHERE object_id=1) res1 
-	    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=2) res2 
-	    ON ST_Contains(res2.the_geom, (SELECT ST_PointOnSurface(res1.the_geom))) 
-		WHERE res1.resolution2_id=OLD.gid	-- if resolution2 record is deleted
-		OR res1.resolution3_id=OLD.gid	-- if resolution3 record is deleted
-		) AS a
-	WHERE object.main_detail.gid=a.resolution1_id;
-
-	-- Update resolution3_ids for resolution1 records based on spatial join
-	UPDATE object.main_detail SET resolution3_id=a.resolution3_id 
-	  FROM (SELECT res3.gid AS resolution3_id, res1.gid AS resolution1_id FROM (SELECT gid, resolution2_id, resolution3_id, the_geom FROM object.main_detail WHERE object_id=1) res1
-	    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=3) res3 
-	    ON ST_Contains(res3.the_geom, (SELECT ST_PointOnSurface(res1.the_geom))) 
-		WHERE res1.resolution2_id=OLD.gid 
-		OR res1.resolution3_id=OLD.gid
-		) AS a
-	WHERE object.main_detail.gid=a.resolution1_id;
-
-	-- Update resolution3_ids for resolution2 records based on spatial join
-	UPDATE object.main_detail SET resolution3_id=a.resolution3_id 
-	  FROM (SELECT res3.gid AS resolution3_id, res2.gid AS resolution2_id FROM (SELECT gid, resolution3_id, the_geom FROM object.main_detail WHERE object_id=2) res2
-	    LEFT JOIN (SELECT gid, the_geom FROM object.main_detail WHERE object_id=3) res3 
-	    ON ST_Contains(res3.the_geom, (SELECT ST_PointOnSurface(res2.the_geom))) 
-		WHERE res2.gid=OLD.gid 
-		OR res2.resolution3_id=OLD.gid 
-		OR ST_Intersects(res2.the_geom, OLD.the_geom)
-		) AS a
-	WHERE object.main_detail.gid=a.resolution2_id;
-     
-     RETURN NULL;
-
-     END IF;
-     RETURN NEW;
-END;
-$BODY$
-LANGUAGE 'plpgsql';
-
-COMMENT ON FUNCTION object.update_resolution_ids() IS $body$
-This function updates the resolution_ids for an object when its geometry is updated or a new object is inserted.
-$body$;
-
-DROP TRIGGER resolution_id_trigger ON object.main_detail;
-CREATE TRIGGER resolution_id_trigger
-    AFTER INSERT OR UPDATE OF the_geom ON object.main_detail 
-      FOR EACH ROW 
-      WHEN (pg_trigger_depth() = 1)	-- current nesting level of trigger (1 if called once from inside a trigger)
-      EXECUTE PROCEDURE object.update_resolution_ids();
-
-DROP TRIGGER resolution_id_trigger_del ON object.main_detail;
-CREATE TRIGGER resolution_id_trigger_del
-    AFTER DELETE ON object.main_detail 
-      FOR EACH ROW 
-      WHEN (pg_trigger_depth() = 1)	-- current nesting level of trigger (1 if called once from inside a trigger)
-      EXECUTE PROCEDURE object.update_resolution_ids();
-
-
-
-/*----------------------------------------------------------------
--- Create table to hold the QGIS layer styles and populate it --
-----------------------------------------------------------------
-CREATE TABLE public.layer_styles ( 
-	id                   serial  NOT NULL,
-	f_table_catalog      varchar(256),
-	f_table_schema       varchar(256),
-	f_table_name         varchar(256),
-	f_geometry_column    varchar(256),
-	stylename            varchar(30),
-	styleqml             xml,
-	stylesld             xml,
-	useasdefault         bool,
-	description          text,
-	owner                varchar(30),
-	ui                   xml,
-	update_time          timestamp DEFAULT now(),
-	CONSTRAINT layer_styles_pkey PRIMARY KEY (id)
- );
-*/
+      EXECUTE PROCEDURE object.edit_resolution1_view();

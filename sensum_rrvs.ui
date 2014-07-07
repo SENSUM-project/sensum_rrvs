@@ -155,7 +155,7 @@
       <string>Material Type</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_mat_type">
+    <widget class="QDial" name="mat_type_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -292,7 +292,7 @@
       <string>Level 3</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_mat_tech">
+    <widget class="QDial" name="mat_tech_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -408,7 +408,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QDial" name="bp_mat_prop">
+    <widget class="QDial" name="mat_prop_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -609,7 +609,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QDial" name="bp_llrs">
+    <widget class="QDial" name="llrs_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -647,7 +647,7 @@
       <string>High</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_llrs_duct">
+    <widget class="QDial" name="llrs_duct_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -780,7 +780,7 @@
       <string>High</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_height">
+    <widget class="QDial" name="height_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -898,7 +898,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLineEdit" name="height_numeric_1">
+    <widget class="QLineEdit" name="height_1">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -1203,7 +1203,7 @@
       <string>Value 2</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_yr_built">
+    <widget class="QDial" name="yr_built_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1231,7 +1231,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QDial" name="bp_yr_destr">
+    <widget class="QDial" name="yr_destr_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1256,7 +1256,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLineEdit" name="vt_yr_built1">
+    <widget class="QLineEdit" name="yr_built_vt1">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -1266,7 +1266,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="vt_yr_built2">
+    <widget class="QLineEdit" name="yr_built_vt2">
      <property name="geometry">
       <rect>
        <x>232</x>
@@ -1420,7 +1420,7 @@
       <string>Low</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_occupy_dt">
+    <widget class="QDial" name="occupy_dt_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1464,7 +1464,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QDial" name="bp_occupy">
+    <widget class="QDial" name="occupy_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1691,7 +1691,7 @@
       <string>High</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_str_irreg">
+    <widget class="QDial" name="str_irreg_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1729,7 +1729,7 @@
       <string>Regular or Irregular</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_str_irreg_dt">
+    <widget class="QDial" name="str_irreg_dt_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1954,7 +1954,7 @@
       <string>Low</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_str_irreg_type">
+    <widget class="QDial" name="str_irreg_type_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -2048,7 +2048,7 @@
       <string>High</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_nonstrcexw">
+    <widget class="QDial" name="nonstrcexw_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -2301,7 +2301,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QDial" name="bp_roof_shape">
+    <widget class="QDial" name="roof_shape_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -2477,7 +2477,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QDial" name="bp_roofsysmat">
+    <widget class="QDial" name="roofsysmat_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -2502,7 +2502,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QDial" name="bp_roofcovmat">
+    <widget class="QDial" name="roofcovmat_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -2588,7 +2588,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QDial" name="bp_roofsystyp">
+    <widget class="QDial" name="roofsystyp_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -2652,7 +2652,7 @@
       <string>Low</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_roof_conn">
+    <widget class="QDial" name="roof_conn_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -2756,7 +2756,7 @@
     <attribute name="title">
      <string>Floor</string>
     </attribute>
-    <widget class="QDial" name="bp_floor_mat">
+    <widget class="QDial" name="floor_mat_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -2913,7 +2913,7 @@
       <string>High</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_floor_type">
+    <widget class="QDial" name="floor_type_bp">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -3090,7 +3090,7 @@
       <string>Low</string>
      </property>
     </widget>
-    <widget class="QDial" name="bp_floor_conn">
+    <widget class="QDial" name="floor_conn_bp">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -3687,19 +3687,6 @@
     <string>Roof/Floor</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="object_id">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>40</y>
-     <width>231</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="insertPolicy">
-    <enum>QComboBox::NoInsert</enum>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="enabled">
     <bool>false</bool>
@@ -3730,6 +3717,22 @@
    </property>
    <property name="text">
     <string>Edit</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="description">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>40</y>
+     <width>221</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Adresse des Objektes</string>
    </property>
   </widget>
  </widget>
@@ -3768,7 +3771,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_mat_tech</sender>
+   <sender>mat_tech_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_3</receiver>
    <slot>setValue(int)</slot>
@@ -3784,7 +3787,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_mat_prop</sender>
+   <sender>mat_prop_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_7</receiver>
    <slot>setValue(int)</slot>
@@ -3800,7 +3803,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_llrs</sender>
+   <sender>llrs_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_8</receiver>
    <slot>setValue(int)</slot>
@@ -3816,7 +3819,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_llrs_duct</sender>
+   <sender>llrs_duct_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_9</receiver>
    <slot>setValue(int)</slot>
@@ -3832,7 +3835,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_height</sender>
+   <sender>height_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_15</receiver>
    <slot>setValue(int)</slot>
@@ -3848,7 +3851,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_occupy</sender>
+   <sender>occupy_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_19</receiver>
    <slot>setValue(int)</slot>
@@ -3864,7 +3867,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_occupy_dt</sender>
+   <sender>occupy_dt_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_18</receiver>
    <slot>setValue(int)</slot>
@@ -3880,7 +3883,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_str_irreg</sender>
+   <sender>str_irreg_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_17</receiver>
    <slot>setValue(int)</slot>
@@ -3896,7 +3899,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_str_irreg_dt</sender>
+   <sender>str_irreg_dt_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_16</receiver>
    <slot>setValue(int)</slot>
@@ -3912,7 +3915,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_str_irreg_type</sender>
+   <sender>str_irreg_type_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_24</receiver>
    <slot>setValue(int)</slot>
@@ -3928,7 +3931,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_nonstrcexw</sender>
+   <sender>nonstrcexw_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_25</receiver>
    <slot>setValue(int)</slot>
@@ -3944,7 +3947,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_roof_shape</sender>
+   <sender>roof_shape_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_11</receiver>
    <slot>setValue(int)</slot>
@@ -3960,7 +3963,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_roofcovmat</sender>
+   <sender>roofcovmat_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_10</receiver>
    <slot>setValue(int)</slot>
@@ -3976,7 +3979,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_roofsysmat</sender>
+   <sender>roofsysmat_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_23</receiver>
    <slot>setValue(int)</slot>
@@ -3992,7 +3995,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_roofsystyp</sender>
+   <sender>roofsystyp_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_26</receiver>
    <slot>setValue(int)</slot>
@@ -4008,7 +4011,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_roof_conn</sender>
+   <sender>roof_conn_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_27</receiver>
    <slot>setValue(int)</slot>
@@ -4024,7 +4027,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_floor_mat</sender>
+   <sender>floor_mat_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_12</receiver>
    <slot>setValue(int)</slot>
@@ -4040,7 +4043,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_floor_type</sender>
+   <sender>floor_type_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_45</receiver>
    <slot>setValue(int)</slot>
@@ -4056,7 +4059,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_floor_conn</sender>
+   <sender>floor_conn_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_46</receiver>
    <slot>setValue(int)</slot>
@@ -4072,7 +4075,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_yr_built</sender>
+   <sender>yr_built_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_20</receiver>
    <slot>setValue(int)</slot>
@@ -4088,7 +4091,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_yr_destr</sender>
+   <sender>yr_destr_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressBar_22</receiver>
    <slot>setValue(int)</slot>
@@ -4104,7 +4107,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>bp_mat_type</sender>
+   <sender>mat_type_bp</sender>
    <signal>valueChanged(int)</signal>
    <receiver>progressbar</receiver>
    <slot>setValue(int)</slot>
