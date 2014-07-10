@@ -1,8 +1,8 @@
 ﻿------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------
 -- Name: SENSUM multi-resolution database support for Remote Rapid Visual Screening (RRVS)
--- Version: 0.3
--- Date: 19.06.14
+-- Version: 0.3.1
+-- Date: 10.07.14
 -- Author: M. Wieland
 -- DBMS: PostgreSQL9.2 / PostGIS2.0
 -- SENSUM data model: tested on version 0.9
