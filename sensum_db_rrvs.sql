@@ -2,7 +2,7 @@
 ------------------------------------------------------------------------------------------------------------------------------------
 -- Name: SENSUM multi-resolution database support for Remote Rapid Visual Screening (RRVS)
 -- Version: 0.3.1
--- Date: 10.07.14
+-- Date: 22.07.14
 -- Author: M. Wieland
 -- DBMS: PostgreSQL9.2 / PostGIS2.0
 -- SENSUM data model: tested on version 0.9
@@ -601,8 +601,7 @@ RETURNS TRIGGER AS
 $BODY$
 BEGIN
       IF TG_OP = 'INSERT' THEN
-       INSERT INTO object_res1.main (gid, survey_gid, source, description, res2_id, res3_id, the_geom) 
-        VALUES (DEFAULT, NEW.survey_gid, NEW.source, NEW.description, NEW.res2_id, NEW.res3_id, NEW.the_geom);
+       INSERT INTO object_res1.main (gid, survey_gid, source, description, res2_id, res3_id, the_geom) VALUES (DEFAULT, NEW.survey_gid, NEW.source, NEW.description, NEW.res2_id, NEW.res3_id, NEW.the_geom);
        INSERT INTO object_res1.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object_res1.main), 'MAT_TYPE', NEW.mat_type);
        INSERT INTO object_res1.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object_res1.main), 'MAT_TECH', NEW.mat_tech);
        INSERT INTO object_res1.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object_res1.main), 'MAT_PROP', NEW.mat_prop);
@@ -734,6 +733,20 @@ BEGIN
        DELETE FROM object_res1.main_detail_qualifier WHERE detail_id IN (SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid);
        DELETE FROM object_res1.main_detail WHERE object_id=OLD.gid;
        DELETE FROM object_res1.main WHERE gid=OLD.gid;
+       --workaround to include row information after delete (because it is not possible to define a AFTER FOR EACH ROW trigger on a view)
+       IF EXISTS (SELECT event_object_schema, trigger_name FROM information_schema.triggers WHERE event_object_schema = 'object_res1' AND trigger_name = 'zhistory_trigger_row') THEN
+	       INSERT INTO history.logged_actions VALUES(
+	        NEXTVAL('history.logged_actions_gid_seq'),    -- gid
+		TG_TABLE_SCHEMA::text,                        -- schema_name
+		TG_TABLE_NAME::text,                          -- table_name
+		TG_RELID,                                     -- relation OID for much quicker searches
+		txid_current(),                               -- transaction_id
+		session_user::text,                           -- transaction_user
+		current_timestamp,                            -- transaction_time
+		NULL,                              	      -- top-level query or queries (if multistatement) from client
+		'D',					      -- transaction_type
+		hstore(OLD.*), NULL, NULL);                   -- old_record, new_record, changed_fields
+	END IF;
        RETURN NULL;
       END IF;
       RETURN NEW;
