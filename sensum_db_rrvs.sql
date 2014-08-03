@@ -2,7 +2,7 @@
 ------------------------------------------------------------------------------------------------------------------------------------
 -- Name: SENSUM multi-resolution database support for Remote Rapid Visual Screening (RRVS)
 -- Version: 0.3.1
--- Date: 22.07.14
+-- Date: 03.08.14
 -- Author: M. Wieland
 -- DBMS: PostgreSQL9.2 / PostGIS2.0
 -- SENSUM data model: tested on version 0.9
@@ -478,8 +478,7 @@ CREATE OR REPLACE VIEW object_res1.ve_resolution1 AS
    c.height_2,
    d.*,
    e.yr_built_vt,
-   e.yr_built_vt1,
-   e.yr_built_vt2
+   e.yr_built_vt1
   FROM object_res1.main 
 AS a
 JOIN
@@ -557,7 +556,7 @@ JOIN
 AS d ON (a.gid = d.object_id1)
 LEFT OUTER JOIN --do a left outer join because of the where statement in the select crosstab()
   --get valid time values (yr_built_1, yr_built_2)
-  (SELECT object_id, qualifier_value as yr_built_vt, qualifier_timestamp_1 as yr_built_vt1, qualifier_timestamp_2 as yr_built_vt2 FROM (SELECT * FROM object_res1.main_detail as a
+  (SELECT object_id, qualifier_value as yr_built_vt, qualifier_timestamp_1 as yr_built_vt1 FROM (SELECT * FROM object_res1.main_detail as a
 				JOIN object_res1.main_detail_qualifier as b
 				ON (a.gid = b.detail_id)) sub WHERE attribute_type_code = 'YR_BUILT' AND qualifier_type_code = 'VALIDTIME' ORDER BY object_id)  
 AS e ON (a.gid = e.object_id)
@@ -657,7 +656,7 @@ BEGIN
        INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='BUILD_TYPE'), 'BELIEF', 'BP', NEW.build_type_bp);
        INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='BUILD_SUBTYPE'), 'BELIEF', 'BP', NEW.build_subtype_bp);  
        INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='VULN'), 'BELIEF', 'BP', NEW.vuln_bp);      
-       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_timestamp_1, qualifier_timestamp_2) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='YR_BUILT'), 'VALIDTIME', NEW.yr_built_vt, NEW.yr_built_vt1, NEW.yr_built_vt2);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_timestamp_1) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='YR_BUILT'), 'VALIDTIME', NEW.yr_built_vt, NEW.yr_built_vt1);
    
        RETURN NEW;
 
@@ -725,7 +724,6 @@ BEGIN
        UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.vuln_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='VULN');
        UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.yr_built_vt WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT');
        UPDATE object_res1.main_detail_qualifier SET qualifier_timestamp_1=NEW.yr_built_vt1 WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT'); 
-       UPDATE object_res1.main_detail_qualifier SET qualifier_timestamp_2=NEW.yr_built_vt2 WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT');
        
        RETURN NEW;
 
