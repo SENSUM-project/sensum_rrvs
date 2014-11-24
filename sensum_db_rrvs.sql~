@@ -448,7 +448,7 @@ INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, a
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 15, 'EQ', 'EQ - Earthquake', null, 'NONSTRCEXW' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 16, 'EQ', 'EQ - Earthquake', null, 'ROOF_SHAPE' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 17, 'EQ', 'EQ - Earthquake', null, 'ROOFCOVMAT' ); 
-INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 18, 'EQ', 'EQ - Earthquake', null, 'ROOFSYSMAT' ); 
+INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 18, 'EQ\n', 'EQ - Earthquake', null, 'ROOFSYSMAT' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 19, 'EQ', 'EQ - Earthquake', null, 'ROOFSYSTYP' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 20, 'EQ', 'EQ - Earthquake', null, 'ROOF_CONN' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 21, 'EQ', 'EQ - Earthquake', null, 'FLOOR_MAT' ); 
