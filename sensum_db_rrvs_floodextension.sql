@@ -162,12 +162,12 @@ JOIN
 	      build_type_bp integer,
 	      build_subtype_bp integer,
 	      vuln_bp integer,
-	      bacc_bp varchar,
-	      bacc_gf_bp varchar,
-	      bacc_bk_bp varchar,
-	      bacc_bsl_bp varchar,
-	      wndws_bp varchar,
-	      const_qual_bp varchar))
+	      bacc_bp integer,
+	      bacc_gf_bp integer,
+	      bacc_bk_bp integer,
+	      bacc_bsl_bp integer,
+	      wndws_bp integer,
+	      const_qual_bp integer))
 AS d ON (a.gid = d.object_id1)
 LEFT OUTER JOIN --do a left outer join because of the where statement in the select crosstab()
   --get valid time values (yr_built_1, yr_built_2)
