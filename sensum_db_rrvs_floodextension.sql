@@ -257,7 +257,7 @@ ALTER VIEW object_res1.ve_resolution1 ALTER COLUMN BACC SET DEFAULT 'BA99'::char
 ALTER VIEW object_res1.ve_resolution1 ALTER COLUMN BACC_GF SET DEFAULT 'BACC_GF99'::character varying;
 ALTER VIEW object_res1.ve_resolution1 ALTER COLUMN BACC_BK SET DEFAULT 'BACC_BK99'::character varying;
 ALTER VIEW object_res1.ve_resolution1 ALTER COLUMN BACC_BSL SET DEFAULT 'BACC_BSL99'::character varying;
-ALTER VIEW object_res1.ve_resolution1 ALTER COLUMN WNDWS SET DEFAULT 'WNDWS99'::character varying;
+ALTER VIEW object_res1.ve_resolution1 ALTER COLUMN WNDWS SET DEFAULT 'WN99'::character varying;
 
 ------------------------------------
 -- make resolution1 view editable --
