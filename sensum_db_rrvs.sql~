@@ -1,8 +1,8 @@
 ﻿------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------
 -- Name: SENSUM multi-resolution database support for Remote Rapid Visual Screening (RRVS)
--- Version: 0.3.1
--- Date: 03.08.14
+-- Version: 0.3.3
+-- Date: 26.11.14
 -- Author: M. Wieland
 -- DBMS: PostgreSQL9.2 / PostGIS2.0
 -- SENSUM data model: tested on version 0.9
@@ -12,6 +12,9 @@
 -- 		   Implemented qualifiers: Belief, Quality, Source, Validtime
 -- 		   Implemented resolutions: Resolution 1 (per-building)
 --		2. Adjusts the editable view for resolution 1 from the basic SENSUM data model to the RRVS specifications
+--		   Attributes in use: GEM Taxonomy, EMCA building types, Vulnerability
+--		   Qualifiers in use: Belief, Validtime, Source
+--		3. Creates views for data and metadata exchange
 ------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -32,13 +35,14 @@ INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_va
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 5, 'QUALITY', 'QLOW', null, null ); 
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 6, 'QUALITY', 'QMEDIUM', null, null ); 
 INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 7, 'QUALITY', 'QHIGH', null, null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 8, 'SOURCE', 'SPRE', 'Previous knowledge', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 9, 'SOURCE', 'SMEAS', 'Measured in objective way', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 10, 'SOURCE', 'SOBS', 'Visual observation', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 11, 'SOURCE', 'SINF', 'Inferred', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 12, 'VALIDTIME', 'BUILT', 'Start timestamp of lifetime', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 13, 'VALIDTIME', 'MODIF', 'Modification timestamp of lifetime', null ); 
-INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 14, 'VALIDTIME', 'DESTR', 'End timestamp of lifetime', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 8, 'SOURCE', 'OSM', 'OpenStreetMap', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 9, 'SOURCE', 'RS', 'Remote Sensing', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 10, 'SOURCE', 'RVS', 'Rapid Visual Screening', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 11, 'SOURCE', 'RRVS', 'Remote Rapid Visual Screening', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 12, 'SOURCE', 'OF', 'Official Source (e.g. cadastral data or census)', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 13, 'VALIDTIME', 'BUILT', 'Start timestamp of lifetime', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 14, 'VALIDTIME', 'MODIF', 'Modification timestamp of lifetime', null ); 
+INSERT INTO taxonomy.dic_qualifier_value( gid, qualifier_type_code, qualifier_value, description, extended_description ) VALUES ( 15, 'VALIDTIME', 'DESTR', 'End timestamp of lifetime', null ); 
 
 --Load taxonomy values to taxonomy tables
 INSERT INTO taxonomy.dic_taxonomy( gid, code, description, extended_description, version_date ) VALUES ( 1, 'GEM20', 'GEM Building Taxonomy V2.0', null, '2013-03-12' ); 
@@ -448,7 +452,7 @@ INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, a
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 15, 'EQ', 'EQ - Earthquake', null, 'NONSTRCEXW' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 16, 'EQ', 'EQ - Earthquake', null, 'ROOF_SHAPE' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 17, 'EQ', 'EQ - Earthquake', null, 'ROOFCOVMAT' ); 
-INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 18, 'EQ\n', 'EQ - Earthquake', null, 'ROOFSYSMAT' ); 
+INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 18, 'EQ', 'EQ - Earthquake', null, 'ROOFSYSMAT' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 19, 'EQ', 'EQ - Earthquake', null, 'ROOFSYSTYP' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 20, 'EQ', 'EQ - Earthquake', null, 'ROOF_CONN' ); 
 INSERT INTO taxonomy.dic_hazard( gid, code, description, extended_description, attribute_type_code ) VALUES ( 21, 'EQ', 'EQ - Earthquake', null, 'FLOOR_MAT' ); 
@@ -478,7 +482,8 @@ CREATE OR REPLACE VIEW object_res1.ve_resolution1 AS
    c.height_2,
    d.*,
    e.yr_built_vt,
-   e.yr_built_vt1
+   e.yr_built_vt1,
+   g.*
   FROM object_res1.main 
 AS a
 JOIN
@@ -522,7 +527,7 @@ JOIN
   --get belief values for the attribute values
   (SELECT * FROM crosstab(
 	'SELECT object_id, attribute_type_code, qualifier_numeric_1 FROM (SELECT * FROM object_res1.main_detail as a
-				JOIN object_res1.main_detail_qualifier as b
+				JOIN (SELECT * FROM object_res1.main_detail_qualifier WHERE qualifier_type_code=''BELIEF'') as b
 				ON (a.gid = b.detail_id)) sub ORDER BY object_id', 
 	'SELECT code from taxonomy.dic_attribute_type order by gid') 
 	AS a (object_id1 integer, 
@@ -564,6 +569,42 @@ LEFT OUTER JOIN  --do a left outer join because of the where statement in the se
   --get vulnerability values
   (SELECT object_id, attribute_numeric_1 as vuln_1, attribute_numeric_2 as vuln_2 FROM object_res1.main_detail WHERE attribute_type_code = 'VULN') 
 AS f ON (a.gid = f.object_id)
+JOIN
+  --get source values for the attribute values
+  (SELECT * FROM crosstab(
+	'SELECT object_id, attribute_type_code, qualifier_value FROM (SELECT * FROM object_res1.main_detail as a
+				JOIN (SELECT * FROM object_res1.main_detail_qualifier WHERE qualifier_type_code=''SOURCE'') as b
+				ON (a.gid = b.detail_id)) sub ORDER BY object_id', 
+	'SELECT code from taxonomy.dic_attribute_type order by gid') 
+	AS ct (object_id2 integer,
+	      mat_type_src varchar, 
+	      mat_tech_src varchar,
+	      mat_prop_src varchar,
+	      llrs_src varchar,
+	      llrs_duct_src varchar,
+	      height_src varchar,
+	      yr_built_src varchar,
+	      occupy_src varchar,
+	      occupy_dt_src varchar,
+	      position_src varchar,
+	      plan_shape_src varchar,
+	      str_irreg_src varchar,
+	      str_irreg_dt_src varchar,
+	      str_irreg_type_src varchar,
+	      nonstrcexw_src varchar,
+	      roof_shape_src varchar,
+	      roofcovmat_src varchar,
+	      roofsysmat_src varchar,
+	      roofsystyp_src varchar,
+	      roof_conn_src varchar,
+	      floor_mat_src varchar,
+	      floor_type_src varchar,
+	      floor_conn_src varchar,
+	      foundn_sys_src varchar,
+	      build_type_src varchar,
+	      build_subtype_src varchar,
+	      vuln_src varchar))
+AS g ON (a.gid = g.object_id2)
 ORDER BY gid ASC;
 
 --set default attribute values
@@ -657,7 +698,35 @@ BEGIN
        INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='BUILD_SUBTYPE'), 'BELIEF', 'BP', NEW.build_subtype_bp);  
        INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_numeric_1) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='VULN'), 'BELIEF', 'BP', NEW.vuln_bp);      
        INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value, qualifier_timestamp_1) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='YR_BUILT'), 'VALIDTIME', NEW.yr_built_vt, NEW.yr_built_vt1);
-   
+
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='MAT_TYPE'), 'SOURCE', NEW.mat_type_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='MAT_TECH'), 'SOURCE', NEW.mat_tech_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='MAT_PROP'), 'SOURCE', NEW.mat_prop_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='LLRS'), 'SOURCE', NEW.llrs_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='LLRS_DUCT'), 'SOURCE', NEW.llrs_duct_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='HEIGHT'), 'SOURCE', NEW.height_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='YR_BUILT'), 'SOURCE', NEW.yr_built_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='OCCUPY'), 'SOURCE', NEW.occupy_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='OCCUPY_DT'), 'SOURCE', NEW.occupy_dt_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='POSITION'), 'SOURCE', NEW.position_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='PLAN_SHAPE'), 'SOURCE', NEW.plan_shape_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='STR_IRREG'), 'SOURCE', NEW.str_irreg_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='STR_IRREG_DT'), 'SOURCE', NEW.str_irreg_dt_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='STR_IRREG_TYPE'), 'SOURCE', NEW.str_irreg_type_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='NONSTRCEXW'), 'SOURCE', NEW.nonstrcexw_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='ROOF_SHAPE'), 'SOURCE', NEW.roof_shape_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='ROOFCOVMAT'), 'SOURCE', NEW.roofcovmat_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='ROOFSYSMAT'), 'SOURCE', NEW.roofsysmat_src);	 
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='ROOFSYSTYP'), 'SOURCE', NEW.roofsystyp_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='ROOF_CONN'), 'SOURCE', NEW.roof_conn_src);    
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='FLOOR_MAT'), 'SOURCE', NEW.floor_mat_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='FLOOR_TYPE'), 'SOURCE', NEW.floor_type_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='FLOOR_CONN'), 'SOURCE', NEW.floor_conn_src);       
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='FOUNDN_SYS'), 'SOURCE', NEW.foundn_sys_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='BUILD_TYPE'), 'SOURCE', NEW.build_type_src);
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='BUILD_SUBTYPE'), 'SOURCE', NEW.build_subtype_src);  
+       INSERT INTO object_res1.main_detail_qualifier (detail_id, qualifier_type_code, qualifier_value) VALUES ((SELECT max(gid) FROM object_res1.main_detail WHERE attribute_type_code='VULN'), 'SOURCE', NEW.vuln_src);
+ 
        RETURN NEW;
 
       ELSIF TG_OP = 'UPDATE' THEN
@@ -682,7 +751,7 @@ BEGIN
        UPDATE object_res1.main_detail SET attribute_value=NEW.roof_shape WHERE object_id=OLD.gid AND attribute_type_code='ROOF_SHAPE';	
        UPDATE object_res1.main_detail SET attribute_value=NEW.roofcovmat WHERE object_id=OLD.gid AND attribute_type_code='ROOFCOVMAT';
        UPDATE object_res1.main_detail SET attribute_value=NEW.roofsystyp WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSTYP';
-       UPDATE object_res1.main_detail SET attribute_value=NEW.roof_conn WHERE object_id=OLD.gid AND attribute_type_code='ROOFCONN';
+       UPDATE object_res1.main_detail SET attribute_value=NEW.roof_conn WHERE object_id=OLD.gid AND attribute_type_code='ROOF_CONN';
        UPDATE object_res1.main_detail SET attribute_value=NEW.floor_mat WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_MAT';
        UPDATE object_res1.main_detail SET attribute_value=NEW.floor_type WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_TYPE';
        UPDATE object_res1.main_detail SET attribute_value=NEW.floor_conn WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_CONN';
@@ -695,36 +764,64 @@ BEGIN
        UPDATE object_res1.main_detail SET attribute_numeric_1=NEW.height_1 WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT';
        UPDATE object_res1.main_detail SET attribute_numeric_2=NEW.height_2 WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT';
 
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_type_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_TYPE');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_tech_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_TECH');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_prop_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_PROP');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.llrs_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='LLRS');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.llrs_duct_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='LLRS_DUCT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.height_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.yr_built_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.occupy_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.occupy_dt_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY_DT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.position_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='POSITION');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.plan_shape_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='PLAN_SHAPE');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_dt_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_DT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_type_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_TYPE');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.nonstrcexw_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='NONSTRCEXW');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roof_shape_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOF_SHAPE');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roofcovmat_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFCOVMAT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roofsysmat_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSMAT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roofsystyp_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSTYP');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roof_conn_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOF_CONN');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_mat_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_MAT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_type_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_TYPE');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_conn_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_CONN');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.foundn_sys_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FOUNDN_SYS');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.build_type_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='BUILD_TYPE');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.build_subtype_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='BUILD_SUBTYPE');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.vuln_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='VULN');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.yr_built_vt WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT');
-       UPDATE object_res1.main_detail_qualifier SET qualifier_timestamp_1=NEW.yr_built_vt1 WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT'); 
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_type_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_TYPE') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_tech_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_TECH') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.mat_prop_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_PROP') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.llrs_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='LLRS') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.llrs_duct_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='LLRS_DUCT') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.height_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.yr_built_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.occupy_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.occupy_dt_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY_DT') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.position_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='POSITION') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.plan_shape_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='PLAN_SHAPE') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_dt_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_DT') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.str_irreg_type_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_TYPE') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.nonstrcexw_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='NONSTRCEXW') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roof_shape_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOF_SHAPE') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roofcovmat_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFCOVMAT') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roofsysmat_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSMAT') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roofsystyp_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSTYP') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.roof_conn_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOF_CONN') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_mat_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_MAT') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_type_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_TYPE') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.floor_conn_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_CONN') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.foundn_sys_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FOUNDN_SYS') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.build_type_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='BUILD_TYPE') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.build_subtype_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='BUILD_SUBTYPE') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_numeric_1=NEW.vuln_bp WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='VULN') AND qualifier_type_code='BELIEF';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.yr_built_vt WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT') AND qualifier_type_code='VALIDTIME';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_timestamp_1=NEW.yr_built_vt1 WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT') AND qualifier_type_code='VALIDTIME'; 
        
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.mat_type_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_TYPE') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.mat_tech_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_TECH') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.mat_prop_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='MAT_PROP') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.llrs_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='LLRS') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.llrs_duct_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='LLRS_DUCT') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.height_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='HEIGHT') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.yr_built_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='YR_BUILT') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.occupy_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.occupy_dt_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='OCCUPY_DT') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.position_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='POSITION') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.plan_shape_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='PLAN_SHAPE') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.str_irreg_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.str_irreg_dt_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_DT') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.str_irreg_type_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='STR_IRREG_TYPE') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.nonstrcexw_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='NONSTRCEXW') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.roof_shape_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOF_SHAPE') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.roofcovmat_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFCOVMAT') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.roofsysmat_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSMAT') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.roofsystyp_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOFSYSTYP') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.roof_conn_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='ROOF_CONN') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.floor_mat_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_MAT') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.floor_type_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_TYPE') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.floor_conn_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FLOOR_CONN') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.foundn_sys_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='FOUNDN_SYS') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.build_type_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='BUILD_TYPE') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.build_subtype_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='BUILD_SUBTYPE') AND qualifier_type_code='SOURCE';
+       UPDATE object_res1.main_detail_qualifier SET qualifier_value=NEW.vuln_src WHERE detail_id=(SELECT gid FROM object_res1.main_detail WHERE object_id=OLD.gid AND attribute_type_code='VULN') AND qualifier_type_code='SOURCE';
+
        RETURN NEW;
 
       ELSIF TG_OP = 'DELETE' THEN
@@ -761,3 +858,85 @@ CREATE TRIGGER res1_trigger
     INSTEAD OF INSERT OR UPDATE OR DELETE ON object_res1.ve_resolution1 
       FOR EACH ROW 
       EXECUTE PROCEDURE object_res1.edit_resolution_view();
+
+
+-------------------------------------------
+-- resolution 1 view data (per-building) --
+-------------------------------------------
+DROP VIEW IF EXISTS object_res1.v_resolution1_data;
+CREATE OR REPLACE VIEW object_res1.v_resolution1_data AS
+  SELECT
+   a.*,
+   b.*,
+   e.vuln_1,
+   e.vuln_2,
+   c.height_1,
+   c.height_2,
+   d.yr_built_vt,
+   d.yr_built_vt1
+  FROM object_res1.main 
+AS a
+JOIN
+  --get attribute values
+  (SELECT * FROM crosstab(
+	'SELECT object_id, attribute_type_code, attribute_value FROM object_res1.main_detail order by object_id', 'select code from taxonomy.dic_attribute_type order by gid') 
+	AS ct(object_id integer, 
+	      mat_type varchar, 
+	      mat_tech varchar,
+	      mat_prop varchar,
+	      llrs varchar,
+	      llrs_duct varchar,
+	      height varchar,
+	      yr_built varchar,
+	      occupy varchar,
+	      occupy_dt varchar,
+	      "position" varchar,
+	      plan_shape varchar,
+	      str_irreg varchar,
+	      str_irreg_dt varchar,
+	      str_irreg_type varchar,
+	      nonstrcexw varchar,
+	      roof_shape varchar,
+	      roofcovmat varchar,
+	      roofsysmat varchar,
+	      roofsystyp varchar,
+	      roof_conn varchar,
+	      floor_mat varchar,
+	      floor_type varchar,
+	      floor_conn varchar,
+	      foundn_sys varchar,
+	      build_type varchar,
+	      build_subtype varchar,
+	      vuln varchar))
+AS b ON (a.gid = b.object_id)
+LEFT OUTER JOIN  --do a left outer join because of the where statement in the select 
+  --get height values
+  (SELECT object_id, attribute_numeric_1 as height_1, attribute_numeric_2 as height_2 FROM object_res1.main_detail WHERE attribute_type_code = 'HEIGHT') 
+AS c ON (a.gid = c.object_id)
+LEFT OUTER JOIN --do a left outer join because of the where statement in the select crosstab()
+  --get valid time values (yr_built_1, yr_built_2)
+  (SELECT object_id, qualifier_value as yr_built_vt, qualifier_timestamp_1 as yr_built_vt1 FROM (SELECT * FROM object_res1.main_detail as a
+				JOIN object_res1.main_detail_qualifier as b
+				ON (a.gid = b.detail_id)) sub WHERE attribute_type_code = 'YR_BUILT' AND qualifier_type_code = 'VALIDTIME' ORDER BY object_id)  
+AS d ON (a.gid = d.object_id)
+LEFT OUTER JOIN  --do a left outer join because of the where statement in the select 
+  --get vulnerability values
+  (SELECT object_id, attribute_numeric_1 as vuln_1, attribute_numeric_2 as vuln_2 FROM object_res1.main_detail WHERE attribute_type_code = 'VULN') 
+AS e ON (a.gid = e.object_id)
+ORDER BY gid ASC;
+
+
+-------------------------------------------------------
+-- resolution 1 view metadata summary (per-building) --
+-------------------------------------------------------
+DROP VIEW IF EXISTS object_res1.v_resolution1_metadata;
+CREATE OR REPLACE VIEW object_res1.v_resolution1_metadata AS
+	SELECT b.attribute_type_code as attribute_type,
+	       c.description as description,
+	       array(SELECT distinct(qualifier_value) FROM object_res1.main_detail_qualifier WHERE qualifier_type_code='SOURCE') as source,
+	       (SELECT distinct(qualifier_value) FROM object_res1.main_detail_qualifier WHERE qualifier_type_code='BELIEF') as belief_type,
+	       avg(qualifier_numeric_1) AS avg_belief
+		FROM object_res1.main_detail_qualifier a
+	JOIN object_res1.main_detail b ON (a.detail_id = b.gid)
+	JOIN taxonomy.dic_attribute_type c ON (b.attribute_type_code = c.code)
+		GROUP BY attribute_type, description, belief_type, source ORDER BY attribute_type_code;
