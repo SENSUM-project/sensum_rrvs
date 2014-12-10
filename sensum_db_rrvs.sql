@@ -641,7 +641,7 @@ RETURNS TRIGGER AS
 $BODY$
 BEGIN
       IF TG_OP = 'INSERT' THEN
-       INSERT INTO object_res1.main (gid, survey_gid, source, description, res2_id, res3_id, the_geom) VALUES (DEFAULT, NEW.survey_gid, NEW.source, NEW.description, NEW.res2_id, NEW.res3_id, NEW.the_geom);
+       INSERT INTO object_res1.main (gid, survey_gid, source, accuracy, description, res2_id, res3_id, the_geom) VALUES (DEFAULT, NEW.survey_gid, NEW.source, NEW.accuracy, NEW.description, NEW.res2_id, NEW.res3_id, NEW.the_geom);
        INSERT INTO object_res1.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object_res1.main), 'MAT_TYPE', NEW.mat_type);
        INSERT INTO object_res1.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object_res1.main), 'MAT_TECH', NEW.mat_tech);
        INSERT INTO object_res1.main_detail (object_id, attribute_type_code, attribute_value) VALUES ((SELECT max(gid) FROM object_res1.main), 'MAT_PROP', NEW.mat_prop);
@@ -730,7 +730,7 @@ BEGIN
        RETURN NEW;
 
       ELSIF TG_OP = 'UPDATE' THEN
-       UPDATE object_res1.main SET survey_gid=NEW.survey_gid, source=NEW.source, description=NEW.description, res2_id=NEW.res2_id, res3_id=NEW.res3_id, the_geom=NEW.the_geom 
+       UPDATE object_res1.main SET survey_gid=NEW.survey_gid, source=NEW.source, accuracy=NEW.accuracy, description=NEW.description, res2_id=NEW.res2_id, res3_id=NEW.res3_id, the_geom=NEW.the_geom 
         WHERE gid=OLD.gid;
        --TODO: UPDATE ONLY IF DETAIL IS AVAILABLE, ELSE INSERT THE DETAIL
        UPDATE object_res1.main_detail SET attribute_value=NEW.mat_type WHERE object_id=OLD.gid AND attribute_type_code='MAT_TYPE';
@@ -931,6 +931,13 @@ ORDER BY gid ASC;
 -------------------------------------------------------
 DROP VIEW IF EXISTS object_res1.v_resolution1_metadata;
 CREATE OR REPLACE VIEW object_res1.v_resolution1_metadata AS
+	SELECT 'THE_GEOM' as attribute_type, 
+	       'Object geometry' as description, 
+	       array(SELECT distinct(source) FROM object_res1.main) as source, 
+	       'BP' as belief_type,
+	       avg(accuracy) as avg_belief 
+	       FROM object_res1.main
+	UNION
 	SELECT b.attribute_type_code as attribute_type,
 	       c.description as description,
 	       array(SELECT distinct(qualifier_value) FROM object_res1.main_detail_qualifier WHERE qualifier_type_code='SOURCE') as source,
@@ -939,4 +946,4 @@ CREATE OR REPLACE VIEW object_res1.v_resolution1_metadata AS
 		FROM object_res1.main_detail_qualifier a
 	JOIN object_res1.main_detail b ON (a.detail_id = b.gid)
 	JOIN taxonomy.dic_attribute_type c ON (b.attribute_type_code = c.code)
-		GROUP BY attribute_type, description, belief_type, source ORDER BY attribute_type_code;
+		GROUP BY attribute_type, description, belief_type, source ORDER BY attribute_type;
